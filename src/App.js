@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import {Button} from '@material-ui/core';
+
+
+const login = () => {
+  fetch('http://localhost:4000')
+  .then(console.log)
+  .catch(console.log);
+}
 class App extends Component {
   render() {
     return (
