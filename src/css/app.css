@@ -5,6 +5,9 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+body {
+  overflow: hidden;
+}
 
 #load-bar {
   position: fixed;
@@ -32,5 +35,5 @@ a {
 
 .fade-exit.fade-exit-active {
   opacity: 0;
-  transition: opacity 250ms;
+  position: absolute;
 }
