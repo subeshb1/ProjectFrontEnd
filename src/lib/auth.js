@@ -19,12 +19,7 @@ export default class Auth {
   }
 
   static login(credentials) {
-    console.log(credentials);
     return axios.post("http://localhost:4000/auth/login", credentials)
-      .then(res => {
-        if (res.status !== 200) throw new Error("error");
-        return res;
-      })
       .then(Auth.setToken)
   }
 }
