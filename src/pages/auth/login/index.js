@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Auth from "lib/auth";
 import { withRouter } from "react-router-dom";
-
+import {LoadContext} from 'context/LoadBar';
 const styles = () => ({
   container: {
     display: "flex",
@@ -23,7 +23,6 @@ function Login({ classes, history }) {
     email: "",
     password: ""
   });
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Auth.isLoggedIn()) history.push("/");
@@ -32,20 +31,18 @@ function Login({ classes, history }) {
   const updateCredential = key => ({ target: { value } }) =>
     setCredentials({ email, password, [key]: value });
 
+  const {loading, setLoading} = useContext(LoadContext);
   const login = () => {
     setLoading(true);
-    console.log(Auth, Auth.login);
     Auth.login({ email, password })
     .then(() => history.push("/"))
     .catch(console.log)
-    .then(() => setLoading(false))
+    .finally(() => setLoading(false))
   };
-
   return (
     <div>
       <form className={classes.container}>
         <TextField
-          id="outlined-name"
           label="Email"
           type="email"
           value={email}
@@ -55,7 +52,6 @@ function Login({ classes, history }) {
           variant="outlined"
         />
         <TextField
-          id="outlined-name"
           label="Password"
           type="password"
           value={password}
@@ -65,7 +61,7 @@ function Login({ classes, history }) {
           fullWidth
         />
         <Button
-          onClick={!loading && login}
+          onClick={(e) => !loading && login(e)}
           variant="contained"
           size="large"
           color="primary"
@@ -73,7 +69,6 @@ function Login({ classes, history }) {
         >
           Login
         </Button>
-        {loading && <LinearProgress variant="query" style={{width: '100vw'}}/>}
       </form>
     </div>
   );

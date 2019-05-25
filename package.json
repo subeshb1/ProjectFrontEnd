@@ -3,18 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
+    "@material-ui/core": "^4.0.0",
     "apollo-boost": "^0.3.1",
+    "axios": "^0.18.0",
     "graphql": "^14.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-spring": "^8.0.20"
   },
   "scripts": {
-    "start": "BACKEND=http://localhost:4000 X_API_TOKEN=km2K6M5CjHpmpymf  react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
