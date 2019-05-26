@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import api from "./api";
 
 export default class Auth {
   static getToken() {
@@ -19,9 +18,10 @@ export default class Auth {
   }
 
   static login(credentials) {
-    return axios.post("http://localhost:4000/auth/login", credentials)
+    return api.post("auth/login", credentials)
       .then(Auth.setToken)
   }
 }
 
 window.Auth = Auth;
+  
