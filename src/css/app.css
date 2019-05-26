@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body {
+  overflow: hidden;
+}
+
+#load-bar {
+  position: fixed;
+  top: 0;
+  z-index: 100000;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  position: absolute;
+}

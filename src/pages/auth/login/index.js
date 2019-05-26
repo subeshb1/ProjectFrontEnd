@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Auth from "lib/auth";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
+import { LoadContext } from "context/LoadBar";
+import { useSnackbar } from "notistack";
 
 const styles = () => ({
   container: {
@@ -14,7 +15,13 @@ const styles = () => ({
     flexWrap: "wrap",
     boxShadow: "0 0 2px grey",
     padding: "50px 20px",
-    borderRadius: "8px"
+    borderRadius: "8px",
+    marginTop: "10px",
+    flexDirection: "column"
+  },
+  link: {
+    textDecoration: "underline",
+    marginTop: 10
   }
 });
 
@@ -23,7 +30,8 @@ function Login({ classes, history }) {
     email: "",
     password: ""
   });
-  const [loading, setLoading] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (Auth.isLoggedIn()) history.push("/");
@@ -32,20 +40,26 @@ function Login({ classes, history }) {
   const updateCredential = key => ({ target: { value } }) =>
     setCredentials({ email, password, [key]: value });
 
+  const { loading, setLoading } = useContext(LoadContext);
   const login = () => {
     setLoading(true);
-    console.log(Auth, Auth.login);
     Auth.login({ email, password })
-    .then(() => history.push("/"))
-    .catch(console.log)
-    .then(() => setLoading(false))
+      .then(() => history.push("/"))
+      .catch(err =>
+        enqueueSnackbar(
+          err.message.includes(401)
+            ? "Invalid Email or Password"
+            : "Unable to connect to the Server",
+          { autoHideDuration: 4000, variant: "error" }
+        )
+      )
+      .finally(() => setLoading(false));
   };
-
   return (
     <div>
       <form className={classes.container}>
+        <h1>Log In </h1>
         <TextField
-          id="outlined-name"
           label="Email"
           type="email"
           value={email}
@@ -55,7 +69,6 @@ function Login({ classes, history }) {
           variant="outlined"
         />
         <TextField
-          id="outlined-name"
           label="Password"
           type="password"
           value={password}
@@ -65,15 +78,17 @@ function Login({ classes, history }) {
           fullWidth
         />
         <Button
-          onClick={!loading && login}
+          onClick={e => !loading && login(e)}
           variant="contained"
           size="large"
           color="primary"
           style={{ marginTop: 20 }}
         >
-          Login
+          Submit
         </Button>
-        {loading && <LinearProgress variant="query" style={{width: '100vw'}}/>}
+        <Link to="/signup" className={classes.link}>
+          Don't have an Accout? Sign Up!
+        </Link>
       </form>
     </div>
   );

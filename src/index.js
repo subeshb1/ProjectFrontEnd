@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 import Auth from 'lib/auth';
+import axios from 'axios';
 
 ReactDOM.render(<Root />, document.getElementById('root'));
 
@@ -10,3 +11,11 @@ ReactDOM.render(<Root />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+axios.interceptors.request.use(function (config) {
+  const token = Auth.getToken();
+  config.headers.Authorization =  token;
+  config.headers.X_API_TOKEN = "development";
+  config.headers["Content-type"] = "application/json"
+  return config;
+});
