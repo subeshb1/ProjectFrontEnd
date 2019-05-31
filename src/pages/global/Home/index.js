@@ -2,12 +2,11 @@ import React from 'react'
 import workImage from 'assets/images/work.jpg'
 import { makeStyles } from '@material-ui/core/styles';
 //components
-import { CategoryContainer } from "../../../components";
+import { CategoryContainer } from "components";
 
 const useStyles = makeStyles({
     imgContainer:{
       display:'flex',
-      justifyContent:'center',
       width:'100%',
       height:'50%'
     },
@@ -25,6 +24,7 @@ export default function Home() {
         <img src={workImage} alt="Work" className={image} />
       </div>
       <CategoryContainer />
+      
     </div>
   )
 }

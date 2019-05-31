@@ -19,14 +19,12 @@ const useStyles = makeStyles({
             textDecoration: 'underline'
         }
     },
-    media: {
-        width: 200,
-        height: 100
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 25
-    },
+    media: { width: 200, height: 100 },
+
+    //title styling
+    title: { textAlign: 'center', fontSize: 25 },
+    titleText: { color: '#37677A', fontWeight: 'bolder' },
+
     titleLine: {
         border: '3px solid black',
         display: 'inline-block',
@@ -34,7 +32,8 @@ const useStyles = makeStyles({
         position: 'relative',
         bottom: 6,
         margin: '0 10px'
-    }
+    } 
+
 });
 
 //job names (jobImages)
@@ -43,14 +42,14 @@ const jobs = ["agriculture", "ayurved", "computer and IT", "education", "enginee
 
 
 function Category() {
-    let { card, categoryWrapper, media, title, titleLine } = useStyles();
+    let { card, categoryWrapper, media, title, titleText, titleLine } = useStyles();
 
     return (
         <div>
 
             <div className={title}>
                 <span className={titleLine}> </span>
-                JOB CATEGORIES
+                JOB  <span className={titleText} >CATEGORIES </span>
                 <span className={titleLine}> </span>
             </div>
 

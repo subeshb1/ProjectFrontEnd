@@ -8,12 +8,18 @@ const useStyles = makeStyles(theme => ({
   grow: {
     display:'flex',
   },
-
+  appbar:{
+    alignItems: 'space-around', 
+    background:'#37677A'
+  },
   link: {
+    fontFamily:"'Roboto Condensed', sans-serif ",
     fontSize: '1.3rem',
     padding: '0 8px',
+    borderRight:'2px solid #ffffff4d',
+    color:'white',
     '&:hover': {
-      textDecoration: 'underline'
+      textDecoration: 'underline',
     }
   }
   
@@ -24,12 +30,11 @@ function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="sticky" color="secondary" style={{alignItems: 'space-around'}}>
+      <AppBar position="sticky" color="secondary" className={classes.appbar}>
         <Toolbar>
-          <h3>
-          <NavLink to="/">Hamro Job</NavLink>
-            
-          </h3>
+          <h2>
+            <NavLink to="/">Hamro Job</NavLink>
+          </h2>
           <NavLink className={classes.link} style={{margin: '0 0 0 auto'}} to="/how-it-works">How it Works?</NavLink>
           <NavLink className={classes.link}  to="/login">Login</NavLink>
           <NavLink className={classes.link} to="/signup">Sign Up</NavLink>

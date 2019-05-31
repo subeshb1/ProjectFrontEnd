@@ -2,9 +2,12 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "pages/auth/login";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { NavBar } from "components";
+
+//components
+import { NavBar, Footer } from "components";
 import Home from 'pages/global/Home'
 import "./css/index.css";
+
 function App() {
   return (
     <Route
@@ -22,6 +25,9 @@ function App() {
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
+
+            <Footer/>
+            
           </>
         );
       }}
