@@ -1,10 +1,11 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Login from "pages/auth/login";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 //components
 import { NavBar, Footer } from "components";
+import Login from "pages/auth/login";
+import SignUp from "pages/auth/signup";
 import Home from 'pages/global/Home'
 import "./css/index.css";
 
@@ -21,7 +22,7 @@ function App() {
                 <Switch location={location}>
                   <Route path="/login" component={Login} />
                   <Route path="/" exact component={Home} />
-
+                  <Route path="/signup" component={SignUp} />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

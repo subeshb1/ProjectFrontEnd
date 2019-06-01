@@ -5,8 +5,7 @@ import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles({
     root: {
         background: '#37677A',
-        color: 'white',
-        marginTop: 12
+        color: 'white'
     },
     footerContainer: {
         padding: 30,
