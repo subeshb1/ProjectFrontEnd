@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Auth from "lib/auth";
 import { withRouter, Link } from "react-router-dom";
-import { LoadContext } from "context/LoadBar";
+import { LoadContext } from "context";
 import { useSnackbar } from "notistack";
 
 const styles = () => ({
@@ -48,17 +48,18 @@ function Login({ classes, history }) {
     email: "",
     password: ""
   });
-
   const { enqueueSnackbar } = useSnackbar();
 
+  
   useEffect(() => {
     if (Auth.isLoggedIn()) history.push("/");
-  }, []);
+  });
 
   const updateCredential = key => ({ target: { value } }) =>
     setCredentials({ email, password, [key]: value });
 
   const { loading, setLoading } = useContext(LoadContext);
+
   const login = () => {
     setLoading(true);
     Auth.login({ email, password })
@@ -68,7 +69,7 @@ function Login({ classes, history }) {
           err.message.includes(401)
             ? "Invalid Email or Password"
             : "Unable to connect to the Server",
-          { autoHideDuration: 4000, variant: "error" }
+          { autoHideDuration: 2500, variant: "error" }
         )
       )
       .finally(() => setLoading(false));

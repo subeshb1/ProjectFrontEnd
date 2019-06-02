@@ -1,12 +1,16 @@
-import api from "./api";
+import axios from "axios";
 
+var event = new Event('storage_change');
 export default class Auth {
+  static token = localStorage.getItem("auth_token");
   static getToken() {
-    return localStorage.getItem("auth_token");
+    return Auth.token || localStorage.getItem("auth_token");
   }
 
   static setToken({ auth_token }) {
     localStorage.setItem("auth_token", auth_token);
+
+    window.dispatchEvent(event);
   }
 
   static isLoggedIn() {
@@ -15,10 +19,17 @@ export default class Auth {
 
   static logOut() {
     localStorage.removeItem("auth_token");
+    window.dispatchEvent(event);
+  }
+
+  static getRole() {
+    
+    return Auth.isLoggedIn() ? axios.get('api/v1/users/role').then(res => res.data.role) :  Promise.resolve(null);
   }
 
   static login(credentials) {
-    return api.post("auth/login", credentials)
+    return axios.post("auth/login", credentials)
+      .then(res => res.data)
       .then(Auth.setToken)
   }
 }
