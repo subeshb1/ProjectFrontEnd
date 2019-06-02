@@ -10,18 +10,36 @@ import { useSnackbar } from "notistack";
 const styles = () => ({
   container: {
     display: "flex",
-    margin: "0 auto",
-    maxWidth: "400px",
+    margin: "75px auto",
+    width:'29vw',
+    minWidth:310,
     flexWrap: "wrap",
     boxShadow: "0 0 2px grey",
     padding: "50px 20px",
     borderRadius: "8px",
-    marginTop: "10px",
-    flexDirection: "column"
+
+    flexDirection: "column",
+
+    '& h1': {
+      textAlign: "center",
+      display: "block",
+      background: "#37677aa1",
+      fontFamily:"'Roboto Condensed', sans-serif ",
+      borderLeft: "12px solid #37677A",
+      borderRight: "12px solid #37677A",
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5,
+      margin: "-50px -20px 30px -20px",
+      padding:12,
+      '& span':{
+        color:'white'
+      }
+    }
   },
   link: {
     textDecoration: "underline",
-    marginTop: 10
+    marginTop: 10,
+    textAlign: "right"
   }
 });
 
@@ -58,7 +76,7 @@ function Login({ classes, history }) {
   return (
     <div>
       <form className={classes.container}>
-        <h1>Log In </h1>
+        <h1>GET <span> STARTED </span></h1>
         <TextField
           label="Email"
           type="email"
@@ -82,9 +100,9 @@ function Login({ classes, history }) {
           variant="contained"
           size="large"
           color="primary"
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, width: 100 }}
         >
-          Submit
+          Login
         </Button>
         <Link to="/signup" className={classes.link}>
           Don't have an Accout? Sign Up!
