@@ -11,7 +11,8 @@ const styles = () => ({
   container: {
     display: "flex",
     margin: "75px auto",
-    maxWidth: "400px",
+    width:'29vw',
+    minWidth:310,
     flexWrap: "wrap",
     boxShadow: "0 0 2px grey",
     padding: "50px 20px",

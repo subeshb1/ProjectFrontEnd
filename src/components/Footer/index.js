@@ -79,7 +79,7 @@ export default () => {
         <footer className={root}>
             <div className={footerContainer}>
                 <h2>
-                    <NavLink to="/">Hamro Job</NavLink>
+                    <NavLink to="/" style={{color:'white'}}>Hamro Job</NavLink>
                 </h2>
                 <section className={subfooterContainer}>
 

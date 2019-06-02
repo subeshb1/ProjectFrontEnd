@@ -33,7 +33,7 @@ function PrimarySearchAppBar() {
       <AppBar position="sticky" color="secondary" className={classes.appbar}>
         <Toolbar>
           <h2>
-            <NavLink to="/">Hamro Job</NavLink>
+            <NavLink to="/" style={{color:'white'}}>Hamro Job</NavLink>
           </h2>
           <NavLink className={classes.link} style={{margin: '0 0 0 auto'}} to="/how-it-works">How it Works?</NavLink>
           <NavLink className={classes.link}  to="/login">Login</NavLink>
