@@ -57,7 +57,7 @@ function Category() {
                 {jobs.map((job, i) =>
                     //displaying jobs 
                     (
-                        <Card className={card}>
+                        <Card className={card} key={i}>
                             <CardMedia image={require(`./jobImages/${job}.jpg`)} title={`${job}`} className={media} />
                             <CardContent>
                                 {job}

@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
     display:'flex',
   },
   appbar:{
-    alignItems: 'space-around', 
     background:'#37677A'
   },
   link: {
