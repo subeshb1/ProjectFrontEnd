@@ -1,4 +1,4 @@
-export {default as NavBar} from './NabBar';
+export {default as NavBar} from './NavBar';
 
 export {default as CategoryContainer } from './CategoryContainer';
 

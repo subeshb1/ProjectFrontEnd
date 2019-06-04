@@ -88,7 +88,7 @@ function SignUp() {
 
             <form className={form} >
                 <div className={userIcon}>
-                    <i class="fas fa-user-tie"></i>
+                    <i className="fas fa-user-tie"></i>
                 </div>
 
 

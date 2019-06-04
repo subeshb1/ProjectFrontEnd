@@ -104,9 +104,9 @@ export default () => {
                         <h3>Follow us: </h3>
                         <div style={{ display: 'flex' }}>
                             {
-                                socialMediaTitles.map(title => (
-                                    <a href={`https://www.${title}.com`} className={socialLink} >
-                                        <i class={`fab fa-${title}`}> </i>
+                                socialMediaTitles.map((title, i) => (
+                                    <a href={`https://www.${title}.com`} className={socialLink} key={i}>
+                                        <i className={`fab fa-${title}`}> </i>
                                     </a>
                                 ))
                             }
