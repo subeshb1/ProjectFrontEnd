@@ -7,6 +7,7 @@ import { NavBar, Footer } from "components";
 import Login from "pages/auth/login";
 import SignUp from "pages/auth/signup";
 import Home from 'pages/global/Home'
+import HowItWorks from 'pages/global/How it works';
 import "./css/index.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                   <Route path="/login" component={Login} />
                   <Route path="/" exact component={Home} />
                   <Route path="/signup" component={SignUp} />
+                  <Route path="/how-it-works" component={HowItWorks} />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
