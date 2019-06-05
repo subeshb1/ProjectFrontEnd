@@ -7,7 +7,7 @@ import { NavBar, Footer } from "components";
 import Login from "pages/auth/login";
 import SignUp from "pages/auth/signup";
 import Home from 'pages/global/Home'
-import HowItWorks from 'pages/global/How it works';
+import HowItWorks from 'pages/global/HowItWorks';
 import "./css/index.css";
 
 function App() {
