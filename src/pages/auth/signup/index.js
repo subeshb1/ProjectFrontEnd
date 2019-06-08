@@ -91,9 +91,9 @@ function SignUp( {history} ) {
     function handleSubmit(event){
         return axios.post('api/v1/users',values)
         .then( response => {
-            //console.log(response.data)
+            
             if ((response.status === 200 )) setRedirect({status:true})
-            //console.log(redirect.response);
+            
         })
         .catch( error => {
             let message =  error.message.includes(422) ? "Registration Failed" : "Unable to connect to the Server";
@@ -171,11 +171,11 @@ function SignUp( {history} ) {
                 </FormControl>
 
                 <div style={{ textAlign: "right" }}>
-                    {/* <Link to="/create-profile"> */}
+
                         <Button className={button} onClick={handleSubmit}>
                             Create an Account
                         </Button>
-                    {/* </Link> */}
+                        
                 </div>
 
                 <Link to="/login" style={{ textAlign: 'right', textDecoration: 'underline' }}>
