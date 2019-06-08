@@ -96,9 +96,6 @@ function SignUp( {history} ) {
             //console.log(redirect.response);
         })
         .catch( error => {
-            
-            let errorMessage = error.response.data.errors[0].message;
-            console.log(errorMessage);
             let message =  error.message.includes(422) ? "Registration Failed" : "Unable to connect to the Server";
             enqueueSnackbar(message, {variant:"error", autoHideDuration:2500} )
         } )
