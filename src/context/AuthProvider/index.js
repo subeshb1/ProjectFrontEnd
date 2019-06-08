@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     handleOnChange();
     window.addEventListener('storage_change',handleOnChange);
     return 
-  });
+  },[1]);
   
 
   
