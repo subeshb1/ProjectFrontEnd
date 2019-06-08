@@ -57,7 +57,7 @@ function Category() {
                 {jobs.map((job, i) =>
                     //displaying jobs 
                     (
-                        <Card className={card} key={i}>
+                        <Card className={card} key={`jobCategory${i}`}>
                             <CardMedia image={require(`./jobImages/${job}.jpg`)} title={`${job}`} className={media} />
                             <CardContent>
                                 {job}
@@ -66,7 +66,6 @@ function Category() {
                     )
 
                 )}
-
 
             </div>
         </div>
