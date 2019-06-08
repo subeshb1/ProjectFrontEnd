@@ -113,7 +113,7 @@ function SignUp({ history }) {
           setRedirect({ status: true });
           enqueueSnackbar("Sign Up Successful! Login to continue", {
             variant: "success",
-            autoHideDuration: 2500
+            autoHideDuration: 4000
           });
         }
       })
