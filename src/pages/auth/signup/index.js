@@ -1,7 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, FormControl, InputLabel, OutlinedInput, Select, MenuItem, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
+
 
 const useStyles = makeStyles({
     formContainer: {
@@ -61,26 +64,50 @@ const useStyles = makeStyles({
     }
 })
 
-function SignUp() {
+function SignUp( {history} ) {
 
     const { formContainer, formHeader, form, userIcon, textField, button } = useStyles();
-
+    const { enqueueSnackbar } = useSnackbar();
     //create state variables
     const [values, setValues] = React.useState({
         email: '',
         password: '',
-        confirmPassword: '',
-        accountType: ''
+        confirm_password: '',
+        type: ''
     });
 
-    //let profileLink = (values.accountType === "Job Seeker") ? "/create-job-seeker-profile" : "/create-job-provider-profile";
-
+    //state variable names should match with event.target.name
     function handleChange(event) {
         setValues({
             ...values, [event.target.name]: event.target.value
         })
     }
+    
+    const [redirect, setRedirect] = React.useState({
+        status:null
+    });
+    
 
+    function handleSubmit(event){
+        return axios.post('api/v1/users',values)
+        .then( response => {
+            //console.log(response.data)
+            if ((response.status === 200 )) setRedirect({status:true})
+            //console.log(redirect.response);
+        })
+        .catch( error => {
+            
+            let errorMessage = error.response.data.errors[0].message;
+            console.log(errorMessage);
+            let message =  error.message.includes(422) ? "Registration Failed" : "Unable to connect to the Server";
+            enqueueSnackbar(message, {variant:"error", autoHideDuration:2500} )
+        } )
+    }
+    
+    React.useEffect(() => {
+        if(redirect.status) history.push('/login');   //redirects to localhost:3000/login
+    })
+    
     return (
         <div className={formContainer}>
 
@@ -88,7 +115,7 @@ function SignUp() {
 
             <form className={form} >
                 <div className={userIcon}>
-                    <i class="fas fa-user-tie"></i>
+                    <i className="fas fa-user-tie"></i>
                 </div>
 
 
@@ -123,10 +150,10 @@ function SignUp() {
                     className={textField}
                     label="Re-enter Password"
                     type="password"
-                    name="confirmPassword"
+                    name="confirm_password"
                     margin="normal"
                     variant="outlined"
-                    value={values.confirmPassword}
+                    value={values.confirm_password}
                     onChange={handleChange}
 
                 />
@@ -136,22 +163,22 @@ function SignUp() {
                         Account Type
                     </InputLabel>
                     <Select
-                        value={values.accountType}
+                        value={values.type}
                         onChange={handleChange}
-                        input={<OutlinedInput labelWidth={98} name="accountType" id="outlined-account-type" />}
+                        input={<OutlinedInput labelWidth={98} name="type" id="outlined-account-type" />}
                     >
 
-                        <MenuItem value="Job Seeker">Job Seeker</MenuItem>
-                        <MenuItem value="job Provider">Job Provider</MenuItem>
+                        <MenuItem value="job_seeker">Job Seeker</MenuItem>
+                        <MenuItem value="job_provider">Job Provider</MenuItem>
                     </Select>
                 </FormControl>
 
                 <div style={{ textAlign: "right" }}>
-                    <Link to="/create-profile">
-                        <Button className={button}>
+                    {/* <Link to="/create-profile"> */}
+                        <Button className={button} onClick={handleSubmit}>
                             Create an Account
                         </Button>
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <Link to="/login" style={{ textAlign: 'right', textDecoration: 'underline' }}>
@@ -162,4 +189,4 @@ function SignUp() {
     );
 }
 
-export default SignUp
+export default withRouter(SignUp)
