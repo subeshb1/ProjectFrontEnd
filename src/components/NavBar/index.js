@@ -1,8 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, IconButton, SwipeableDrawer, List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  AppBar, Toolbar, IconButton, SwipeableDrawer, List, ListItem, ListItemText,
+  Avatar, Popper, Fade, Paper
+} from "@material-ui/core";
+import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 import MenuIcon from "@material-ui/icons/Menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -73,7 +77,7 @@ function PrimarySearchAppBar() {
             <NavLink className={classes.link} to="/signup">Sign Up</NavLink>
 
             <div className={classes.iconContainer}>
-              <IconButton onClick={() => mobileMenuOpen()} className={classes.iconButton} color="inherit" >
+              <IconButton onClick={mobileMenuOpen} className={classes.iconButton} color="inherit" >
                 <MenuIcon />
               </IconButton>
             </div>
@@ -82,18 +86,18 @@ function PrimarySearchAppBar() {
       </div>
 
       <div className={classes.drawerContainer}>
-        <SwipeableDrawer anchor="right" open={menuDrawer.status} onClose={() => mobileMenuClose()}
-          onOpen={() => mobileMenuOpen()} >
+        <SwipeableDrawer anchor="right" open={menuDrawer.status} onClose={mobileMenuClose}
+          onOpen={mobileMenuOpen} >
           <List>
-            <ListItem component={NavLink} to="/how-it-works" button >
+            <ListItem component={Link} to="/how-it-works" button >
               <ListItemText primary="How It Works?" />
             </ListItem>
 
-            <ListItem component={NavLink} to="/login" button>
+            <ListItem component={Link} to="/login" button>
               <ListItemText primary="Login" />
             </ListItem>
 
-            <ListItem component={NavLink} to="/signup" button>
+            <ListItem component={Link} to="/signup" button>
               <ListItemText primary="Signup" />
             </ListItem>
 
@@ -131,12 +135,33 @@ export default function JobSeekerNavbar() {
               <NavLink to="/jobseekers" style={{ color: 'white' }}>Hamro Job</NavLink>
             </h2>
             <NavLink className={classes.link} style={{ margin: '0 0 0 auto' }} to="/find-jobs">Find Jobs</NavLink>
-            <NavLink className={classes.link} to="/contracts">Contracts</NavLink>
+            <NavLink className={classes.link} to="/jobseeker-profile">Profile</NavLink>
+            <NavLink className={classes.link} to="/jobseeker-status">Status</NavLink>
             <NavLink className={classes.link} to="/skill-test">Skill Test</NavLink>
-            <NavLink className={classes.link} to="/logout">Logout</NavLink>
+
+            {/* <NavLink className={classes.link} to="/logout">Logout</NavLink> */}
+            <PopupState variant="popper" popupId="demo-popup-popper">
+              {popupState => (
+                <div>
+                  
+                  <Avatar alt="male avatar" src="require('assets/images/avatar/male.png')" 
+                    variant="contained" {...bindToggle(popupState) }
+                  /* className={classes.avatar} */ />
+                  <Popper {...bindPopper(popupState) } transition>
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={350}>
+                        <Paper>
+                          The content of the Popper.
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                </div>
+              )}
+            </PopupState>
 
             <div className={classes.iconContainer}>
-              <IconButton onClick={() => mobileMenuOpen()} className={classes.iconButton} color="inherit" >
+              <IconButton onClick={mobileMenuOpen} className={classes.iconButton} color="inherit" >
                 <MenuIcon />
               </IconButton>
             </div>
@@ -147,22 +172,22 @@ export default function JobSeekerNavbar() {
 
 
       <div className={classes.drawerContainer}>
-        <SwipeableDrawer anchor="right" open={menuDrawer.status} onClose={() => mobileMenuClose()}
-          onOpen={() => mobileMenuOpen()} >
+        <SwipeableDrawer anchor="right" open={menuDrawer.status} onClose={mobileMenuClose}
+          onOpen={mobileMenuOpen} >
           <List>
-            <ListItem component={NavLink} to="/find-jobs" button >
+            <ListItem component={Link} to="/find-jobs" button >
               <ListItemText primary="Find Jobs" />
             </ListItem>
 
-            <ListItem component={NavLink} to="/contracts" button>
+            <ListItem component={Link} to="/contracts" button>
               <ListItemText primary="Contracts" />
             </ListItem>
 
-            <ListItem component={NavLink} to="/skill-test" button>
+            <ListItem component={Link} to="/skill-test" button>
               <ListItemText primary="Skill Test" />
             </ListItem>
 
-            <ListItem component={NavLink} to="/logout" button>
+            <ListItem component={Link} to="/logout" button>
               <ListItemText primary="Logout" />
             </ListItem>
           </List>
