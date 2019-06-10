@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
+//datepicker
+import DateFnsUtils from "@date-io/date-fns";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,11 +33,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function CreateProfile() {
     const { root, form, textField } = useStyles();
-
+    //jobseeker information
     const [values, setValues] = useState({
         name: '',
         website: '',
-        birthdate: '',
+        birthdate: new Date(),
         phone_numbers: null,     //object
         social_accounts: null,    //object
         description: '',
@@ -41,6 +45,9 @@ export default function CreateProfile() {
         avatar: null,
         address: null    //object
     });
+    //For date
+    /* const [selectedDate, handleDateChange] = useState(new Date()); */
+
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
@@ -49,6 +56,7 @@ export default function CreateProfile() {
 
     return (
         <div className={root}>
+
             <form className={form}>
                 <TextField
                     id="standard-name"
@@ -60,16 +68,6 @@ export default function CreateProfile() {
                 />
 
                 <TextField
-                    id="standard-birthdate"
-                    label=""
-                    className={textField}
-                    value={values.birthdate}
-                    onChange={handleChange('birthdate')}
-                    margin="normal"
-                    type="date"
-                />
-
-                <TextField
                     id="standard-address"
                     label="Address"
                     className={textField}
@@ -77,6 +75,10 @@ export default function CreateProfile() {
                     onChange={handleChange('address')}
                     margin="normal"
                 />
+                
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DateTimePicker value={values.birthdate} onChange={handleChange('birthdate')} />
+                </MuiPickersUtilsProvider>
 
                 <TextField
                     id="standard-phone_numbers"
