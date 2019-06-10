@@ -23,10 +23,9 @@ const styles = () => ({
     '& h1': {
       textAlign: "center",
       display: "block",
-      background: "#37677aa1",
-      fontFamily:"'Roboto Condensed', sans-serif ",
-      borderLeft: "12px solid #37677A",
-      borderRight: "12px solid #37677A",
+      background: "#003a6bb5",
+      borderLeft: "12px solid #004865",
+      borderRight: "12px solid #004865",
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5,
       margin: "-50px -20px 30px -20px",

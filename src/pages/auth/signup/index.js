@@ -24,9 +24,9 @@ const useStyles = makeStyles({
     fontFamily: "'Roboto Condensed', sans-serif ",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    background: "#37677aa1",
-    borderRight: "12px solid #37677A",
-    borderLeft: "12px solid #37677A",
+    background: "#003a6bb5",
+    borderRight: "12px solid #004865",
+    borderLeft: "12px solid #004865",
     marginTop: 60, //match this margin with form's marginBottom
     padding: 12,
     textAlign: "center",
@@ -118,6 +118,7 @@ function SignUp({ history }) {
         }
       })
       .catch(error => {
+        console.log({...error })
         let message = error.message.includes(422)
           ? "Registration Failed"
           : "Unable to connect to the Server";

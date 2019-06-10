@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 /* body {
   overflow: hidden;
@@ -16,12 +16,14 @@
   width: 100%;
   height: 3px;
   overflow: hidden;
-
 }
 
 a {
   text-decoration: none;
   color: black;
+}
+div > a.active {
+  text-decoration: underline;
 }
 .fade-enter {
   opacity: 0;

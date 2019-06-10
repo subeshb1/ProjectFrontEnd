@@ -1,20 +1,20 @@
-import React from 'react'
-import workImage from 'assets/images/work.jpg'
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import workImage from "assets/images/work.jpg";
+import { makeStyles } from "@material-ui/core/styles";
 //components
 import { CategoryContainer } from "components";
 
 const useStyles = makeStyles({
-    imgContainer:{
-      display:'flex',
-      width:'100%',
-      height:'50%'
-    },
-    image:{
-      width:'inherit',
-      height:'inherit'
-    }
-})
+  imgContainer: {
+    width: "100%",
+    position: "relative"
+  },
+  image: {
+    width: "100%",
+    maxHeight: "600px",
+    objectFit: "contain"
+  }
+});
 
 export default function Home() {
   const { imgContainer, image } = useStyles();
@@ -24,7 +24,6 @@ export default function Home() {
         <img src={workImage} alt="Work" className={image} />
       </div>
       <CategoryContainer />
-      
     </div>
-  )
+  );
 }
