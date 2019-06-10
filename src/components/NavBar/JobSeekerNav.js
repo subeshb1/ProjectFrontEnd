@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from '@material-ui/core/Icon';
 import {
   AppBar,
   Toolbar,
@@ -16,7 +17,7 @@ import PopupState, { bindToggle, bindPopper } from "material-ui-popup-state";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink, Link } from "react-router-dom";
 import maleAvatar from "assets/images/avatar/male.png";
-import {useStyles} from './styles';
+import { useStyles } from "./styles";
 
 export default function JobSeekerNav() {
   const classes = useStyles();
@@ -59,28 +60,9 @@ export default function JobSeekerNav() {
             <NavLink className={classes.link} to="/jobseeker/skill">
               Skill Test
             </NavLink>
-
-            {/* <NavLink className={classes.link} to="/logout">Logout</NavLink> */}
-            <PopupState variant="popper" popupId="demo-popup-popper">
-              {popupState => (
-                <div>
-                  <Avatar
-                    alt="male avatar"
-                    src={maleAvatar}
-                    variant="contained"
-                    {...bindToggle(popupState)}
-                    /* className={classes.avatar} */
-                  />
-                  <Popper {...bindPopper(popupState)} transition>
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={350}>
-                        <Paper>The content of the Popper.</Paper>
-                      </Fade>
-                    )}
-                  </Popper>
-                </div>
-              )}
-            </PopupState>
+            <IconButton style={{color:'white', fontSize: '2rem'}}  >
+              <Icon style={{color:'white', fontSize: '2rem'}}>account_circle</Icon>
+            </IconButton>
 
             <div className={classes.iconContainer}>
               <IconButton
@@ -105,10 +87,6 @@ export default function JobSeekerNav() {
           <List>
             <ListItem component={Link} to="/find-jobs" button>
               <ListItemText primary="Find Jobs" />
-            </ListItem>
-
-            <ListItem component={Link} to="/contracts" button>
-              <ListItemText primary="Contracts" />
             </ListItem>
 
             <ListItem component={Link} to="/skill-test" button>

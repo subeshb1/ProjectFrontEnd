@@ -5,19 +5,16 @@ export const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appbar: {
-    background: '#37677A'
+    background: '#004865'
   },
   toolbar: {
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
-      justifyContent: 'center'
     }
   },
   link: {
-    fontFamily: "'Roboto Condensed', sans-serif ",
     fontSize: '1.3rem',
-    padding: '0 8px',
-    borderRight: '2px solid #ffffff4d',
+    padding: '0 1.5rem',
     color: 'white',
     '&:hover': {
       textDecoration: 'underline',
@@ -30,9 +27,7 @@ export const useStyles = makeStyles(theme => ({
     display: 'none',
     [theme.breakpoints.down('sm')]: {
       display: 'inline-block',
-      position: 'absolute',
-      top: '1.5vw',
-      right: '2vw'
+      margin: '0 0 0 auto'
     }
   },
   iconButton: {
