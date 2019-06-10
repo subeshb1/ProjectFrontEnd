@@ -1,5 +1,6 @@
 import React from "react";
-import Icon from '@material-ui/core/Icon';
+import Auth from "lib/auth";
+import Icon from "@material-ui/core/Icon";
 import {
   AppBar,
   Toolbar,
@@ -13,11 +14,15 @@ import {
   Fade,
   Paper
 } from "@material-ui/core";
-import PopupState, { bindToggle, bindPopper } from "material-ui-popup-state";
 import MenuIcon from "@material-ui/icons/Menu";
-import { NavLink, Link } from "react-router-dom";
-import maleAvatar from "assets/images/avatar/male.png";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import { useStyles } from "./styles";
+
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import AccountMenu from "./AccountMenu";
+import NotificationMenu from "./NotificationMenu";
 
 export default function JobSeekerNav() {
   const classes = useStyles();
@@ -39,8 +44,17 @@ export default function JobSeekerNav() {
       <div className={classes.grow}>
         <AppBar position="sticky" color="secondary" className={classes.appbar}>
           <Toolbar className={classes.toolbar}>
+            <div className={classes.iconContainer}>
+              <IconButton
+                onClick={mobileMenuOpen}
+                className={classes.iconButton}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            </div>
             <h2>
-              <NavLink to="/" style={{ color: "white" }}>
+              <NavLink to="/jobseeker" style={{ color: "white" }}>
                 Hamro Job
               </NavLink>
             </h2>
@@ -51,50 +65,65 @@ export default function JobSeekerNav() {
             >
               Find Jobs
             </NavLink>
-            <NavLink className={classes.link} to="/jobseeker/profile">
-              Profile
-            </NavLink>
-            <NavLink className={classes.link} to="/jobseeker/status">
-              Status
-            </NavLink>
+
             <NavLink className={classes.link} to="/jobseeker/skill">
               Skill Test
             </NavLink>
-            <IconButton style={{color:'white', fontSize: '2rem'}}  >
-              <Icon style={{color:'white', fontSize: '2rem'}}>account_circle</Icon>
-            </IconButton>
 
-            <div className={classes.iconContainer}>
-              <IconButton
-                onClick={mobileMenuOpen}
-                className={classes.iconButton}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-            </div>
+            <NavLink className={classes.link} to="/jobseeker/profile">
+              Profile
+            </NavLink>
+            <NavLink className={classes.link} to="/jobseeker/stats">
+              Stats
+            </NavLink>
+            <NotificationMenu />
+            <AccountMenu />
           </Toolbar>
         </AppBar>
       </div>
 
       <div className={classes.drawerContainer}>
         <SwipeableDrawer
-          anchor="right"
+          anchor="left"
           open={menuDrawer.status}
           onClose={mobileMenuClose}
           onOpen={mobileMenuOpen}
         >
-          <List>
-            <ListItem component={Link} to="/find-jobs" button>
+          <List className={classes.list}>
+            <ListItem
+              onClick={mobileMenuClose}
+              component={Link}
+              to="/find-jobs"
+              button
+            >
               <ListItemText primary="Find Jobs" />
             </ListItem>
 
-            <ListItem component={Link} to="/skill-test" button>
+            <ListItem
+              onClick={mobileMenuClose}
+              component={Link}
+              to="/jobseeker/skill"
+              button
+            >
               <ListItemText primary="Skill Test" />
             </ListItem>
 
-            <ListItem component={Link} to="/logout" button>
-              <ListItemText primary="Logout" />
+            <ListItem
+              onClick={mobileMenuClose}
+              component={Link}
+              to="/jobseeker/stats"
+              button
+            >
+              <ListItemText primary="Stats" />
+            </ListItem>
+
+            <ListItem
+              onClick={mobileMenuClose}
+              component={Link}
+              to="/jobseeker/profile"
+              button
+            >
+              <ListItemText primary="Profile" />
             </ListItem>
           </List>
         </SwipeableDrawer>

@@ -26,6 +26,11 @@ function DefaultNav() {
       <div className={classes.grow}>
         <AppBar position="sticky" color="secondary" className={classes.appbar}>
           <Toolbar className={classes.toolbar}>
+          <div className={classes.iconContainer}>
+              <IconButton onClick={mobileMenuOpen} className={classes.iconButton} color="inherit" >
+                <MenuIcon />
+              </IconButton>
+            </div>
             <h2>
               <NavLink to="/" style={{ color: 'white' }}>Hamro Job</NavLink>
             </h2>
@@ -33,28 +38,24 @@ function DefaultNav() {
             <NavLink className={classes.link} to="/login">Login</NavLink>
             <NavLink className={classes.link} to="/signup">Sign Up</NavLink>
 
-            <div className={classes.iconContainer}>
-              <IconButton onClick={mobileMenuOpen} className={classes.iconButton} color="inherit" >
-                <MenuIcon />
-              </IconButton>
-            </div>
+            
           </Toolbar>
         </AppBar>
       </div>
 
       <div className={classes.drawerContainer}>
-        <SwipeableDrawer anchor="right" open={menuDrawer.status} onClose={mobileMenuClose}
+        <SwipeableDrawer  open={menuDrawer.status} onClose={mobileMenuClose}
           onOpen={mobileMenuOpen} >
-          <List>
-            <ListItem component={Link} to="/how-it-works" button >
+          <List className={classes.list}>
+            <ListItem  onClick={mobileMenuClose} component={Link} to="/how-it-works" button >
               <ListItemText primary="How It Works?" />
             </ListItem>
 
-            <ListItem component={Link} to="/login" button>
+            <ListItem  onClick={mobileMenuClose} component={Link} to="/login" button>
               <ListItemText primary="Login" />
             </ListItem>
 
-            <ListItem component={Link} to="/signup" button>
+            <ListItem onClick={mobileMenuClose}  component={Link} to="/signup" button>
               <ListItemText primary="Signup" />
             </ListItem>
 
