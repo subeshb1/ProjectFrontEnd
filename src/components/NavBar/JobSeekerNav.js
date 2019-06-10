@@ -1,6 +1,4 @@
 import React from "react";
-import Auth from "lib/auth";
-import Icon from "@material-ui/core/Icon";
 import {
   AppBar,
   Toolbar,
@@ -8,19 +6,11 @@ import {
   SwipeableDrawer,
   List,
   ListItem,
-  ListItemText,
-  Avatar,
-  Popper,
-  Fade,
-  Paper
-} from "@material-ui/core";
+  ListItemText} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { NavLink, Link, withRouter } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useStyles } from "./styles";
 
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import AccountMenu from "./AccountMenu";
 import NotificationMenu from "./NotificationMenu";
 

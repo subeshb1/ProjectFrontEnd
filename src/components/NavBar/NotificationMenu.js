@@ -1,12 +1,7 @@
-import React, { useContext } from "react";
-import Auth from "lib/auth";
+import React from "react";
 import Icon from "@material-ui/core/Icon";
 import { IconButton } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
-import { AuthContext } from "context/AuthProvider";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { NavLink } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -20,9 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 // Will be adding notification feature
 export default function NotificationMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const { root } = useStyles();
-  const { role } = useContext(AuthContext);
 
   return (
     <div className={root}>

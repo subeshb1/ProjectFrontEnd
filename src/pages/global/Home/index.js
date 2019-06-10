@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 export default function Home() {
-  const { imgContainer, image, slogan } = useStyles();
+  const { imgContainer, image } = useStyles();
   return (
     <div>
       <div className={imgContainer}>
