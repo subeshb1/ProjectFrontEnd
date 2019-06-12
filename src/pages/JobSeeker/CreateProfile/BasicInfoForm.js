@@ -1,48 +1,24 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useContext, useEffect } from 'react';
 import { TextField, RadioGroup, Radio, FormControl, FormLabel, FormControlLabel, Button } from '@material-ui/core';
-
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
+import { LoadContext } from 'context';
+import { withRouter } from 'react-router-dom';
 //datepicker
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+//styles
+import { useStyles } from './styles.js';
 
+function BasicInfoForm({ history }) {
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        margin: '10px auto',
-        minWidth: '300px',
-        width: '65vw',
-        background: 'whitesmoke',
-    },
-    form: {
-        display: 'grid',
-        padding: '2vw'
-    },
-    inputField: {
-        margin: '10px 20px',
-        '& label.Mui-focused': {
-            color: '#1da4f3',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: '#1da4f3',
-        },
-    },
-
-    button: {
-        width: 110,
-        margin: '0 auto'
-    }
-
-}));
-
-
-export default function CreateProfile() {
     const { root, form, inputField, button } = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
+    const { loading, setLoading } = useContext(LoadContext);
     //jobseeker information
     const [values, setValues] = useState({
         name: '',
         website: '',
-        //birth_date: new Date(),
         phone_numbers: {            //object
             home: '',
             personal: ''
@@ -63,12 +39,15 @@ export default function CreateProfile() {
         birth_date: new Date()
     });
 
+    const [redirect, setRedirect] = useState({
+        status: null
+    });
+
     //Handlers
 
     //single property handlers
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
-        console.log(values.gender)
     }
     //address
     const handleAddressChange = event => {
@@ -79,19 +58,15 @@ export default function CreateProfile() {
                 [event.target.name]: event.target.value
             }
         })
-        console.log(values.address)
     }
 
     //date
     const handleDateChange = date => {
         setSelectedDate({ birth_date: date });
-        //setValues({birth_date:date});
-        console.log(selectedDate);
     }
 
     //phone_numbers
     const handlePhoneNumberChange = event => {
-
         setValues({
             ...values,           //create copy of state variable object named 'values'
             phone_numbers: {     //access phone_numbers property in 'values'
@@ -99,7 +74,6 @@ export default function CreateProfile() {
                 [event.target.name]: event.target.value
             }
         });
-        console.log(values.phone_numbers);
     }
 
     //social_links
@@ -111,8 +85,34 @@ export default function CreateProfile() {
                 [event.target.name]: event.target.value
             }
         });
-        console.log(values.social_accounts);
     }
+
+    const handleSubmit = () => {
+        setLoading(true);
+        return axios.put('api/v1/profile/basic_info', { ...values, ...selectedDate })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log(response);
+                    enqueueSnackbar("Basic information submitted",
+                        { variant: "success", autoHideDuration: 2500 });
+                    enqueueSnackbar("Enter educational qualifications",
+                        { variant: "success", autoHideDuration: 2500 });
+                    setRedirect({ status: true });
+                }
+            })
+            .catch(error => {
+                console.log({ ...error });
+                let message = error.message.includes(422) ?
+                    "Submission failed" : "Unable to connect to the server";
+                enqueueSnackbar(message, { variant: "error", autoHideDuration: 2500 });
+
+            })
+            .finally(() => setLoading(false));
+    }
+
+    useEffect(() => {
+        redirect.status && history.push('/jobseeker/create-profile/education-info')
+    });
 
     return (
         <div className={root}>
@@ -222,11 +222,14 @@ export default function CreateProfile() {
                     </FormControl>
                 </div>
 
-                <Button variant="contained" color="primary" className={button}>
+                <Button variant="contained" color="primary" className={button}
+                    onClick={() => !loading && handleSubmit()}>
                     Submit
                 </Button>
-                
+
             </form>
         </div>
     );
 }
+
+export default withRouter(BasicInfoForm);
