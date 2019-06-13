@@ -8,8 +8,7 @@ import Login from "pages/auth/login";
 import SignUp from "pages/auth/signup";
 import Home from 'pages/global/Home'
 import HowItWorks from 'pages/global/HowItWorks';
-import BasicInfoForm from 'pages/JobSeeker/CreateProfile/BasicInfoForm.js';
-import EducationInfoForm from 'pages/JobSeeker/CreateProfile/EducationInfoForm.js';
+import JobSeeker from 'pages/JobSeeker';
 import "./css/index.css";
 
 function App() {
@@ -27,10 +26,7 @@ function App() {
                   <Route path="/" exact component={Home} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/how-it-works" component={HowItWorks} />
-
-                  {/* Job Seeker Routes */}
-                  <Route path="/jobseeker/create-profile/basic-info" component={BasicInfoForm}/>
-                  <Route path="/jobseeker/create-profile/education-info" component={EducationInfoForm}/>
+                  <Route path="/jobseeker" component={JobSeeker}/>
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

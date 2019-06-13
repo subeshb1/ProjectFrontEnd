@@ -12,6 +12,7 @@
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "html-to-draftjs": "^1.4.0",
+    "lodash": "^4.17.11",
     "material-ui-popup-state": "^1.4.0",
     "notistack": "^0.8.5",
     "prop-types": "^15.7.2",

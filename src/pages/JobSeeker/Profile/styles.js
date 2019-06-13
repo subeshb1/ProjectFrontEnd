@@ -3,9 +3,13 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles(theme => ({
     root: {
         margin: '10px auto',
-        minWidth: '300px',
-        width: '65vw',
-        background: 'whitesmoke',
+        maxWidth: '900px',
+        width: '100%',
+        boxShadow: "0 0 2px grey",
+        borderRadius: 8,
+        "& h1": {
+            marginLeft: 23
+        }
     },
     form: {
         display: 'grid',
@@ -13,12 +17,7 @@ export const useStyles = makeStyles(theme => ({
     },
     inputField: {
         margin: '10px 20px',
-        '& label.Mui-focused': {
-            color: '#1da4f3',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: '#1da4f3',
-        },
+        
     },
 
     button: {
