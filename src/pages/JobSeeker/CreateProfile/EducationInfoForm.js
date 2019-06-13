@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, FormControl, Select, InputLabel, Input, MenuItem } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 //date
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+//select
+import Select from 'react-select';
 //styles
 import { useStyles } from './styles.js';
 
@@ -13,7 +15,7 @@ export default function EducationInfoForm() {
     const [education, setEducation] = useState({
         program: '',
         degree: '',
-        categories: [""]
+        categories: []
     });
 
     const [selectedDate, setSelectedDate] = useState({
@@ -21,11 +23,33 @@ export default function EducationInfoForm() {
         end_date: new Date()
     });
 
-    const degrees = ["Master", "Bachelor", "Intermediate", "SLC/SEE", "Other", "Ph. D."];
-    const categories = [
+    // const degrees = ["Master", "Bachelor", "Intermediate", "SLC/SEE", "Other", "Ph. D."];
+    const degrees = [
+        { value: "Master", label: "Master" },
+        { value: "Bachelor", label: "Bachelor" },
+        { value: "Intermediate", label: "Intermediate" },
+        { value: "SLC/SEE", label: "SLC/SEE" },
+        { value: "Other", label: "Other" },
+        { value: "Ph. D.", label: "Ph. D." }
+    ]
+    /* const categories = [
         "Agriculture", "Ayurved", "Computer and IT", "Education", "Engineering",
         "Law, public safety and security", "Management", "Medicine and Health care",
-        "Nursing", "Pharmacy", "Science and Technology"];
+        "Nursing", "Pharmacy", "Science and Technology"]; */
+
+    const categories = [
+        { value: "Agriculture", label: "Agriculture" },
+        { value: "Ayurved", label: "Ayurved" },
+        { value: "Computer and IT", label: "Computer and IT" },
+        { value: "Education", label: "Education" },
+        { value: "Engineering", label: "Engineering" },
+        { value: "Law, public safety and security", label: "Law, public safety and security" },
+        { value: "Management", label: "Management" },
+        { value: "Medicine and Health Care", label: "Medicine and Health Care" },
+        { value: "Nursing", label: "Nursing" },
+        { value: "Pharmacy", label: "Pharmacy" },
+        { value: "Science and Technology", label: "Science and Technology" },
+    ]
 
     //Handlers
     const handleChange = name => event => {
@@ -41,15 +65,15 @@ export default function EducationInfoForm() {
             ...selectedDate,
             [name]: date
         });
-        console.log(selectedDate.start_date);
+        console.log(selectedDate[name]);
     }
 
-    const handleCategoriesChange = name => event => {
+    const handleSelectChange = name => selectedValue => {
         setEducation({
             ...education,
-            [name]: event.target.value
-        })
-        console.log(education.categories);
+            [name]: selectedValue
+        });
+        console.log(education[name]);
     }
 
     return (
@@ -65,25 +89,13 @@ export default function EducationInfoForm() {
                     required
                 />
 
-                <FormControl className={inputField}>
-                    <InputLabel htmlFor="degree">Select Degree</InputLabel>
-                    <Select
-                        value={education.degree}
-                        onChange={handleChange('degree')}
-                        input={<Input name="degree" id="degree" />}
-                    >
-                        {
-                            degrees.map((degree, i) =>
-                                (<MenuItem
-                                    value={degree}
-                                    key={degree}
-                                >
-                                    {degree}
-                                </MenuItem>)
-                            )
-                        }
-                    </Select>
-                </FormControl>
+                <Select
+                    value={education.degree}
+                    onChange={handleSelectChange('degree')}
+                    options={degrees}
+                    className={inputField}
+                    placeholder="Select degree"
+                />
 
                 <div>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -93,7 +105,6 @@ export default function EducationInfoForm() {
                             label="Start Date"
                             className={inputField}
                             format="yyyy/MM/dd"
-                            required
                         />
 
                         <KeyboardDatePicker
@@ -102,32 +113,19 @@ export default function EducationInfoForm() {
                             label="End Date"
                             className={inputField}
                             format="yyyy/MM/dd"
-                            required
                         />
                     </MuiPickersUtilsProvider>
                 </div>
 
-                <FormControl className={inputField}>
-                    <InputLabel htmlFor="categories">Select Category</InputLabel>
-                    <Select
-                        value={education.categories}
-                        onChange={handleCategoriesChange('categories')}
-                        multiple
-                        input={<Input name="categories" id="categories" />}
-                        required
-                    >
-                        {
-                            categories.map(category =>
-                                (<MenuItem
-                                    value={category}
-                                    key={category}
-                                >
-                                    {category}
-                                </MenuItem>)
-                            )
-                        }
-                    </Select>
-                </FormControl>
+                <Select
+                    value={education.categories}
+                    onChange={handleSelectChange('categories')}
+                    isMulti
+                    options={categories}
+                    className={inputField}
+                    placeholder="Select Category"
+                />
+
             </div>
         </div>
     )
