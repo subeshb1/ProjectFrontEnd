@@ -11,7 +11,8 @@ import {
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { LoadContext } from "context";
-import _ from 'lodash';
+
+import _ from "lodash";
 import { withRouter } from "react-router-dom";
 //datepicker
 import DateFnsUtils from "@date-io/date-fns";
@@ -20,7 +21,12 @@ import {
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 //draft (for description)
-import { EditorState, convertToRaw } from "draft-js";
+import {
+  EditorState,
+  convertToRaw,
+  ContentState,
+  convertFromHTML
+} from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -57,7 +63,16 @@ function BasicInfoForm({ history }) {
     axios
       .get("api/v1/profile/basic_info")
       .then(res => {
-        setValues(_.omit(res.data,['established_date', 'organization_type','avatar']));
+        setValues(
+          _.omit(res.data, ["established_date", "organization_type", "avatar"])
+        );
+        handleEditorStateChange("description")(
+          EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(res.data.description)
+            )
+          )
+        );
       })
       .catch(console.error);
   }, []);
@@ -127,11 +142,10 @@ function BasicInfoForm({ history }) {
     let descriptionString = draftToHtml(
       convertToRaw(editorState.description.getCurrentContent())
     );
-    setValues({
+    setValues(state => ({
       ...state,
       [name]: descriptionString
-    });
-    //console.log(state[name]);
+    }));
   };
 
   const handleSubmit = evt => {
@@ -163,13 +177,13 @@ function BasicInfoForm({ history }) {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    redirect.status && history.push("/jobseeker/create-profile/education-info");
-  });
-
   return (
     <div className={root}>
-      <form className={form} validate onSubmit={handleSubmit}>
+      <form
+        className={form}
+        validate="true"
+        onSubmit={evt => !loading && handleSubmit(evt)}
+      >
         <h1 style={{ fontSize: 35 }}> BASIC INFORMATION </h1>
         <TextField
           id="name"
@@ -190,6 +204,7 @@ function BasicInfoForm({ history }) {
           onChange={handleAddressChange}
           margin="normal"
           name="permanent"
+          variant="outlined"
           required
         />
 
@@ -199,6 +214,7 @@ function BasicInfoForm({ history }) {
             onChange={handleDateChange}
             label="Date of Birth"
             className={inputField}
+            inputVariant="outlined"
             format="yyyy/MM/dd"
             required
           />
@@ -213,6 +229,7 @@ function BasicInfoForm({ history }) {
             onChange={handlePhoneNumberChange}
             margin="normal"
             type="number"
+            variant="outlined"
             name="personal"
             required
           />
@@ -224,8 +241,19 @@ function BasicInfoForm({ history }) {
             value={state.phone_numbers.home}
             onChange={handlePhoneNumberChange}
             margin="normal"
+            variant="outlined"
             type="number"
             name="home"
+          />
+          <TextField
+            id="social_accounts_facebook"
+            label="Facebook"
+            className={inputField}
+            value={state.social_accounts.facebook}
+            onChange={handleSocialAccountsChange}
+            margin="normal"
+            name="facebook"
+            variant="outlined"
           />
         </div>
 
@@ -235,20 +263,10 @@ function BasicInfoForm({ history }) {
           className={inputField}
           value={state.website}
           onChange={handleChange("website")}
+          variant="outlined"
           margin="normal"
         />
 
-        <div className={inputField}>
-          <p style={{ marginTop: "15px" }}>Social Accounts</p>
-          <TextField
-            id="social_accounts_facebook"
-            label="Facebook"
-            value={state.social_accounts.facebook}
-            onChange={handleSocialAccountsChange}
-            margin="normal"
-            name="facebook"
-          />
-        </div>
         <div className={inputField}>
           <FormControl component="fieldset" required>
             <FormLabel component="legend">Gender</FormLabel>
@@ -288,7 +306,7 @@ function BasicInfoForm({ history }) {
             editorClassName="demo-editor"
             toolbarClassName="toolbar-class"
             onEditorStateChange={handleEditorStateChange("description")}
-            wrapperStyle={{ background: "white", boxShadow: "0 0 2px grey" }}
+            wrapperStyle={{ background: "white", boxShadow: "0 0 2px grey", }}
             editorStyle={{ margin: "0 10px", height: "15vw", minHeight: 100 }}
           />
         </div>
