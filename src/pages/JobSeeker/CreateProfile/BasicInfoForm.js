@@ -7,6 +7,11 @@ import { withRouter } from 'react-router-dom';
 //datepicker
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+//draft (for description)
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 //styles
 import { useStyles } from './styles.js';
 
@@ -26,7 +31,7 @@ function BasicInfoForm({ history }) {
         social_accounts: {          //object
             facebook: ''
         },
-        description: '',
+        description: '',            //string
         gender: '',
         avatar: null,
         address: {                  //object
@@ -34,10 +39,14 @@ function BasicInfoForm({ history }) {
         }
     });
 
-    //state for date
+    //state: date
     const [selectedDate, setSelectedDate] = useState({
         birth_date: new Date()
     });
+    //description (object)
+    const [editorState, setEditorState] = useState({
+        description: EditorState.createEmpty()        //object
+    })
 
     const [redirect, setRedirect] = useState({
         status: null
@@ -85,6 +94,19 @@ function BasicInfoForm({ history }) {
                 [event.target.name]: event.target.value
             }
         });
+    }
+
+    const handleEditorStateChange = name => data => {
+        setEditorState({
+            [name]: data
+        });
+        //converts description(object) to HTML string
+        let descriptionString = draftToHtml(convertToRaw(editorState.description.getCurrentContent()));
+        setValues({
+            ...values,
+            [name]: descriptionString
+        })
+        //console.log(values[name]);
     }
 
     const handleSubmit = () => {
@@ -187,7 +209,6 @@ function BasicInfoForm({ history }) {
                     <TextField
                         id="social_accounts_facebook"
                         label="Facebook"
-                        /* className={inputField} */
                         value={values.social_accounts.facebook}
                         onChange={handleSocialAccountsChange}
                         margin="normal"
@@ -195,16 +216,18 @@ function BasicInfoForm({ history }) {
                     />
                 </div>
 
-                <TextField
-                    id="description"
-                    label="Description about yourself"
-                    className={inputField}
-                    value={values.description}
-                    onChange={handleChange('description')}
-                    margin="normal"
-                    multiline
-                    rows={2}
-                    required />
+                <div className={inputField} >
+                    <p style={{ margin: "15px 0" }}>Describe yourself</p>
+                    <Editor
+                        editorState={editorState.description}
+                        wrapperClassName="demo-wrapper"
+                        editorClassName="demo-editor"
+                        toolbarClassName="toolbar-class"
+                        onEditorStateChange={handleEditorStateChange('description')}
+                        wrapperStyle={{ background: 'white' }}
+                        editorStyle={{ margin: "0 10px", height: '15vw', minHeight: 100 }}
+                    />
+                </div>
 
                 <div className={inputField}>
                     <FormControl component="fieldset">
