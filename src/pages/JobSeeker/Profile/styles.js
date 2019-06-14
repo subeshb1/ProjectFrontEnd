@@ -17,7 +17,9 @@ export const useStyles = makeStyles(theme => ({
     },
     inputField: {
         margin: '10px 20px',
-        
+        "& label": {
+            zIndex: '0'
+        }
     },
 
     button: {

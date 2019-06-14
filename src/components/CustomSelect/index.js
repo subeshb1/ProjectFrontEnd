@@ -9,7 +9,7 @@ import DateFnsUtils from "@date-io/date-fns";
 
 const selectValue = (options, value) => _.find(options, { value });
 
-export function CategorySelect({ categories=[], handleChange, ...rest }) {
+export function CategorySelect({ categories = [], handleChange, ...rest }) {
   const categoriesOptions = [
     { value: "Agriculture", label: "Agriculture" },
     { value: "Ayurved", label: "Ayurved" },
@@ -33,8 +33,11 @@ export function CategorySelect({ categories=[], handleChange, ...rest }) {
     );
   return (
     <Select
+      style={{ zIndex: 100 }}
       value={getValues()}
-      onChange={data => handleChange("categories")(data ? data.map(x => x.value) : []) }
+      onChange={data =>
+        handleChange("categories")(data ? data.map(x => x.value) : [])
+      }
       isMulti
       options={categoriesOptions}
       placeholder="Select Category"
@@ -54,6 +57,7 @@ export function DegreeSelect({ degree, handleChange, ...rest }) {
   ];
   return (
     <Select
+      style={{ zIndex: 100 }}
       value={selectValue(degreesOptions, degree)}
       onChange={({ value }) => handleChange("degree")(value)}
       options={degreesOptions}

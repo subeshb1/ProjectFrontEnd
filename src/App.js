@@ -11,12 +11,7 @@ import HowItWorks from "pages/global/HowItWorks";
 import JobSeeker from "pages/JobSeeker";
 import "./css/index.css";
 
-const getKey = path => {
-  if (path.includes("jobseeker/profile/")) return "jobseeker/profile";
-  // if (path.includes("jobprovider")) return "jobprovider";
-  // if (path.includes("jobprovider")) return "jobprovider";
-  return path;
-};
+
 function App() {
   return (
     <Route
@@ -27,9 +22,9 @@ function App() {
 
             <TransitionGroup>
               <CSSTransition
-                key={getKey(location.pathname)}
+                key={location.pathname}
                 classNames="fade"
-                timeout={100}
+                timeout={500}
               >
                 <Switch location={location}>
                   <Route path="/login" component={Login} />

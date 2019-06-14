@@ -7,12 +7,12 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 import { LoadContext } from "context";
 
-import _ from "lodash";
 import {
   CategorySelect,
   DegreeSelect,
   StartEndDateSelect
 } from "components/CustomSelect/index.js";
+import { ContainerLoad } from "components/Loading";
 
 export default function EducationInfoForm() {
   const [state, setState] = useState([
@@ -25,13 +25,23 @@ export default function EducationInfoForm() {
       degree: ""
     }
   ]);
+  const [fetching, setFetching] = useState(false);
+
   const { container } = useStyles();
   const { loading, setLoading } = useContext(LoadContext);
   useEffect(() => {
+    setFetching(true);
     axios
       .get("api/v1/profile/education")
       .then(res => res.data)
-      .then(x => x.length && setState(x));
+      .then(x => x.length && setState(x))
+      .catch(() =>
+        enqueueSnackbar("Error Fetching data", {
+          variant: "error",
+          autoHideDuration: 2500
+        })
+      )
+      .finally(() => setFetching(false));
   }, []);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -99,12 +109,15 @@ export default function EducationInfoForm() {
       })
       .finally(() => setLoading(false));
   };
+  if (fetching) return <ContainerLoad />;
+
   return (
     <form
       validate="true"
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
+      <h1 style={{ fontSize: 35 }}> EDUCATION </h1>
       {state.map((x, i) => (
         <EducationComponent
           key={i}
@@ -169,7 +182,11 @@ const EducationComponent = ({
           required
           variant="outlined"
         />
-
+        <DegreeSelect
+          className={inputField}
+          degree={degree}
+          handleChange={handleCustomChange}
+        />  
         <div>
           <StartEndDateSelect
             start_date={start_date}
@@ -178,11 +195,7 @@ const EducationComponent = ({
             className={inputField}
           />
         </div>
-        <DegreeSelect
-          className={inputField}
-          degree={degree}
-          handleChange={handleCustomChange}
-        />
+
         <CategorySelect
           className={inputField}
           categories={categories}

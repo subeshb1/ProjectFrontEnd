@@ -308,7 +308,7 @@ function BasicInfoForm({ history }) {
             </RadioGroup>
           </FormControl>
         </div>
-        <div className={inputField}>
+        <div className={inputField} style={{ zIndex: "100" }}>
           <p style={{ margin: "15px 0" }}>Job Preferences</p>
           <CategorySelect
             categories={state.categories}
