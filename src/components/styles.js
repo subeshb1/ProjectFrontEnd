@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     //title styling
     title: { 
         textAlign: 'center', 
-        padding:15,
+        padding:'30px 0',
         fontSize: 35,
         [theme.breakpoints.down(500)]:{
             fontSize:20
