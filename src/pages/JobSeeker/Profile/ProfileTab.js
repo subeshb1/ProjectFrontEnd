@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -26,12 +26,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ProfileTab() {
+function ProfileTab({ location: { pathname } }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
+  let value = 0;
+  switch (pathname) {
+    case "/jobseeker/profile/work_experience":
+      value = 2;
+      break;
+    case "/jobseeker/profile/education":
+      value = 1;
 
-  function handleChange(event, newValue) {
-    setValue(newValue);
+      break;
+    default:
+      value = 0;
   }
 
   return (
@@ -39,7 +47,6 @@ function ProfileTab() {
       <AppBar position="static" color="default">
         <Tabs
           value={value}
-          onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
           variant="scrollable"

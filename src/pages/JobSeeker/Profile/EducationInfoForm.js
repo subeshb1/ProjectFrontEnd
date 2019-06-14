@@ -168,13 +168,8 @@ const EducationComponent = ({
           margin="normal"
           required
           variant="outlined"
+        />
 
-        />
-        <DegreeSelect
-          className={inputField}
-          degree={degree}
-          handleChange={handleCustomChange}
-        />
         <div>
           <StartEndDateSelect
             start_date={start_date}
@@ -183,7 +178,11 @@ const EducationComponent = ({
             className={inputField}
           />
         </div>
-
+        <DegreeSelect
+          className={inputField}
+          degree={degree}
+          handleChange={handleCustomChange}
+        />
         <CategorySelect
           className={inputField}
           categories={categories}

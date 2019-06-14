@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import ProfileTab from "./ProfileTab";
 export default function JobSeeker() {
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <ProfileTab />
 
       <ProtectedRoute

@@ -77,6 +77,7 @@ export function StartEndDateSelect({
           value={start_date}
           onChange={handleChange("start_date")}
           label="Start Date"
+          inputVariant="outlined"
           format="yyyy/MM/dd"
           className={className}
           {...rest}
@@ -87,6 +88,7 @@ export function StartEndDateSelect({
           onChange={handleChange("end_date")}
           label="End Date"
           className={className}
+          inputVariant="outlined"
           format="yyyy/MM/dd"
           {...rest}
         />

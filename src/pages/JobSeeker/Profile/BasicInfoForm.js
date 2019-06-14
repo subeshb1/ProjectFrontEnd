@@ -36,10 +36,13 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 //styles
 import { useStyles } from "./styles.js";
 
+import { ContainerLoad } from "components/Loading";
+
 function BasicInfoForm({ history }) {
   const { root, form, inputField, button } = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { loading, setLoading } = useContext(LoadContext);
+  const [fetching, setFetching] = useState(false);
   //jobseeker information
   const [state, setState] = useState({
     name: "",
@@ -64,6 +67,7 @@ function BasicInfoForm({ history }) {
   });
 
   useEffect(() => {
+    setFetching(true);
     axios
       .get("api/v1/profile/basic_info")
       .then(res => {
@@ -80,7 +84,13 @@ function BasicInfoForm({ history }) {
           _.omit(res.data, ["established_date", "organization_type", "avatar"])
         );
       })
-      .catch(console.error);
+      .catch(() =>
+        enqueueSnackbar("Error Fetching data", {
+          variant: "error",
+          autoHideDuration: 2500
+        })
+      )
+      .finally(() => setFetching(false));
   }, []);
   //state: date
   const [selectedDate, setSelectedDate] = useState({
@@ -164,10 +174,6 @@ function BasicInfoForm({ history }) {
             variant: "success",
             autoHideDuration: 2500
           });
-          enqueueSnackbar("Enter educational qualifications", {
-            variant: "success",
-            autoHideDuration: 2500
-          });
         }
       })
       .catch(error => {
@@ -180,6 +186,7 @@ function BasicInfoForm({ history }) {
       .finally(() => setLoading(false));
   };
 
+  if (fetching) return <ContainerLoad />;
   return (
     <div className={root}>
       <form

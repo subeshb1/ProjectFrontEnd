@@ -6,11 +6,17 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { NavBar, Footer } from "components";
 import Login from "pages/auth/login";
 import SignUp from "pages/auth/signup";
-import Home from 'pages/global/Home'
-import HowItWorks from 'pages/global/HowItWorks';
-import JobSeeker from 'pages/JobSeeker';
+import Home from "pages/global/Home";
+import HowItWorks from "pages/global/HowItWorks";
+import JobSeeker from "pages/JobSeeker";
 import "./css/index.css";
 
+const getKey = path => {
+  if (path.includes("jobseeker/profile/")) return "jobseeker/profile";
+  // if (path.includes("jobprovider")) return "jobprovider";
+  // if (path.includes("jobprovider")) return "jobprovider";
+  return path;
+};
 function App() {
   return (
     <Route
@@ -20,19 +26,22 @@ function App() {
             <NavBar />
 
             <TransitionGroup>
-              <CSSTransition key={location.pathname} classNames="fade" timeout={100}>
+              <CSSTransition
+                key={getKey(location.pathname)}
+                classNames="fade"
+                timeout={100}
+              >
                 <Switch location={location}>
                   <Route path="/login" component={Login} />
                   <Route path="/" exact component={Home} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/how-it-works" component={HowItWorks} />
-                  <Route path="/jobseeker" component={JobSeeker}/>
+                  <Route path="/jobseeker" component={JobSeeker} />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
 
-            <Footer/>
-            
+            <Footer />
           </>
         );
       }}
