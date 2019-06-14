@@ -1,66 +1,45 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia } from '@material-ui/core';
+import useStyles from '../styles.js';
 
-const useStyles = makeStyles({
-    categoryWrapper: {
-        background: 'whitesmoke',
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        padding: '20px 0'
-    },
-    card: {
-        margin: '20px 35px',
-        textAlign: 'center',
-        textTransform: 'capitalize',
-        cursor: 'pointer',
-        '&:hover': {
-            textDecoration: 'underline'
-        }
-    },
-    media: { width: 200, height: 100 },
-
-    //title styling
-    title: { textAlign: 'center', fontSize: 25 },
-    titleText: { color: '#37677A', fontWeight: 'bolder' },
-
-    titleLine: {
-        border: '3px solid black',
-        display: 'inline-block',
-        width: '5vw',
-        position: 'relative',
-        bottom: 6,
-        margin: '0 10px'
-    } 
-
-});
-
-//job names (jobImages)
-const jobs = ["agriculture", "ayurved", "computer and IT", "education", "engineering", "health", "law", "management",
-    "nursing", "pharmacist", "science"];
+const jobs = [
+    { title: "Agriculture", imageName: "agriculture" },
+    { title: "Ayurved", imageName: "ayurved" },
+    { title: "Computer and IT", imageName: "computer and IT" },
+    { title: "Educaiton", imageName: "education" },
+    { title: "Engineering", imageName: "engineering" },
+    { title: "Health", imageName: "health" },
+    { title: "Law", imageName: "law" },
+    { title: "Management", imageName: "management" },
+    { title: "Nursing", imageName: "nursing" },
+    { title: "Pharmacist", imageName: "pharmacist" },
+    { title: "Science", imageName: "science" }
+];
 
 
 function Category() {
-    let { card, categoryWrapper, media, title, titleText, titleLine } = useStyles();
+    let { root, title, titleText, titleLine, card, wrapper, media } = useStyles();
 
     return (
-        <div>
+        <div className={root}>
 
             <div className={title}>
                 <span className={titleLine}> </span>
-                JOB  <span className={titleText} >CATEGORIES </span>
+                JOB  <span className={titleText} >CATEGORIES</span>
                 <span className={titleLine}> </span>
             </div>
 
-            <div className={categoryWrapper}>
-                {jobs.map((job, i) =>
+            <div className={wrapper}>
+                {jobs.map( job =>
                     //displaying jobs 
                     (
-                        <Card className={card} key={`jobCategory${i}`}>
-                            <CardMedia image={require(`./jobImages/${job}.jpg`)} title={`${job}`} className={media} />
+                        <Card className={card} key={job.title}>
+                            <CardMedia
+                                image={require(`./jobImages/${job.imageName}.jpg`)}
+                                title={`${job.imageName}`} className={media}
+                            />
                             <CardContent>
-                                {job}
+                                {job.title}
                             </CardContent>
                         </Card>
                     )
