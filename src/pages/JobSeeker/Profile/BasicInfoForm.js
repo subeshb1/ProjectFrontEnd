@@ -27,6 +27,9 @@ import {
   ContentState,
   convertFromHTML
 } from "draft-js";
+
+import { CategorySelect } from "components/CustomSelect/index.js";
+
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -38,7 +41,7 @@ function BasicInfoForm({ history }) {
   const { enqueueSnackbar } = useSnackbar();
   const { loading, setLoading } = useContext(LoadContext);
   //jobseeker information
-  const [state, setValues] = useState({
+  const [state, setState] = useState({
     name: "",
     website: "",
     phone_numbers: {
@@ -56,22 +59,25 @@ function BasicInfoForm({ history }) {
     address: {
       //object
       permanent: ""
-    }
+    },
+    categories: []
   });
 
   useEffect(() => {
     axios
       .get("api/v1/profile/basic_info")
       .then(res => {
-        setValues(
-          _.omit(res.data, ["established_date", "organization_type", "avatar"])
-        );
-        handleEditorStateChange("description")(
-          EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(res.data.description)
+        try {
+          handleEditorStateChange("description")(
+            EditorState.createWithContent(
+              ContentState.createFromBlockArray(
+                convertFromHTML(res.data.description)
+              )
             )
-          )
+          );
+        } catch {}
+        setState(
+          _.omit(res.data, ["established_date", "organization_type", "avatar"])
         );
       })
       .catch(console.error);
@@ -85,19 +91,15 @@ function BasicInfoForm({ history }) {
     description: EditorState.createEmpty() //object
   });
 
-  const [redirect, setRedirect] = useState({
-    status: null
-  });
-
   //Handlers
 
   //single property handlers
   const handleChange = name => event => {
-    setValues({ ...state, [name]: event.target.value });
+    setState({ ...state, [name]: event.target.value });
   };
   //address
   const handleAddressChange = event => {
-    setValues({
+    setState({
       ...state,
       address: {
         ...state.address,
@@ -113,7 +115,7 @@ function BasicInfoForm({ history }) {
 
   //phone_numbers
   const handlePhoneNumberChange = event => {
-    setValues({
+    setState({
       ...state, //create copy of state variable object named 'state'
       phone_numbers: {
         //access phone_numbers property in 'state'
@@ -125,7 +127,7 @@ function BasicInfoForm({ history }) {
 
   //social_links
   const handleSocialAccountsChange = event => {
-    setValues({
+    setState({
       ...state,
       social_accounts: {
         ...state.social_accounts,
@@ -142,11 +144,13 @@ function BasicInfoForm({ history }) {
     let descriptionString = draftToHtml(
       convertToRaw(editorState.description.getCurrentContent())
     );
-    setValues(state => ({
+    setState(state => ({
       ...state,
       [name]: descriptionString
     }));
   };
+  const handleCustomChange = name => value =>
+    setState(state => ({ ...state, [name]: value }));
 
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -164,7 +168,6 @@ function BasicInfoForm({ history }) {
             variant: "success",
             autoHideDuration: 2500
           });
-          setRedirect({ status: true });
         }
       })
       .catch(error => {
@@ -299,6 +302,13 @@ function BasicInfoForm({ history }) {
           </FormControl>
         </div>
         <div className={inputField}>
+          <p style={{ margin: "15px 0" }}>Job Preferences</p>
+          <CategorySelect
+            categories={state.categories}
+            handleChange={handleCustomChange}
+          />
+        </div>
+        <div className={inputField}>
           <p style={{ margin: "15px 0" }}>Describe yourself</p>
           <Editor
             editorState={editorState.description}
@@ -306,7 +316,7 @@ function BasicInfoForm({ history }) {
             editorClassName="demo-editor"
             toolbarClassName="toolbar-class"
             onEditorStateChange={handleEditorStateChange("description")}
-            wrapperStyle={{ background: "white", boxShadow: "0 0 2px grey", }}
+            wrapperStyle={{ background: "white", boxShadow: "0 0 2px grey" }}
             editorStyle={{ margin: "0 10px", height: "15vw", minHeight: 100 }}
           />
         </div>

@@ -23,6 +23,11 @@ export const useStyles = makeStyles(theme => ({
     button: {
         width: 110,
         margin: '0 auto'
+    },
+    container:{
+        margin: '10px auto',
+        maxWidth: '900px',
+        width: '100%',
     }
 
 }));

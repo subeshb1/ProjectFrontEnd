@@ -167,8 +167,6 @@ const EducationComponent = ({
           onChange={handleInputChange("program")}
           margin="normal"
           required
-          variant="outlined"
-
         />
         <DegreeSelect
           className={inputField}
