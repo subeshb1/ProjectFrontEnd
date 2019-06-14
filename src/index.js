@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production" || true
     ? "https://final-project-trinity.herokuapp.com/"
     : "http://localhost:4000/";
 

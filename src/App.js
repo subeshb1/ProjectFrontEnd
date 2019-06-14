@@ -20,7 +20,7 @@ function App() {
             <NavBar />
 
             <TransitionGroup>
-              <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+              <CSSTransition key={location.pathname} classNames="fade" timeout={100}>
                 <Switch location={location}>
                   <Route path="/login" component={Login} />
                   <Route path="/" exact component={Home} />

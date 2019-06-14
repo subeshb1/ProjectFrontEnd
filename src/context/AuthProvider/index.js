@@ -14,8 +14,7 @@ function AuthProvider({ children }) {
   useEffect(() => {
     handleOnChange();
     window.addEventListener("storage_change", handleOnChange);
-    return window.removeEventListener("storage_change", handleOnChange);;
-  }, [0]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ role }}>{children}</AuthContext.Provider>
@@ -23,4 +22,4 @@ function AuthProvider({ children }) {
 }
 
 export { AuthContext };
-export default AuthProvider;
+export default AuthProvider;  
