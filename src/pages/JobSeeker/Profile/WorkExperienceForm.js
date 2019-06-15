@@ -9,20 +9,22 @@ import { LoadContext } from "context";
 
 import {
   CategorySelect,
-  DegreeSelect,
+  JobLevelSelect,
   StartEndDateSelect
 } from "components/CustomSelect/index.js";
 import { ContainerLoad } from "components/Loading";
 
-export default function EducationInfoForm() {
+export default function WorkExperienceForm() {
   const [state, setState] = useState([
     {
-      program: "",
+      job_title: "",
+      organization_name: "",
+      categories: [],
       start_date: new Date(),
       end_date: new Date(),
-
-      categories: [],
-      degree: ""
+      salary: "",
+      level: "",
+      description: ""
     }
   ]);
   const [fetching, setFetching] = useState(false);
@@ -32,7 +34,7 @@ export default function EducationInfoForm() {
   useEffect(() => {
     setFetching(true);
     axios
-      .get("api/v1/profile/education")
+      .get("api/v1/profile/work_experience")
       .then(res => res.data)
       .then(x => x.length && setState(x))
       .catch(() =>
@@ -66,7 +68,7 @@ export default function EducationInfoForm() {
     });
   };
 
-  const addEducation = () =>
+  const addWorkExperience = () =>
     setState(state => [
       ...state,
       {
@@ -77,7 +79,7 @@ export default function EducationInfoForm() {
         end_date: new Date()
       }
     ]);
-  const deleteEducation = i => () => {
+  const deleteWorkExperience = i => () => {
     setState(state => state.filter((_, index) => i != index));
   };
 
@@ -86,15 +88,11 @@ export default function EducationInfoForm() {
 
     setLoading(true);
     return axios
-      .put("api/v1/profile/education", { educations: state })
+      .put("api/v1/profile/work_experience", { work_experiences: state })
       .then(response => {
         if (response.status === 200) {
           console.log(response);
-          enqueueSnackbar("Basic information submitted", {
-            variant: "success",
-            autoHideDuration: 2500
-          });
-          enqueueSnackbar("Enter educational qualifications", {
+          enqueueSnackbar("Work Experience Saved", {
             variant: "success",
             autoHideDuration: 2500
           });
@@ -117,15 +115,15 @@ export default function EducationInfoForm() {
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
-      <h1 style={{ fontSize: 35 }}> EDUCATION </h1>
+      <h1 style={{ fontSize: 35 }}> WORK EXPERIENCE </h1>
       {state.map((x, i) => (
-        <EducationComponent
+        <WorkExperienceComponent
           key={i}
           {...{
             ...x,
             handleInputChange: handleInputChange(i),
             handleCustomChange: handleCustomChange(i),
-            deleteEducation: deleteEducation(i)
+            deleteWorkExperience: deleteWorkExperience(i)
           }}
         />
       ))}
@@ -150,7 +148,7 @@ export default function EducationInfoForm() {
           background: "#42b7b7",
           justifySelf: "self-end"
         }}
-        onClick={addEducation}
+        onClick={addWorkExperience}
       >
         Add
       </Button>
@@ -158,15 +156,17 @@ export default function EducationInfoForm() {
   );
 }
 
-const EducationComponent = ({
-  program,
-  degree,
+const WorkExperienceComponent = ({
+  job_title,
   handleInputChange,
   start_date,
   end_date,
   categories,
+  level,
   handleCustomChange,
-  deleteEducation
+  deleteWorkExperience,
+  organization_name,
+  salary
 }) => {
   const { root, form, inputField } = useStyles();
 
@@ -174,17 +174,37 @@ const EducationComponent = ({
     <div className={root}>
       <div className={form}>
         <TextField
-          label="Program"
+          label="Job Title"
           className={inputField}
-          value={program}
-          onChange={handleInputChange("program")}
+          value={job_title}
+          onChange={handleInputChange("job_title")}
           margin="normal"
           required
           variant="outlined"
         />
-        <DegreeSelect
+        <TextField
+          label="Organization Name"
           className={inputField}
-          degree={degree}
+          value={organization_name}
+          onChange={handleInputChange("organization_name")}
+          margin="normal"
+          required
+          variant="outlined"
+        />
+        <TextField
+          label="Salary"
+          className={inputField}
+          value={salary}
+          type="number"
+          inputProps={{ min: "0" }}
+          onChange={handleInputChange("salary")}
+          margin="normal"
+          required
+          variant="outlined"
+        />
+        <JobLevelSelect
+          className={inputField}
+          level={level}
           handleChange={handleCustomChange}
         />
         <div>
@@ -201,6 +221,7 @@ const EducationComponent = ({
           categories={categories}
           handleChange={handleCustomChange}
         />
+
         <Button
           variant="contained"
           color="secondary"
@@ -210,7 +231,7 @@ const EducationComponent = ({
             background: "#b74242",
             justifySelf: "self-end"
           }}
-          onClick={deleteEducation}
+          onClick={deleteWorkExperience}
         >
           Delete
           <DeleteIcon />

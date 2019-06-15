@@ -100,3 +100,22 @@ export function StartEndDateSelect({
     </div>
   );
 }
+
+export function JobLevelSelect({ level, handleChange, ...rest }) {
+  const jobLevelOptions = [
+    { value: "entry_level", label: "Entry Level" },
+    { value: "mid_level", label: "Mid Level" },
+    { value: "senior_level", label: "Senior Level" },
+    { value: "top_level", label: "Top Level" }
+  ];
+  return (
+    <Select
+      style={{ zIndex: 100 }}
+      value={selectValue(jobLevelOptions, level)}
+      onChange={({ value }) => handleChange("level")(value)}
+      options={jobLevelOptions}
+      placeholder="Select Job Level"
+      {...rest}
+    />
+  );
+}
