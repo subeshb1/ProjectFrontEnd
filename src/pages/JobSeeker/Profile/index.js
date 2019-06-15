@@ -1,30 +1,35 @@
 import React from "react";
-import ProtectedRoute from "components/ProtectedRoute";
 import BasicInfoForm from "./BasicInfoForm";
 import EducationInfoForm from "./EducationInfoForm";
 import WorkExperienceForm from "./WorkExperienceForm";
-import { Link } from "react-router-dom";
+import { Route} from "react-router-dom";
 import ProfileTab from "./ProfileTab";
 export default function JobSeeker() {
   return (
     <div style={{ minHeight: "100vh" }}>
-      <ProfileTab />
+      <Route
+        component={ProfileTab}
+        path="/jobseeker/profile/"
+      />
 
-      <ProtectedRoute
+      <Route
         component={BasicInfoForm}
         path="/jobseeker/profile/basic_info"
-        roles={["job_seeker"]}
       />
-      <ProtectedRoute
+      <Route
         component={EducationInfoForm}
         path="/jobseeker/profile/education"
-        roles={["job_seeker"]}
       />
-      <ProtectedRoute
+      <Route
         component={WorkExperienceForm}
         path="/jobseeker/profile/work_experience"
-        roles={["job_seeker"]}
       />
+
+{/* Add Profile View Here */}
+      {/* <Route
+        component={ProfileView}
+        path="/jobseeker/profile/work_experience"
+      /> */}
     </div>
   );
 }

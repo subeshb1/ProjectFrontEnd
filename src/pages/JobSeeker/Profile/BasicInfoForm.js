@@ -63,7 +63,8 @@ function BasicInfoForm({ history }) {
       //object
       permanent: ""
     },
-    categories: []
+    categories: [],
+    birth_date: new Date()
   });
 
   useEffect(() => {
@@ -75,13 +76,21 @@ function BasicInfoForm({ history }) {
           handleEditorStateChange("description")(
             EditorState.createWithContent(
               ContentState.createFromBlockArray(
-                convertFromHTML(res.data.description)
+                convertFromHTML(res.data.description || "<p></p>")
               )
             )
           );
         } catch {}
+        let state = _.omit(res.data, [
+          "established_date",
+          "organization_type",
+          "avatar"
+        ]);
+        state.description = state.description || "";
         setState(
-          _.omit(res.data, ["established_date", "organization_type", "avatar"])
+          _.mapValues(state, function(o) {
+            return o === undefined ? "" : o;
+          })
         );
       })
       .catch(() =>
@@ -93,9 +102,7 @@ function BasicInfoForm({ history }) {
       .finally(() => setFetching(false));
   }, []);
   //state: date
-  const [selectedDate, setSelectedDate] = useState({
-    birth_date: new Date()
-  });
+
   //description (object)
   const [editorState, setEditorState] = useState({
     description: EditorState.createEmpty() //object
@@ -120,7 +127,7 @@ function BasicInfoForm({ history }) {
 
   //date
   const handleDateChange = date => {
-    setSelectedDate({ birth_date: date });
+    setState({ ...state, birth_date: date });
   };
 
   //phone_numbers
@@ -166,11 +173,11 @@ function BasicInfoForm({ history }) {
     evt.preventDefault();
     setLoading(true);
     return axios
-      .put("api/v1/profile/basic_info", { ...state, ...selectedDate })
+      .put("api/v1/profile/basic_info", { ...state })
       .then(response => {
         if (response.status === 200) {
           console.log(response);
-          enqueueSnackbar("Basic information submitted", {
+          enqueueSnackbar("Basic Information Saved!", {
             variant: "success",
             autoHideDuration: 2500
           });
@@ -194,7 +201,7 @@ function BasicInfoForm({ history }) {
         validate="true"
         onSubmit={evt => !loading && handleSubmit(evt)}
       >
-        <h1 style={{ fontSize: 35 }}> BASIC INFORMATION </h1>
+        <h1> BASIC INFORMATION </h1>
         <TextField
           id="name"
           label="Name"
@@ -210,7 +217,7 @@ function BasicInfoForm({ history }) {
           id="address"
           label="Address"
           className={inputField}
-          value={state.address.permanent}
+          value={state.address.permanent || ""}
           onChange={handleAddressChange}
           margin="normal"
           name="permanent"
@@ -220,7 +227,7 @@ function BasicInfoForm({ history }) {
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
-            value={selectedDate.birth_date}
+            value={state.birth_date}
             onChange={handleDateChange}
             label="Date of Birth"
             className={inputField}
@@ -235,7 +242,7 @@ function BasicInfoForm({ history }) {
             id="phone_numbers_personal"
             label="Personal Number"
             className={inputField}
-            value={state.phone_numbers.personal}
+            value={state.phone_numbers.personal || ""}
             onChange={handlePhoneNumberChange}
             margin="normal"
             type="number"
@@ -248,7 +255,7 @@ function BasicInfoForm({ history }) {
             id="phone_numbers_home"
             label="Telephone Number"
             className={inputField}
-            value={state.phone_numbers.home}
+            value={state.phone_numbers.home || ""}
             onChange={handlePhoneNumberChange}
             margin="normal"
             variant="outlined"
@@ -259,7 +266,7 @@ function BasicInfoForm({ history }) {
             id="social_accounts_facebook"
             label="Facebook"
             className={inputField}
-            value={state.social_accounts.facebook}
+            value={state.social_accounts.facebook || ""}
             onChange={handleSocialAccountsChange}
             margin="normal"
             name="facebook"

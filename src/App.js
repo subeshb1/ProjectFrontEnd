@@ -10,6 +10,7 @@ import Home from "pages/global/Home";
 import HowItWorks from "pages/global/HowItWorks";
 import JobSeeker from "pages/JobSeeker";
 import "./css/index.css";
+import Account from "./pages/Account";
 
 
 function App() {
@@ -31,7 +32,9 @@ function App() {
                   <Route path="/" exact component={Home} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/how-it-works" component={HowItWorks} />
+                  <Route path="/(jobseeker|jobprovider)/account"  component={Account} />
                   <Route path="/jobseeker" component={JobSeeker} />
+
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

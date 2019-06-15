@@ -80,7 +80,7 @@ export default function WorkExperienceForm() {
       }
     ]);
   const deleteWorkExperience = i => () => {
-    setState(state => state.filter((_, index) => i != index));
+    setState(state => state.filter((_, index) => i !== index));
   };
 
   const handleSubmit = evt => {
@@ -92,7 +92,7 @@ export default function WorkExperienceForm() {
       .then(response => {
         if (response.status === 200) {
           console.log(response);
-          enqueueSnackbar("Work Experience Saved", {
+          enqueueSnackbar("Work Experience Saved!", {
             variant: "success",
             autoHideDuration: 2500
           });
@@ -115,7 +115,7 @@ export default function WorkExperienceForm() {
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
-      <h1 style={{ fontSize: 35 }}> WORK EXPERIENCE </h1>
+      <h1 > WORK EXPERIENCE </h1>
       {state.map((x, i) => (
         <WorkExperienceComponent
           key={i}

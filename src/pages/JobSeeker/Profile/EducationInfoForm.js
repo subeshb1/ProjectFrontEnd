@@ -78,7 +78,7 @@ export default function EducationInfoForm() {
       }
     ]);
   const deleteEducation = i => () => {
-    setState(state => state.filter((_, index) => i != index));
+    setState(state => state.filter((_, index) => i !== index));
   };
 
   const handleSubmit = evt => {
@@ -90,11 +90,7 @@ export default function EducationInfoForm() {
       .then(response => {
         if (response.status === 200) {
           console.log(response);
-          enqueueSnackbar("Basic information submitted", {
-            variant: "success",
-            autoHideDuration: 2500
-          });
-          enqueueSnackbar("Enter educational qualifications", {
+          enqueueSnackbar("Education Saved!", {
             variant: "success",
             autoHideDuration: 2500
           });
@@ -117,7 +113,7 @@ export default function EducationInfoForm() {
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
-      <h1 style={{ fontSize: 35 }}> EDUCATION </h1>
+      <h1 > EDUCATION </h1>
       {state.map((x, i) => (
         <EducationComponent
           key={i}
@@ -186,7 +182,7 @@ const EducationComponent = ({
           className={inputField}
           degree={degree}
           handleChange={handleCustomChange}
-        />  
+        />
         <div>
           <StartEndDateSelect
             start_date={start_date}

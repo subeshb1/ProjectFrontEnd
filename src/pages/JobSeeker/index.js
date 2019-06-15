@@ -1,10 +1,12 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import Profile from "./Profile";
-import {Route} from 'react-router-dom'
+import ProtectedRoute from "components/ProtectedRoute";
+
+
 export default function JobSeeker() {
   return (
     <div>
-      <Route path="/jobseeker/profile" component={Profile} />
+      <ProtectedRoute  roles={["job_seeker"]} path="/jobseeker/profile" component={Profile} />
     </div>
   );
 }
