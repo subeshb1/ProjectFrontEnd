@@ -104,7 +104,8 @@ function SignUp({ history }) {
     status: null
   });
 
-  function handleSubmit() {
+  function handleSubmit(evt) {
+    evt.preventDefault();
     setLoading(true);
     return axios
       .post("api/v1/users", values)
@@ -137,7 +138,7 @@ function SignUp({ history }) {
         SIGN <span>UP</span>
       </h1>
 
-      <form className={form}>
+      <form className={form} validate="true" onSubmit={ (evt) => !loading && handleSubmit(evt)}>
         <div className={userIcon}>
           <i className="fas fa-user-tie" />
         </div>
@@ -151,6 +152,7 @@ function SignUp({ history }) {
           autoComplete="email"
           margin="normal"
           variant="outlined"
+          required
           value={values.email}
           onChange={handleChange}
         />
@@ -160,6 +162,7 @@ function SignUp({ history }) {
           className={textField}
           label="Password"
           type="password"
+          required
           name="password"
           margin="normal"
           variant="outlined"
@@ -173,6 +176,7 @@ function SignUp({ history }) {
           label="Re-enter Password"
           type="password"
           name="confirm_password"
+          required
           margin="normal"
           variant="outlined"
           value={values.confirm_password}
@@ -198,7 +202,7 @@ function SignUp({ history }) {
         </FormControl>
 
         <div style={{ textAlign: "right" }}>
-          <Button className={button} onClick={() => !loading && handleSubmit()}>
+          <Button className={button} type="submit">
             Create an Account
           </Button>
         </div>
