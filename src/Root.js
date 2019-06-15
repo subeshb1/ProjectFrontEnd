@@ -5,7 +5,7 @@ import { SnackbarProvider } from "notistack";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import grey from "@material-ui/core/colors/grey";
-import {LoadBar, AuthProvider} from "context";
+import { LoadBar, AuthProvider } from "context";
 const theme = createMuiTheme({
   palette: {
     secondary: {
@@ -19,17 +19,17 @@ const theme = createMuiTheme({
 
 function Root() {
   return (
-    <AuthProvider>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider preventDuplicate>
-            <LoadBar>
+    <LoadBar>
+      <AuthProvider>
+        <Router>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider preventDuplicate>
               <App />
-            </LoadBar>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </Router>
-    </AuthProvider>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </Router>
+      </AuthProvider>
+    </LoadBar>
   );
 }
 export default Root;
