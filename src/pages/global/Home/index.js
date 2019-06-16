@@ -3,8 +3,9 @@ import workImage from "assets/images/work.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 //components
 import { CategoryContainer } from "components";
-import JobPosted  from "components/JobPosted";
+
 import { AuthContext } from "context/AuthProvider";
+
 
 const useStyles = makeStyles({
   imgContainer: {
@@ -38,9 +39,7 @@ export default function Home({ history }) {
       <div className={imgContainer}>
         <img src={workImage} alt="Work" className={image} />
       </div>
-      <JobPosted name="RECOMMENDED"/>
-      <JobPosted name="TOP"/>
-      <JobPosted name="RECENT"/>
+      
       <CategoryContainer />
     </div>
   );
