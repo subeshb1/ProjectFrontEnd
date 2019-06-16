@@ -6,7 +6,11 @@ const AuthContext = createContext({ loggedIn: false, role: null, token: null });
 function AuthProvider({ children }) {
   const [role, setRole] = useState(null);
   const handleOnChange = () => {
-    Auth.getRole().then(setRole)
+    Auth.getRole().then((role) => {
+      if(role === null && Auth.isLoggedIn())
+        Auth.loggOut();
+      setRole(role)
+    })
   }
   useEffect(() => {
     handleOnChange();
