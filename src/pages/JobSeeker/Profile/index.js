@@ -1,4 +1,5 @@
 import React from "react";
+import ViewProfile from 'components/ViewProfile/JobSeekerProfile';
 import BasicInfoForm from "./BasicInfoForm";
 import EducationInfoForm from "./EducationInfoForm";
 import WorkExperienceForm from "./WorkExperienceForm";
@@ -7,8 +8,15 @@ import ProfileTab from "./ProfileTab";
 export default function JobSeeker() {
   return (
     <div style={{ minHeight: "100vh" }}>
-      <Route
+
+      <Route 
         component={ProfileTab}
+        path="/jobseeker/profile"
+      />
+      
+      <Route
+        component={ViewProfile}
+        exact
         path="/jobseeker/profile/"
       />
 

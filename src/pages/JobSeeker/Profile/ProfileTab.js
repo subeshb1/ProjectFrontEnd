@@ -7,7 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 //component
-import ViewProfile from 'components/ViewProfile/JobSeekerProfile';
+//import ViewProfile from 'components/ViewProfile/JobSeekerProfile';
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -78,7 +78,7 @@ function ProfileTab({ location: { pathname } }) {
         </Tabs>
       </AppBar>
 
-      <ViewProfile/>
+      {/* <ViewProfile/> */}
     </div>
   );
 }
