@@ -11,7 +11,7 @@ function AuthProvider({ children }) {
     setLoading(true)
     Auth.getRole().then((role) => {
       if(role === null && Auth.isLoggedIn())
-        Auth.loggOut();
+        Auth.logOut();
       setRole(role)
     }).finally(() => setLoading(false));
   };
