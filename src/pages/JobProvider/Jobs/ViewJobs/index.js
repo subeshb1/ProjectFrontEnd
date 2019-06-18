@@ -25,10 +25,10 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 const splitAndCapitalize = str =>
-  str
+  str?str
     .split("_")
     .map(x => x[0].toUpperCase() + x.slice(1))
-    .join(" ");
+    .join(" "):"";
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }

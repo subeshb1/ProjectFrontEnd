@@ -228,8 +228,9 @@ function BasicInfoForm({ history }) {
           <KeyboardDatePicker
             value={state.established_date}
             onChange={handleDateChange}
-            label="established_date"
+            label="Established Date"
             className={inputField}
+            maxDate={new Date()}
             inputVariant="outlined"
             format="yyyy/MM/dd"
             required

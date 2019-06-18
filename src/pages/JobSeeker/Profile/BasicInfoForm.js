@@ -233,6 +233,7 @@ function BasicInfoForm({ history }) {
             className={inputField}
             inputVariant="outlined"
             format="yyyy/MM/dd"
+            maxDate={new Date()}
             required
           />
         </MuiPickersUtilsProvider>

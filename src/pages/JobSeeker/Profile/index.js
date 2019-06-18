@@ -1,5 +1,5 @@
 import React from "react";
-import ViewProfile from 'components/ViewProfile/JobSeekerProfile';
+import ViewProfile from 'components/ViewProfile';
 import BasicInfoForm from "./BasicInfoForm";
 import EducationInfoForm from "./EducationInfoForm";
 import WorkExperienceForm from "./WorkExperienceForm";
@@ -32,12 +32,6 @@ export default function JobSeeker() {
         component={WorkExperienceForm}
         path="/jobseeker/profile/work_experience"
       />
-
-{/* Add Profile View Here */}
-      {/* <Route
-        component={ProfileView}
-        path="/jobseeker/profile/work_experience"
-      /> */}
     </div>
   );
 }

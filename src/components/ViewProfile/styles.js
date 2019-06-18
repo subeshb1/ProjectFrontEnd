@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
         margin: '10px 0'
     },
     informationContainer: {
-        padding: 5
+        padding: 5,
     },
     record: {
         display: 'flex',
@@ -53,7 +53,8 @@ const useStyles = makeStyles(theme => ({
     },
     blockGroup: {
         display: 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        justifyContent:'space-between'
     },
     eachBlock: {
         margin: '25px 45px',
