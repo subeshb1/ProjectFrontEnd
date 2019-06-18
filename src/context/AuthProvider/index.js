@@ -13,6 +13,8 @@ function AuthProvider({ children }) {
       if(role === null && Auth.isLoggedIn())
         Auth.logOut();
       setRole(role)
+    }).catch((error) => {
+      error.message.includes('401') && Auth.logOut();
     }).finally(() => setLoading(false));
   };
   useEffect(() => {
