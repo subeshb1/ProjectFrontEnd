@@ -3,8 +3,10 @@ import workImage from "assets/images/work.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 //components
 import { CategoryContainer } from "components";
+
 import { AuthContext } from "context/AuthProvider";
 import ViewJob from "components/ViewJob";
+
 
 const useStyles = makeStyles({
   imgContainer: {
@@ -20,25 +22,26 @@ const useStyles = makeStyles({
 
 export default function Home({ history }) {
   const { imgContainer, image } = useStyles();
-  const { role } = useContext(AuthContext);
-  useEffect(() => {
-    switch (role) {
-      case "job_seeker":
-        history.push("/jobseeker");
-        break;
-      case "job_provider":
-        history.push("/jobprovider");
-        break;
-      default:
-        break;
-    }
-  }, [role]);
+  // const { role } = useContext(AuthContext);
+  // useEffect(() => {
+  //   switch (role) {
+  //     case "job_seeker":
+  //       history.push("/jobseeker");
+  //       break;
+  //     case "job_provider":
+  //       history.push("/jobprovider");
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [role]);
   return (
     <div>
       <ViewJob/>
       <div className={imgContainer}>
         <img src={workImage} alt="Work" className={image} />
       </div>
+      
       <CategoryContainer />
     </div>
   );

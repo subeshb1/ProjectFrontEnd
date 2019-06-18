@@ -21,7 +21,7 @@ function App() {
         return (
           <>
             <NavBar />
-
+            <div style={{minHeight:'80vh'}}>
             <TransitionGroup>
               <CSSTransition
                 key={location.pathname}
@@ -39,7 +39,7 @@ function App() {
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
-
+          </div>
             <Footer />
           </>
         );

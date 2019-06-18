@@ -121,9 +121,9 @@ function SignUp({ history }) {
       .catch(error => {
         console.log({...error })
         let message = error.message.includes(422)
-          ? "Registration Failed"
+          ? "Looks like there are some issues in the form!"
           : "Unable to connect to the Server";
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 2500 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 4000 });
       })
       .finally(() => setLoading(false));
   }

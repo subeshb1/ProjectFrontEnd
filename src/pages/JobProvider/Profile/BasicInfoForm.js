@@ -57,14 +57,13 @@ function BasicInfoForm({ history }) {
       facebook: ""
     },
     description: "", //string
-    gender: "",
-    avatar: null,
+    organization_type: "",
     address: {
       //object
       permanent: ""
     },
     categories: [],
-    birth_date: new Date()
+    established_date: new Date()
   });
 
   useEffect(() => {
@@ -82,8 +81,8 @@ function BasicInfoForm({ history }) {
           );
         } catch {}
         let state = _.omit(res.data, [
-          "established_date",
-          "organization_type",
+          "birth_date",
+          "gender",
           "avatar"
         ]);
         state.description = state.description || "";
@@ -127,7 +126,7 @@ function BasicInfoForm({ history }) {
 
   //date
   const handleDateChange = date => {
-    setState({ ...state, birth_date: date });
+    setState({ ...state, established_date: date });
   };
 
   //phone_numbers
@@ -204,7 +203,7 @@ function BasicInfoForm({ history }) {
         <h1> BASIC INFORMATION </h1>
         <TextField
           id="name"
-          label="Name"
+          label="Company Name"
           className={inputField}
           value={state.name}
           onChange={handleChange("name")}
@@ -227,9 +226,9 @@ function BasicInfoForm({ history }) {
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
-            value={state.birth_date}
+            value={state.established_date}
             onChange={handleDateChange}
-            label="Date of Birth"
+            label="established_date"
             className={inputField}
             inputVariant="outlined"
             format="yyyy/MM/dd"
@@ -240,7 +239,7 @@ function BasicInfoForm({ history }) {
         <div>
           <TextField
             id="phone_numbers_personal"
-            label="Personal Number"
+            label="Contact Number"
             className={inputField}
             value={state.phone_numbers.personal || ""}
             onChange={handlePhoneNumberChange}
@@ -286,44 +285,44 @@ function BasicInfoForm({ history }) {
 
         <div className={inputField}>
           <FormControl component="fieldset" required>
-            <FormLabel component="legend">Gender</FormLabel>
+            <FormLabel component="legend">Organization Type</FormLabel>
             <RadioGroup
-              aria-label="Gender"
-              name="gender"
+              aria-label="Organization Type"
+              name="organization_type"
               required
-              value={state.gender}
-              onChange={handleChange("gender")}
+              value={state.organization_type}
+              onChange={handleChange("organization_type")}
             >
               <FormControlLabel
-                value="female"
+                value="small"
                 control={<Radio color="primary" />}
-                label="Female"
+                label="Small"
                 required
               />
               <FormControlLabel
-                value="male"
+                value="medium"
                 control={<Radio color="primary" />}
-                label="Male"
+                label="Medium"
                 required
               />
               <FormControlLabel
-                value="other"
+                value="large"
                 required
                 control={<Radio color="primary" />}
-                label="Other"
+                label="Large"
               />
             </RadioGroup>
           </FormControl>
         </div>
         <div className={inputField} style={{ zIndex: "100" }}>
-          <p style={{ margin: "15px 0" }}>Job Preferences</p>
+          <p style={{ margin: "15px 0" }}>Company category</p>
           <CategorySelect
             categories={state.categories}
             handleChange={handleCustomChange}
           />
         </div>
         <div className={inputField}>
-          <p style={{ margin: "15px 0" }}>Describe yourself</p>
+          <p style={{ margin: "15px 0" }}>About the company</p>
           <Editor
             editorState={editorState.description}
             wrapperClassName="demo-wrapper"

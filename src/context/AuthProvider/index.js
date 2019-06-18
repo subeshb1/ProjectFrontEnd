@@ -9,7 +9,13 @@ function AuthProvider({ children }) {
   const {setLoading} = useContext(LoadContext);
   const handleOnChange = () => {
     setLoading(true)
-    Auth.getRole().then(setRole).then(() => setLoading(false));
+    Auth.getRole().then((role) => {
+      if(role === null && Auth.isLoggedIn())
+        Auth.logOut();
+      setRole(role)
+    }).catch((error) => {
+      error.message.includes('401') && Auth.logOut();
+    }).finally(() => setLoading(false));
   };
   useEffect(() => {
     handleOnChange();

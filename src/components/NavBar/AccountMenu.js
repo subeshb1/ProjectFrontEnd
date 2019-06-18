@@ -6,9 +6,9 @@ import { IconButton } from "@material-ui/core";
 import { AuthContext } from "context/AuthProvider";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
-export default function AccountMenu() {
+function AccountMenu({history}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { role } = useContext(AuthContext);
@@ -22,8 +22,8 @@ export default function AccountMenu() {
   }
 
   function logOut() {
+    history.push('/login');
     Auth.logOut();
-    window.location.href = "/";
   }
   return (
     <div>
@@ -50,3 +50,5 @@ export default function AccountMenu() {
     </div>
   );
 }
+
+export default withRouter(AccountMenu);
