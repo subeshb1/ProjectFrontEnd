@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
-import JobSpecification from "./JobSpecification";
-import JobInfo from "./JobInfo";
+import JobSpecification from "../CreateJob/JobSpecification";
+import JobInfo from "../CreateJob/JobInfo";
 import axios from "axios";
 import { ContainerLoad } from "components/Loading";
 
 import { useSnackbar } from "notistack";
 import { LoadContext } from "context";
 
-function CreateJob({ history }) {
+function UpdateJobSpecification({ history }) {
   const [page, setPage] = useState(0);
   const [jobInfo, setJobInfo] = useState(null);
   const [jobSpecification, setJobSpecification] = useState(null);
@@ -42,13 +42,10 @@ function CreateJob({ history }) {
 
   if (loading) return <ContainerLoad />;
 
-  return page ? (
-    <JobSpecification
+  return     <JobSpecification
       {...{ setJobSpecification, setPage, jobSpecification, saveJob }}
     />
-  ) : (
-    <JobInfo {...{ setJobInfo, setPage, jobInfo }} />
-  );
+  
 }
 
-export default CreateJob;
+export default UpdateJobSpecification;
