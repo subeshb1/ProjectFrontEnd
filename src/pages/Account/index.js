@@ -25,20 +25,18 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     minHeight: "80vh",
     display: "flex",
-    flexDirection: 'column',
-    alignItems: 'center'
-
+    flexDirection: "column",
+    alignItems: "center"
   },
   head: {
     fontWeight: "bold",
     alignContent: "center"
   },
   avatar: {
-    width: '250px',
-    height: '250px',
+    width: "250px",
+    height: "250px",
     fontSize: "3rem"
-
-  },
+  }
 }));
 
 export default function Account() {
@@ -66,7 +64,9 @@ export default function Account() {
   if (fetching) return <ContainerLoad />;
   return (
     <div className={classes.root}>
-      <AvatarViewer {...{avatar:state.avatar,name:state.name,fetchAccountDetails}}/>
+      <AvatarViewer
+        {...{ avatar: state.avatar, name: state.name, fetchAccountDetails }}
+      />
       <Paper className={classes.paper}>
         <Table className={classes.table}>
           <TableBody>
@@ -95,52 +95,50 @@ export default function Account() {
   );
 }
 
-const AvatarViewer = ({ avatar,fetchAccountDetails,name }) => {
+const AvatarViewer = ({ avatar, fetchAccountDetails, name }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const uploadFile = (evt) => {
+  const uploadFile = evt => {
     let files = evt.target.files || evt.dataTransfer.files;
     if (files.length) {
       let data = new FormData();
       data.append("avatar", files[0]);
       axios
-      .put("api/v1/profile/basic_info", data,{
-        headers: { 'content-type': 'multipart/form-data' }
-      })
-      .then(response => {
-        if (response.status === 200) {
-          enqueueSnackbar("Avatar Changed!", {
-            variant: "success",
-            autoHideDuration: 2500
+        .put("api/v1/profile/basic_info", data, {
+          headers: { "content-type": "multipart/form-data" }
+        })
+        .then(response => {
+          if (response.status === 200) {
+            enqueueSnackbar("Avatar Changed!", {
+              variant: "success",
+              autoHideDuration: 2500
+            });
+            fetchAccountDetails();
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          let message = error.message.includes(422)
+            ? "Looks like there are some issues in the form!"
+            : "Unable to connect to the server";
+          enqueueSnackbar(message, {
+            variant: "error",
+            autoHideDuration: 4000
           });
-          fetchAccountDetails()
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        let message = error.message.includes(422)
-          ? "Submission failed"
-          : "Unable to connect to the server";
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 2500 });
-      })
+        });
     }
-
-    
-  }
-  
+  };
 
   return (
     <>
-    <Avatar
-      alt="Avatar"
-      src={avatar}
-      className={classes.avatar}
-    >{name? name[0] : "U"}</Avatar>
-    <div className="upload-btn-wrapper">
-    <Button variant="contained" color="primary">
-      Change Avatar
-    </Button>
-      <input type="file"  onChange={uploadFile}/>
+      <Avatar alt="Avatar" src={avatar} className={classes.avatar}>
+        {name ? name[0] : "U"}
+      </Avatar>
+      <div className="upload-btn-wrapper">
+        <Button variant="contained" color="primary">
+          Change Avatar
+        </Button>
+        <input type="file" onChange={uploadFile} />
       </div>
     </>
   );

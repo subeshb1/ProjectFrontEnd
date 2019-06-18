@@ -1,16 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextField,
-  RadioGroup,
-  Radio,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
   Button
 } from "@material-ui/core";
-import axios from "axios";
 import { useSnackbar } from "notistack";
-import { LoadContext } from "context";
 
 import _ from "lodash";
 import { withRouter } from "react-router-dom";
@@ -23,10 +16,7 @@ import {
 //draft (for description)
 import {
   EditorState,
-  convertToRaw,
-  ContentState,
-  convertFromHTML
-} from "draft-js";
+  convertToRaw} from "draft-js";
 
 import {
   CategorySelect,
@@ -40,25 +30,25 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 //styles
 import { useStyles } from "./styles.js";
 
-import { ContainerLoad } from "components/Loading";
 
-function JobInfo({ setPage, setJobInfo }) {
+function JobInfo({ setPage, setJobInfo, jobInfo }) {
   const { root, form, inputField, button } = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   //jobseeker information
-  const [state, setState] = useState({
-    job_title: "",
-    open_seats: 1,
-    level: "entry_level",
-    min_salary: "",
-    max_salary: "",
-    description: "", //string
-    application_deadline: tomorrow,
-    job_type: "full_time",
-    categories: []
-  });
+  const [state, setState] = useState(
+    jobInfo || {
+      job_title: "",
+      open_seats: 1,
+      level: "entry_level",
+      min_salary: "",
+      max_salary: "",
+      description: "", //string
+      application_deadline: tomorrow,
+      job_type: "full_time",
+      categories: []
+    }
+  );
 
   //description (object)
   const [editorState, setEditorState] = useState({
@@ -95,8 +85,8 @@ function JobInfo({ setPage, setJobInfo }) {
     setState(state => ({ ...state, [name]: value }));
 
   const handleSubmit = evt => {
-    console.log(state);
     evt.preventDefault();
+    setJobInfo(state);
     setPage(1);
   };
 
@@ -116,6 +106,7 @@ function JobInfo({ setPage, setJobInfo }) {
           onChange={handleChange("job_title")}
           variant="outlined"
           margin="normal"
+          inputProps={{ minLength: "2" }}
           required
         />
 
@@ -138,7 +129,11 @@ function JobInfo({ setPage, setJobInfo }) {
             label="Open Seats"
             className={inputField}
             value={state.open_seats}
-            onChange={handleChange("open_seats")}
+            onChange={({ target: { value } }) =>
+              handleChange("open_seats")({
+                target: { value: parseInt(value) }
+              })
+            }
             variant="outlined"
             margin="normal"
             type="number"
@@ -150,7 +145,11 @@ function JobInfo({ setPage, setJobInfo }) {
             label="Min Salary"
             className={inputField}
             value={state.min_salary}
-            onChange={handleChange("min_salary")}
+            onChange={({ target: { value } }) =>
+              handleChange("min_salary")({
+                target: { value: parseFloat(value) }
+              })
+            }
             variant="outlined"
             margin="normal"
             required
@@ -162,7 +161,11 @@ function JobInfo({ setPage, setJobInfo }) {
             label="Max Salary"
             className={inputField}
             value={state.max_salary}
-            onChange={handleChange("max_salary")}
+            onChange={({ target: { value } }) =>
+              handleChange("max_salary")({
+                target: { value: parseFloat(value) }
+              })
+            }
             variant="outlined"
             margin="normal"
             required

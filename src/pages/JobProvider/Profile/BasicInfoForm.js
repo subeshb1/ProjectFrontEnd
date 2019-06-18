@@ -95,7 +95,7 @@ function BasicInfoForm({ history }) {
       .catch(() =>
         enqueueSnackbar("Error Fetching data", {
           variant: "error",
-          autoHideDuration: 2500
+          autoHideDuration: 4000
         })
       )
       .finally(() => setFetching(false));
@@ -185,9 +185,9 @@ function BasicInfoForm({ history }) {
       .catch(error => {
         console.log({ ...error });
         let message = error.message.includes(422)
-          ? "Submission failed"
+          ? "Looks like there are some issues in the form!"
           : "Unable to connect to the server";
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 2500 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 4000 });
       })
       .finally(() => setLoading(false));
   };

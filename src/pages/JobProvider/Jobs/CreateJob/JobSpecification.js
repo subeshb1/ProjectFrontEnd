@@ -1,81 +1,60 @@
-import React, { useState, useContext, useEffect } from "react";
-import {
-  TextField,
-  RadioGroup,
-  Radio,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  Button
-} from "@material-ui/core";
-import axios from "axios";
+import React, { useState } from "react";
+import { TextField, FormControlLabel, Button } from "@material-ui/core";
 import { useSnackbar } from "notistack";
-import { LoadContext } from "context";
 
 import _ from "lodash";
 import { withRouter } from "react-router-dom";
-//datepicker
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-//draft (for description)
-import {
-  EditorState,
-  convertToRaw,
-  ContentState,
-  convertFromHTML
-} from "draft-js";
 import Switch from "@material-ui/core/Switch";
 import {
-  CategorySelect,
-  JobLevelSelect,
-  JobTypeSelect,
+  ProgramSelect,
   GenderSelect,
   DegreeSelect
 } from "components/CustomSelect/index.js";
 
-import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 //styles
 import { useStyles } from "./styles.js";
 
-import { ContainerLoad } from "components/Loading";
-
-function JobInfo({ setPage, setJobInfo }) {
-  const { root, form, inputField, button } = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
+function JobInfo({ setPage, setJobSpecification, saveJob, jobSpecification }) {
+  const { root, form, button } = useStyles();
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   //jobseeker information
-  const [state, setState] = useState({
-    degree: {
-      value: [],
-      require: false
-    },
-    experience: {
-      value: [],
-      require: false
-    },
-    gender: {
-      value: [],
-      require: false
-    },
-    program: {
-      value: [],
-      require: false
-    },
-    age: {
-      value: {
-        min: 0,
-        max: 100
+  const [state, setState] = useState(
+    jobSpecification || {
+      degree: {
+        value: [],
+        require: false
       },
-      require: false
+      experience: {
+        value: [],
+        require: false
+      },
+      gender: {
+        value: [],
+        require: false
+      },
+      program: {
+        value: [],
+        require: false
+      },
+      age: {
+        min: 0,
+        max: 100,
+        require: false
+      }
     }
-  });
+  );
 
+  const handleAgeChange = name => value => {
+    setState(state => ({
+      ...state,
+      age: {
+        ...state.age,
+        [name]: parseInt(value)
+      }
+    }));
+  };
   const handleCustomChange = name => value =>
     setState(state => ({
       ...state,
@@ -84,7 +63,7 @@ function JobInfo({ setPage, setJobInfo }) {
         value
       }
     }));
-  const handelRequiredChange = name => require =>
+  const handelRequiredChange = name => () =>
     setState(state => ({
       ...state,
       [name]: {
@@ -94,9 +73,14 @@ function JobInfo({ setPage, setJobInfo }) {
     }));
 
   const handleSubmit = evt => {
-    console.log(state);
     evt.preventDefault();
-    setPage(1);
+    setJobSpecification(state);
+    saveJob(state);
+  };
+  const handleBack = evt => {
+    setJobSpecification(state);
+    evt.preventDefault();
+    setPage(0);
   };
 
   return (
@@ -127,10 +111,10 @@ function JobInfo({ setPage, setJobInfo }) {
 
         <div style={{ zIndex: 1000 }}>
           <p>Program</p>
-          <DegreeSelect
+          <ProgramSelect
             handleChange={handleCustomChange}
             isMulti
-            degree={state.program.value}
+            program={state.program.value}
           />
           <FormControlLabel
             control={
@@ -149,7 +133,7 @@ function JobInfo({ setPage, setJobInfo }) {
             label="Experience"
             value={state.experience.value}
             onChange={({ target: { value } }) =>
-              handleCustomChange("experience")(value)
+              handleCustomChange("experience")([value])
             }
             variant="outlined"
             margin="normal"
@@ -167,8 +151,42 @@ function JobInfo({ setPage, setJobInfo }) {
             label="Require Experience?"
           />
         </div>
-
-        <div >
+        <div>
+          <p>Age</p>
+          <TextField
+            id="age-min"
+            label="Min Age"
+            value={state.age.min}
+            onChange={({ target: { value } }) => handleAgeChange("min")(value)}
+            variant="outlined"
+            margin="normal"
+            style={{ width: "50%" }}
+            type="number"
+            inputProps={{ min: "0", max: "100" }}
+          />
+          <TextField
+            id="age-max"
+            label="Max Age"
+            value={state.age.max}
+            onChange={({ target: { value } }) => handleAgeChange("max")(value)}
+            variant="outlined"
+            margin="normal"
+            style={{ width: "50%" }}
+            type="number"
+            inputProps={{ min: "0", max: "100" }}
+          />
+          <FormControlLabel
+            style={{ width: "100%" }}
+            control={
+              <Switch
+                checked={state.age.require}
+                onChange={handelRequiredChange("age")}
+              />
+            }
+            label="Require Age Check?"
+          />
+        </div>
+        <div>
           <p>Gender</p>
           <GenderSelect
             handleChange={handleCustomChange}
@@ -190,11 +208,11 @@ function JobInfo({ setPage, setJobInfo }) {
           <Button
             variant="contained"
             color="primary"
-            type="submit"
             className={button}
             style={{
               margin: "0"
             }}
+            onClick={handleBack}
           >
             Back
           </Button>

@@ -21,9 +21,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
 import axios from "axios";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-
 
 const splitAndCapitalize = str =>
   str
@@ -146,8 +145,7 @@ EnhancedTableHead.propTypes = {
 const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    
+    paddingRight: theme.spacing(1)
   },
   highlight:
     theme.palette.type === "light"
@@ -218,14 +216,16 @@ EnhancedTableToolbar.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing(3)
+    maxWidth: "1200px",
+    marginTop: theme.spacing(3),
+    margin: "0 auto",
+    display: 'flex',
+    flexDirection: 'column'
   },
   paper: {
     width: "100%",
-    marginBottom: theme.spacing(2),
     position: "relative",
-    maxWidth: '1200px',
-    margin: '0 auto'
+    marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750
@@ -327,17 +327,12 @@ export default function EnhancedTable() {
 
   return (
     <div className={classes.root}>
+      <Link style={{ color: "white",alignSelf:'flex-end' }} to="/jobprovider/jobs/create">
+        <Button variant="contained" size="large" color="primary">
+          Post Job
+        </Button>
+      </Link>
       <Paper className={classes.paper}>
-      <Link style={{color:'white'}} to="/jobprovider/jobs/create">
-      <Button
-        variant="contained"
-        size="large"
-        color="primary"
-        
-      >
-        Post Job
-      </Button>
-        </Link>
         {fetching && <CoverLoad />}
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
@@ -384,7 +379,7 @@ export default function EnhancedTable() {
                     </TableCell>
                     <TableCell>{splitAndCapitalize(row.level)}</TableCell>
                     <TableCell>{splitAndCapitalize(row.job_type)}</TableCell>
-                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{splitAndCapitalize(row.status)}</TableCell>
                   </TableRow>
                 );
               })}
@@ -400,7 +395,7 @@ export default function EnhancedTable() {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={meta.total}
-          rowsPerPage={meta.per_page}
+          rowsPerPage={per_page}
           page={meta.page - 1}
           backIconButtonProps={{
             "aria-label": "Previous Page"
