@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 //components
 import { CategoryContainer } from "components";
 import { AuthContext } from "context/AuthProvider";
+import ViewJob from "components/ViewJob";
 
 const useStyles = makeStyles({
   imgContainer: {
@@ -34,6 +35,7 @@ export default function Home({ history }) {
   }, [role]);
   return (
     <div>
+      <ViewJob/>
       <div className={imgContainer}>
         <img src={workImage} alt="Work" className={image} />
       </div>
