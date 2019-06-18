@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TextField, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 //date
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useStyles } from "./styles.js";
@@ -10,7 +10,8 @@ import { LoadContext } from "context";
 import {
   CategorySelect,
   DegreeSelect,
-  StartEndDateSelect
+  StartEndDateSelect,
+  ProgramSelect
 } from "components/CustomSelect/index.js";
 import { ContainerLoad } from "components/Loading";
 
@@ -38,7 +39,7 @@ export default function EducationInfoForm() {
       .catch(() =>
         enqueueSnackbar("Error Fetching data", {
           variant: "error",
-          autoHideDuration: 2500
+          autoHideDuration: 4000
         })
       )
       .finally(() => setFetching(false));
@@ -99,9 +100,9 @@ export default function EducationInfoForm() {
       .catch(error => {
         console.log({ ...error });
         let message = error.message.includes(422)
-          ? "Submission failed"
+          ? "Looks like there are some issues in the form!"
           : "Unable to connect to the server";
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 2500 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 4000 });
       })
       .finally(() => setLoading(false));
   };
@@ -113,7 +114,7 @@ export default function EducationInfoForm() {
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
-      <h1 > EDUCATION </h1>
+      <h1> EDUCATION </h1>
       {state.map((x, i) => (
         <EducationComponent
           key={i}
@@ -157,7 +158,6 @@ export default function EducationInfoForm() {
 const EducationComponent = ({
   program,
   degree,
-  handleInputChange,
   start_date,
   end_date,
   categories,
@@ -169,14 +169,10 @@ const EducationComponent = ({
   return (
     <div className={root}>
       <div className={form}>
-        <TextField
-          label="Program"
+        <ProgramSelect
           className={inputField}
-          value={program}
-          onChange={handleInputChange("program")}
-          margin="normal"
-          required
-          variant="outlined"
+          program={program}
+          handleChange={handleCustomChange}
         />
         <DegreeSelect
           className={inputField}

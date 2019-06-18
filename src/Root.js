@@ -9,7 +9,7 @@ import { LoadBar, AuthProvider } from "context";
 const theme = createMuiTheme({
   palette: {
     secondary: {
-      main: "#fff"
+      main: grey[900]
     },
     primary: {
       main: grey[900]
