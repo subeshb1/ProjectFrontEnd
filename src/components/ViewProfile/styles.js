@@ -62,6 +62,15 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down(600)]:{
             margin:'25px 20px'
         }
+    },
+
+    button:{
+        display:'block',
+        margin:'0 auto',
+        background:'#004865e6',
+        '&:hover':{
+            background:'#004865'
+        }
     }
 }))
 export default useStyles;

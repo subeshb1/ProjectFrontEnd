@@ -85,36 +85,20 @@ function ViewProfile() {
                         <Divider />
                         <div className={blockGroup}>
                             {
-                                jobVacancies.map(vacancy =>
+                                jobVacancies.map((vacancy, i) =>
 
-                                    <div className={eachBlock}>
+                                    <div className={eachBlock} key={vacancy.job_title + i}>
                                         <div className={record}>
-                                            <div className={title}> Job Title </div>
-                                            <div> {vacancy.job_title} </div>
-                                        </div>
-                                        <div className={record}>
-                                            <div className={title}> Seats available </div>
-                                            <div>{vacancy.open_seats}</div>
-                                        </div>
-                                        <div className={record}>
-                                            <div className={title}> Level </div>
-                                            <div>{vacancy.level} </div>
-                                        </div>
-                                        <div className={record}>
-                                            <div className={title}> Salary </div>
-                                            <div>{vacancy.min_salary} - {vacancy.max_salary} </div>
-                                        </div>
-                                        <div className={record}>
-                                            <div className={title}> Job Type </div>
-                                            <div>{vacancy.job_type} </div>
-                                        </div>
-
-                                        <div className={record}>
-                                            <div className={title}> Job Category </div>
+                                            <div className={title}>
+                                                <img
+                                                    src={require('assets/images/avatar/male.png')}
+                                                    alt="male.png"
+                                                />
+                                            </div>
                                             <div>
-                                                {vacancy.categories.map(category =>
-                                                    <div> {category} </div>
-                                                )}
+                                                <h3> {vacancy.job_title} </h3>
+                                                <div> {vacancy.level} </div>
+                                                <div> {vacancy.job_type} </div>
                                             </div>
                                         </div>
                                     </div>
