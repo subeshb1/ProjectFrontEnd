@@ -21,6 +21,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
 import axios from "axios";
+import {Link} from 'react-router-dom';
+import Button from "@material-ui/core/Button";
+
 
 const splitAndCapitalize = str =>
   str
@@ -143,7 +146,8 @@ EnhancedTableHead.propTypes = {
 const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1)
+    paddingRight: theme.spacing(1),
+    
   },
   highlight:
     theme.palette.type === "light"
@@ -219,7 +223,9 @@ const useStyles = makeStyles(theme => ({
   paper: {
     width: "100%",
     marginBottom: theme.spacing(2),
-    position: "relative"
+    position: "relative",
+    maxWidth: '1200px',
+    margin: '0 auto'
   },
   table: {
     minWidth: 750
@@ -322,6 +328,16 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+      <Link style={{color:'white'}} to="/jobprovider/jobs/create">
+      <Button
+        variant="contained"
+        size="large"
+        color="primary"
+        
+      >
+        Post Job
+      </Button>
+        </Link>
         {fetching && <CoverLoad />}
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>

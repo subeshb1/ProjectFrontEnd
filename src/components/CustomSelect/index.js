@@ -8,8 +8,12 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 const selectValue = (options, value) => _.find(options, { value });
+const selectMultiValue = (options, values) =>
+  _.filter(options, c =>
+    values.map(x => x.toLowerCase()).includes(c.value.toLowerCase())
+  );
 
-export function CategorySelect({ categories = [], handleChange, ...rest }) {
+export function CategorySelect({ categories, isMulti = true, ...rest }) {
   const categoriesOptions = [
     { value: "Agriculture", label: "Agriculture" },
     { value: "Ayurved", label: "Ayurved" },
@@ -26,27 +30,19 @@ export function CategorySelect({ categories = [], handleChange, ...rest }) {
     { value: "Pharmacy", label: "Pharmacy" },
     { value: "Science and Technology", label: "Science and Technology" }
   ];
-
-  const getValues = () =>
-    _.filter(categoriesOptions, c =>
-      categories.map(x => x.toLowerCase()).includes(c.value.toLowerCase())
-    );
   return (
-    <Select
-      style={{ zIndex: 100 }}
-      value={getValues()}
-      onChange={data =>
-        handleChange("categories")(data ? data.map(x => x.value) : [])
-      }
-      isMulti
+    <CustomSelect
       options={categoriesOptions}
-      placeholder="Select Category"
+      value={categories}
+      valueName="categories"
+      placeholder="Select Categories"
+      isMulti={isMulti}
       {...rest}
     />
   );
 }
 
-export function DegreeSelect({ degree, handleChange, ...rest }) {
+export function DegreeSelect({ degree, ...rest }) {
   const degreesOptions = [
     { value: "Master", label: "Master" },
     { value: "Bachelor", label: "Bachelor" },
@@ -56,12 +52,28 @@ export function DegreeSelect({ degree, handleChange, ...rest }) {
     { value: "Ph. D.", label: "Ph. D." }
   ];
   return (
-    <Select
-      style={{ zIndex: 100 }}
-      value={selectValue(degreesOptions, degree)}
-      onChange={({ value }) => handleChange("degree")(value)}
+    <CustomSelect
       options={degreesOptions}
-      placeholder="Select degree"
+      value={degree}
+      valueName="degree"
+      placeholder="Select Degree"
+      {...rest}
+    />
+  );
+}
+
+export function GenderSelect({ gender, ...rest }) {
+  const gendersOptions = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" }
+  ];
+  return (
+    <CustomSelect
+      options={gendersOptions}
+      value={gender}
+      valueName="gender"
+      placeholder="Select Gender"
       {...rest}
     />
   );
@@ -101,20 +113,68 @@ export function StartEndDateSelect({
   );
 }
 
-export function JobLevelSelect({ level, handleChange, ...rest }) {
-  const jobLevelOptions = [
+export function JobLevelSelect({ level, ...rest }) {
+  const levelsOptions = [
     { value: "entry_level", label: "Entry Level" },
     { value: "mid_level", label: "Mid Level" },
     { value: "senior_level", label: "Senior Level" },
     { value: "top_level", label: "Top Level" }
   ];
   return (
-    <Select
-      style={{ zIndex: 100 }}
-      value={selectValue(jobLevelOptions, level)}
-      onChange={({ value }) => handleChange("level")(value)}
-      options={jobLevelOptions}
+    <CustomSelect
+      options={levelsOptions}
+      value={level}
+      valueName="level"
       placeholder="Select Job Level"
+      {...rest}
+    />
+  );
+}
+
+export function JobTypeSelect({ job_type, ...rest }) {
+  const jobTypeOptions = [
+    { value: "full_time", label: "Full Time" },
+    { value: "contract", label: "Contract" },
+    { value: "part_time", label: "Part Time" },
+    { value: "internship", label: "Internship" }
+  ];
+  return (
+    <CustomSelect
+      options={jobTypeOptions}
+      value={job_type}
+      valueName="job_type"
+      placeholder="Select Job"
+      {...rest}
+    />
+  );
+}
+
+export default function CustomSelect({
+  options,
+  value,
+  handleChange,
+  isMulti = false,
+  valueName,
+  ...rest
+}) {
+  return (
+    <Select
+      style={{
+        menuPortal: base => {
+          const { zIndex, ...rest } = base; // remove zIndex from base by destructuring
+          return { ...rest, zIndex: 9999 };
+        }
+      }}
+      isMulti={isMulti}
+      value={
+        isMulti ? selectMultiValue(options, value) : selectValue(options, value)
+      }
+      onChange={
+        isMulti
+          ? data => handleChange(valueName)(data ? data.map(x => x.value) : [])
+          : ({ value }) => handleChange(valueName)(value)
+      }
+      options={options}
       {...rest}
     />
   );
