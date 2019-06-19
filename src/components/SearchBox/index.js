@@ -1,10 +1,10 @@
 import React from 'react';
-import { InputBase, Button } from '@material-ui/core';
+import { InputBase, Button, Paper, Divider } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
 import useStyles from 'components/styles.js';
 //component
-import JobPosted from 'components/JobPosted';
+
 const searchBoxStyles = makeStyles(theme => ({
     form: {
         margin: '50px auto'
@@ -60,76 +60,52 @@ const searchBoxStyles = makeStyles(theme => ({
 
 export default function SearchBox() {
     const { form, searchBox, searchType, inputRoot, inputInput } = searchBoxStyles();
-    const { title, titleLine, titleText } = useStyles();
+    const { root, title, titleLine, titleText, wrapper, paper, companyTitle, logo, list } = useStyles();
 
     //dummy fetched data
     const companies = [
         {
             name: "Company Company Company Name 1",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp1.png", imageLabel: "company logo 1", redirectLink: ""
         },
         {
             name: "Company Company Company Name 2",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp2.png", imageLabel: "company logo 2", redirectLink: ""
         },
         {
             name: "Company Company Company Name 3",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp3.png", imageLabel: "company logo 3", redirectLink: ""
         },
         {
             name: "Company Company Company Name 4",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp4.png", imageLabel: "company logo 4", redirectLink: ""
         },
         {
             name: "Company Company Company Name 5",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp1.png", imageLabel: "company logo 5", redirectLink: ""
         },
         {
             name: "Company Company Company Name 6",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp2.png", imageLabel: "company logo 6", redirectLink: ""
         },
         {
             name: "Company Company Company Name 7",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp1.png", imageLabel: "company logo 5", redirectLink: ""
         },
         {
             name: "Company Company Company Name 8",
-            jobs: [
-                { title: "Frontend Developer Developer", deadline: "25 aug" },
-                { title: "Backend Developer Developer", deadline: "25 aug" }
-            ],
+            job: { title: "Frontend Developer Developer", deadline: "25 aug" },
             imageName: "comp2.png", imageLabel: "company logo 6", redirectLink: ""
         }
     ]
-    
+
     const [search, setSearch] = React.useState({
         word: '',
         type: 'default'
@@ -172,9 +148,44 @@ export default function SearchBox() {
             </form>
 
             {/* Fetched Job Post */}
-            <section>
-                <JobPosted postType="SEARCH RESULT:" companies={companies} />
-            </section>
+            <div className={root}>
+                <div className={title}>
+                    <span className={titleLine}> </span>
+                    SHOWING <span className={titleText} >RESULTS:</span>
+                    <span className={titleLine}> </span>
+                </div>
+                <section className={wrapper}>
+
+                    {
+                        companies.map(company =>
+                            (
+                                <Paper className={paper} key={company.name}>
+                                    <h4 className={companyTitle} title={company.name}>
+                                        {company.name}
+                                    </h4>
+                                    <Divider />
+                                    <div style={{ display: 'flex' }}>
+                                        <img
+                                            src={require(`../../assets/images/CompanyLogos/${company.imageName}`)}
+                                            alt="Company 1" className={logo}
+                                        />
+                                        <ul className={list}>
+
+                                            <li title={company.job.title} >
+                                                {company.job.title}
+                                            </li>
+                                            <li>
+                                                deadline-{company.job.deadline}
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </Paper>
+                            )
+                        )
+                    }
+                </section>
+            </div>
         </React.Fragment>
     );
 }
