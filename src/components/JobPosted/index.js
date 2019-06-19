@@ -2,7 +2,8 @@ import React from 'react';
 import { Paper, Divider } from '@material-ui/core';
 import useStyles from '../styles.js';
 
-const companies = [
+//structure of data fetched
+/* const companies = [
     {
         name: "Company Company Company Name 1",
         jobs: [
@@ -67,9 +68,9 @@ const companies = [
         ],
         imageName: "comp2.png", imageLabel: "company logo 6", redirectLink: ""
     }
-]
+] */
 
-function JobPosted(props) {
+function JobPosted({ postType,  companies}) {
     const { root, title, titleLine, titleText, wrapper, paper, companyTitle, logo, list } = useStyles();
 
     return (
@@ -78,7 +79,7 @@ function JobPosted(props) {
 
             <div className={title}>
                 <span className={titleLine}> </span>
-                {props.name}  <span className={titleText} >JOBS</span>
+                {postType}  <span className={titleText} >JOBS</span>
                 <span className={titleLine}> </span>
             </div>
             <section className={wrapper}>
