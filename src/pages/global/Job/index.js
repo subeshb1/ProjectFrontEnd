@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import JobProviderProfile from "./JobProviderProfile";
-import JobSeekerProfile from "./JobSeekerProfile";
+import ViewJob from "components/ViewJob";
 import { ContainerLoad } from "components/Loading";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 
-export default function ViewProfile({ currentUser = true, uid }) {
+export default function Job({
+  match: {
+    params: { uid }
+  }
+}) {
   const [fetching, setFetching] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
-  const [profileData, setProfileData] = useState(null);
-
-  const fetchData = () => {
-    setFetching(true);
-    const path =
-      currentUser && !uid ? "api/v1/profile" : `api/v1/profile/${uid || "1"}`;
-    axios
-      .get(path)
+  const [job, setJob] = useState(null);
+  const fetchJob = () => {
+    return axios
+      .get("api/v1/jobs/" + uid)
       .then(res => {
-        setProfileData(res.data);
+        setJob(res.data);
       })
       .catch(() =>
         enqueueSnackbar("Error Fetching data", {
@@ -28,17 +27,12 @@ export default function ViewProfile({ currentUser = true, uid }) {
       .finally(() => setFetching(false));
   };
   useEffect(() => {
-    fetchData();
+    fetchJob();
   }, []);
-
   if (fetching) return <ContainerLoad />;
 
-  return profileData ? (
-    profileData.user.role === "job_seeker" ? (
-      <JobSeekerProfile profileData={profileData} />
-    ) : (
-      <JobProviderProfile profileData={profileData} />
-    )
+  return job ? (
+    <ViewJob job={job} />
   ) : (
     <div>
       <h1 style={{ textAlign: "center" }}>Error Fetching data</h1>

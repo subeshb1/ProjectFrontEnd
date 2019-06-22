@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0 0px 4px 0 rgba(0, 0, 0, 0.32)',
         [theme.breakpoints.down(600)]:{
             width:'95vw'
+        },
+        '& a:hover': {
+            textDecoration: 'underline'
         }
     },
     avatarContainer: {

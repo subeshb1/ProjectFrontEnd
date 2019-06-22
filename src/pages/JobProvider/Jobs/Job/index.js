@@ -37,8 +37,8 @@ export default function Job(props) {
     fetchJob();
   }, []);
   if (fetching || !data) return <ContainerLoad />;
-  if (data && data.length === 0) return <h1>No Job Found</h1>;
-  const { job_specification, ...job_info } = data[0];
+  if (!data) return <h1>No Job Found</h1>;
+  const { job_specification, ...job_info } = data;
   return (
     <div>
       <JobTab job_id={job_id} />
@@ -50,7 +50,7 @@ export default function Job(props) {
         if (pathname.includes("job_specification"))
           return <UpdateJobSpecification job_info={job_info} />;
 
-        return <ViewJob />;
+        return <ViewJob job={data}/>;
       })()}
     </div>
   );
