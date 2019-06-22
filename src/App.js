@@ -12,6 +12,7 @@ import JobSeeker from "pages/JobSeeker";
 import JobProvider from "pages/JobProvider";
 import "./css/index.css";
 import Account from "./pages/Account";
+import Profile from "./pages/global/Profile";
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
                   <Route path="/(jobseeker|jobprovider)/account"  component={Account} />
                   <Route path="/jobseeker" component={JobSeeker} />
                   <Route path="/jobprovider" component={JobProvider} />
+                  <Route path="/profile/:uid" component={Profile} />
+                  {/* <Route path="/job/:uid" component={Job} /> */}
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

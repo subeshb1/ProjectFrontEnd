@@ -123,8 +123,8 @@ function ViewProfile({
             <h2 style={{ textAlign: "center" }}> Working Experience </h2>
             <Divider />
             <div className={blockGroup}>
-              {work_experiences.map(company => (
-                <div className={eachBlock}>
+              {work_experiences.map((company,i) => (
+                <div className={eachBlock} key={i}>
                   <div className={record}>
                     <div className={title}>Job title </div>
                     <div> {company.job_title} </div>
@@ -160,8 +160,8 @@ function ViewProfile({
             <h2 style={{ textAlign: "center" }}>Educational Qualifications</h2>
             <Divider />
             <div className={blockGroup}>
-              {educations.map(education => (
-                <div class={eachBlock}>
+              {educations.map((education,i) => (
+                <div className={eachBlock} key={i}>
                   <div className={record}>
                     <div className={title}> Program </div>
                     <div> {education.program} </div>

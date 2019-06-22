@@ -12,7 +12,7 @@ export default function ViewProfile({ currentUser = true, uid }) {
 
   const fetchData = () => {
     setFetching(true);
-    const path = currentUser
+    const path = currentUser && !uid
       ? "api/v1/profile"
       : `api/v1/profile/${uid || "1"}`; 
     axios
@@ -41,6 +41,8 @@ export default function ViewProfile({ currentUser = true, uid }) {
       <JobProviderProfile profileData={profileData} />
     )
   ) : (
-    "Error"
+    <div>
+    "Error Fetching data"
+    </div>
   );
 }
