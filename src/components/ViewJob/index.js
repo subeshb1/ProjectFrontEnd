@@ -47,6 +47,8 @@ function ViewJob({ job, onApply = () => {} }) {
         <h2 style={{ textAlign: "center", margin: "10px 0" }}>
           Job Description
         </h2>
+        <Divider />
+
         <section className={container} style={{ width: "100%" }}>
           <section className={informationContainer} >
             <h2> Basic Information </h2>
@@ -111,23 +113,23 @@ function ViewJob({ job, onApply = () => {} }) {
             <div className={blockGroup}>
               <div className={eachBlock}>
                 <div className={record}>
-                  <div className={title}>Education Degree</div>
+                  <div className={title}>Education Degree {job.job_specifications.degree.require && "*"}</div>
                   <div> {job.job_specifications.degree.value.map(splitAndCapitalize).join(', ')} </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Educaiton Program </div>
+                  <div className={title}>Educaiton Program  {job.job_specifications.program.require && "*"}</div>
                   <div> {job.job_specifications.program.value.map(splitAndCapitalize).join(', ')}  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Experience Required </div>
-                  <div> { job.job_specifications.experience.value && job.job_specifications.experience.value.join(', ') + " years"}  </div>
+                  <div className={title}>Experience Required  {job.job_specifications.experience.require && "*"}</div>
+                  <div> { job.job_specifications.experience.value.length > 0 && job.job_specifications.experience.value.join(', ') + " years"}  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Gender </div>
+                  <div className={title}>Gender  {job.job_specifications.gender.require && "*"}</div>
                   <div> {job.job_specifications.gender.value.map(splitAndCapitalize).join(', ')}  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Age </div>
+                  <div className={title}>Age  {job.job_specifications.age.require && "*"}</div>
                   <div> {job.job_specifications.age.min} - {job.job_specifications.age.max} years</div>
                 </div>
               </div>
