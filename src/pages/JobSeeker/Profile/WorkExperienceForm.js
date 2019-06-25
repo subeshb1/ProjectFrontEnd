@@ -72,11 +72,14 @@ export default function WorkExperienceForm() {
     setState(state => [
       ...state,
       {
-        program: "",
-        degree: "",
+        job_title: "",
+        organization_name: "",
         categories: [],
         start_date: new Date(),
-        end_date: new Date()
+        end_date: new Date(),
+        salary: "",
+        level: "",
+        description: ""
       }
     ]);
   const deleteWorkExperience = i => () => {
@@ -115,7 +118,7 @@ export default function WorkExperienceForm() {
       className={container}
       onSubmit={evt => !loading && handleSubmit(evt)}
     >
-      <h1 > WORK EXPERIENCE </h1>
+      <h1> WORK EXPERIENCE </h1>
       {state.map((x, i) => (
         <WorkExperienceComponent
           key={i}

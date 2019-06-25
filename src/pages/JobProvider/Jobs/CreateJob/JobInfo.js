@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button
-} from "@material-ui/core";
-import { useSnackbar } from "notistack";
+import { TextField, Button } from "@material-ui/core";
 
-import _ from "lodash";
 import { withRouter } from "react-router-dom";
 //datepicker
 import DateFnsUtils from "@date-io/date-fns";
@@ -14,9 +9,7 @@ import {
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 //draft (for description)
-import {
-  EditorState,
-  convertToRaw} from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 
 import {
   CategorySelect,
@@ -30,8 +23,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 //styles
 import { useStyles } from "./styles.js";
 
-
-function JobInfo({ setPage, setJobInfo, jobInfo }) {
+function JobInfo({ setPage = () => {}, setJobInfo, jobInfo, update = false }) {
   const { root, form, inputField, button } = useStyles();
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -220,7 +212,7 @@ function JobInfo({ setPage, setJobInfo, jobInfo }) {
             margin: "0 0 0 auto"
           }}
         >
-          Next
+          {update ? "Save" : "Next"}
         </Button>
       </form>
     </div>

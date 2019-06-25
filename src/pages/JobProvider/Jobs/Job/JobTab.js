@@ -6,7 +6,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
-//component
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -27,17 +26,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ProfileTab({ location: { pathname } }) {
+function ProfileTab({ location: { pathname }, job_id }) {
   const classes = useStyles();
   let value = 0;
   switch (pathname) {
-    case "/jobseeker/profile/work_experience":
+    case `/jobprovider/jobs/${job_id}/applicants`:
       value = 3;
       break;
-    case "/jobseeker/profile/education":
+    case `/jobprovider/jobs/${job_id}/job_specification`:
       value = 2;
       break;
-      case "/jobseeker/profile/basic_info":
+    case `/jobprovider/jobs/${job_id}/job_info`:
       value = 1;
       break;
     default:
@@ -55,28 +54,27 @@ function ProfileTab({ location: { pathname } }) {
           scrollButtons="auto"
         >
           <Tab
-            label="View Profile"
+            label="View Job"
             component={Link}
-            to="/jobseeker/profile"
+            to={`/jobprovider/jobs/${job_id}`}
           />
           <Tab
-            label="Basic Information"
+            label="Job Info"
             component={Link}
-            to="/jobseeker/profile/basic_info"
+            to={`/jobprovider/jobs/${job_id}/job_info`}
           />
           <Tab
-            label="Education"
+            label="Job Specification"
             component={Link}
-            to="/jobseeker/profile/education"
+            to={`/jobprovider/jobs/${job_id}/job_specification`}
           />
           <Tab
-            label="Work Experience"
+            label="Applicants"
             component={Link}
-            to="/jobseeker/profile/work_experience"
+            to={`/jobprovider/jobs/${job_id}/applicants`}
           />
         </Tabs>
       </AppBar>
-
     </div>
   );
 }

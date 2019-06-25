@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { TextField, FormControlLabel, Button } from "@material-ui/core";
-import { useSnackbar } from "notistack";
 
-import _ from "lodash";
 import { withRouter } from "react-router-dom";
 import Switch from "@material-ui/core/Switch";
 import {
@@ -15,7 +13,13 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 //styles
 import { useStyles } from "./styles.js";
 
-function JobInfo({ setPage, setJobSpecification, saveJob, jobSpecification }) {
+function JobInfo({
+  setPage = () => {},
+  setJobSpecification,
+  saveJob=()=>{},
+  jobSpecification,
+  update = false
+}) {
   const { root, form, button } = useStyles();
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -205,17 +209,19 @@ function JobInfo({ setPage, setJobSpecification, saveJob, jobSpecification }) {
         </div>
 
         <div style={{ display: "flex", marginTop: 10 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={button}
-            style={{
-              margin: "0"
-            }}
-            onClick={handleBack}
-          >
-            Back
-          </Button>
+          {!update && (
+            <Button
+              variant="contained"
+              color="primary"
+              className={button}
+              style={{
+                margin: "0"
+              }}
+              onClick={handleBack}
+            >
+              Back
+            </Button>
+          )}
           <Button
             variant="contained"
             color="primary"
@@ -225,7 +231,7 @@ function JobInfo({ setPage, setJobSpecification, saveJob, jobSpecification }) {
               margin: "0 0 0 auto"
             }}
           >
-            Save Job
+            {update ? "Save" : "Save Job"}
           </Button>
         </div>
       </form>

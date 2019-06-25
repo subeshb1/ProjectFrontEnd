@@ -1,4 +1,4 @@
-import ViewProfile from "components/ViewProfile/JobProviderProfile.js";
+import ViewProfile from "components/ViewProfile/";
 
 import React from "react";
 import BasicInfoForm from "./BasicInfoForm";
@@ -11,7 +11,7 @@ export default function JobProvider() {
 
       <Route component={BasicInfoForm} path="/jobprovider/profile/basic_info" />
 
-      <Route path="/jobprovider" component={ViewProfile} />
+      <Route path="/jobprovider/profile" exact component={ViewProfile} />
     </div>
   );
 }

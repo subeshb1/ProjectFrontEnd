@@ -7,7 +7,7 @@ import { ContainerLoad } from "components/Loading";
 import { useSnackbar } from "notistack";
 import { LoadContext } from "context";
 
-function CreateJob() {
+function CreateJob({ history }) {
   const [page, setPage] = useState(0);
   const [jobInfo, setJobInfo] = useState(null);
   const [jobSpecification, setJobSpecification] = useState(null);
@@ -21,11 +21,12 @@ function CreateJob() {
         ...jobInfo,
         job_specifications: jobSpecification
       })
-      .then(() => {
+      .then(res => {
         enqueueSnackbar("Job Successfully Created", {
           variant: "success",
           autoHideDuration: 2500
         });
+        history.push(`/jobprovider/jobs/${res.data.uid}`);
       })
       .catch(error => {
         let message = error.message.includes(422)

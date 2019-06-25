@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, {  } from "react";
 import workImage from "assets/images/work.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 //components
 import { CategoryContainer } from "components";
 
-import { AuthContext } from "context/AuthProvider";
-import ViewJob from "components/ViewJob";
 
 
 const useStyles = makeStyles({
@@ -20,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Home({ history }) {
+export default function Home() {
   const { imgContainer, image } = useStyles();
   // const { role } = useContext(AuthContext);
   // useEffect(() => {
@@ -37,7 +35,6 @@ export default function Home({ history }) {
   // }, [role]);
   return (
     <div>
-      <ViewJob/>
       <div className={imgContainer}>
         <img src={workImage} alt="Work" className={image} />
       </div>

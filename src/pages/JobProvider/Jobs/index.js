@@ -1,14 +1,23 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 
+import Job from "./Job";
 import ViewJobs from "./ViewJobs";
 import CreateJob from "./CreateJob";
-import { Route,Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 export default function JobProvider() {
   return (
     <div>
-      <Route path="/jobprovider/jobs/create" exact component={CreateJob} />
-      <Route path="/jobprovider/jobs" exact component={ViewJobs} />
+      <Switch>
+        <Route path="/jobprovider/jobs/create" exact component={CreateJob} />
+        <Route path="/jobprovider/jobs" exact component={ViewJobs} />
+        <Route path="/jobprovider/jobs/:job_id" component={Job} />
+        <Route
+          path=""
+          component={() => {
+            return <div>No Content</div>;
+          }}
+        />
+      </Switch>
     </div>
   );
 }

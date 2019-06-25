@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0 0px 4px 0 rgba(0, 0, 0, 0.32)',
         [theme.breakpoints.down(600)]:{
             width:'95vw'
+        },
+        '& a:hover': {
+            textDecoration: 'underline'
         }
     },
     avatarContainer: {
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         margin: '10px 0'
     },
     informationContainer: {
-        padding: 5
+        padding: 5,
     },
     record: {
         display: 'flex',
@@ -53,7 +56,8 @@ const useStyles = makeStyles(theme => ({
     },
     blockGroup: {
         display: 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        justifyContent:'space-between'
     },
     eachBlock: {
         margin: '25px 45px',
