@@ -20,7 +20,6 @@ function App() {
   return (
     <Route
       render={({ location }) => {
-        console.log(location)
         return (
           <>
             <NavBar />

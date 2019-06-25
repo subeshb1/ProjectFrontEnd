@@ -7,13 +7,9 @@ import { ContainerLoad } from "components/Loading";
 import { useSnackbar } from "notistack";
 import { LoadContext } from "context";
 
-function UpdateJobInfo({ job_info }) {
+function UpdateJobInfo({ job_info,saveJob }) {
   const [jobInfo, setJobInfo] = useState(job_info);
-  const { enqueueSnackbar } = useSnackbar();
-  const { loading, setLoading } = useContext(LoadContext);
-
-  if (loading) return <ContainerLoad />;
-  return jobInfo ? <JobInfo {...{ setJobInfo, jobInfo, update: true }} /> : "";
+  return jobInfo ? <JobInfo {...{ setJobInfo:saveJob, jobInfo, update: true }} /> : "";
 }
 
 export default UpdateJobInfo;

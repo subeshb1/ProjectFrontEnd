@@ -16,7 +16,7 @@ import { useStyles } from "./styles.js";
 function JobInfo({
   setPage = () => {},
   setJobSpecification,
-  saveJob,
+  saveJob=()=>{},
   jobSpecification,
   update = false
 }) {

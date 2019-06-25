@@ -13,7 +13,7 @@ const splitAndCapitalize = str =>
         .join(" ")
     : "";
 
-function ViewJob({ job }) {
+function ViewJob({ job, onApply = () => {} }) {
   const {
     wrapper,
     avatarContainer,
@@ -48,7 +48,7 @@ function ViewJob({ job }) {
           Job Description
         </h2>
         <section className={container} style={{ width: "100%" }}>
-          <section className={informationContainer}>
+          <section className={informationContainer} >
             <h2> Basic Information </h2>
             <Divider />
             <div className={blockGroup}>
@@ -105,28 +105,45 @@ function ViewJob({ job }) {
             </div>
           </section>
 
-          <section className={informationContainer} >
+          <section className={informationContainer}>
             <h2> Job Specification </h2>
             <Divider />
             <div className={blockGroup}>
               <div className={eachBlock}>
                 <div className={record}>
-                  <div className={title}> Education Level </div>
-                  <div> Bachelors </div>
+                  <div className={title}>Education Degree</div>
+                  <div> {job.job_specifications.degree.value.map(splitAndCapitalize).join(', ')} </div>
                 </div>
                 <div className={record}>
-                  <div className={title}> Experience Required </div>
-                  <div> 2 years </div>
+                  <div className={title}>Educaiton Program </div>
+                  <div> {job.job_specifications.program.value.map(splitAndCapitalize).join(', ')}  </div>
+                </div>
+                <div className={record}>
+                  <div className={title}>Experience Required </div>
+                  <div> { job.job_specifications.experience.value && job.job_specifications.experience.value.join(', ') + " years"}  </div>
+                </div>
+                <div className={record}>
+                  <div className={title}>Gender </div>
+                  <div> {job.job_specifications.gender.value.map(splitAndCapitalize).join(', ')}  </div>
+                </div>
+                <div className={record}>
+                  <div className={title}>Age </div>
+                  <div> {job.job_specifications.age.min} - {job.job_specifications.age.max} years</div>
                 </div>
               </div>
             </div>
           </section>
         </section>
         <div className={description}>
-          <h2>Other Information</h2>
+          <h2>Description</h2>
           <div dangerouslySetInnerHTML={{ __html: job.description }} />
         </div>
-        <Button variant="contained" color="primary" className={button}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={button}
+          onClick={onApply}
+        >
           Apply Now
         </Button>
       </div>
