@@ -44,7 +44,7 @@ export default function JobSeekerNav() {
               </IconButton>
             </div>
             <h2>
-              <NavLink to="/jobseeker" style={{ color: "white" }}>
+              <NavLink to="/" style={{ color: "white" }}>
                 Hamro Job
               </NavLink>
             </h2>

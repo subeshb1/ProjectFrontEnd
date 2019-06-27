@@ -9,8 +9,8 @@ export default class Auth {
 
   static setToken({ auth_token }) {
     localStorage.setItem("auth_token", auth_token);
-
     window.dispatchEvent(event);
+
   }
 
   static isLoggedIn() {
@@ -18,8 +18,8 @@ export default class Auth {
   }
 
   static logOut() {
-    localStorage.removeItem("auth_token");
     window.dispatchEvent(event);
+    localStorage.removeItem("auth_token");
   }
 
   static getRole() {

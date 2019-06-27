@@ -15,7 +15,6 @@ import Account from "./pages/Account";
 import Profile from "./pages/global/Profile";
 import Job from "./pages/global/Job";
 
-
 function App() {
   return (
     <Route
@@ -23,27 +22,30 @@ function App() {
         return (
           <>
             <NavBar />
-            <div style={{minHeight:'80vh'}}>
-            <TransitionGroup>
-              <CSSTransition
-                key={location.pathname}
-                classNames="fade"
-                timeout={500}
-              >
-                <Switch location={location}>
-                  <Route path="/login" component={Login} />
-                  <Route path="/" exact component={Home} />
-                  <Route path="/signup" component={SignUp} />
-                  <Route path="/how-it-works" component={HowItWorks} />
-                  <Route path="/(jobseeker|jobprovider)/account"  component={Account} />
-                  <Route path="/jobseeker" component={JobSeeker} />
-                  <Route path="/jobprovider" component={JobProvider} />
-                  <Route path="/profile/:uid" component={Profile} />
-                  <Route path="/job/:uid" component={Job} />
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
-          </div>
+            <div style={{ minHeight: "80vh" }}>
+              <TransitionGroup>
+                <CSSTransition
+                  key={location.pathname}
+                  classNames="fade"
+                  timeout={300}
+                >
+                  <Switch location={location}>
+                    <Route path="/" exact component={Home} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/signup" component={SignUp} />
+                    <Route path="/how-it-works" component={HowItWorks} />
+                    <Route
+                      path="/(jobseeker|jobprovider)/account"
+                      component={Account}
+                    />
+                    <Route path="/jobseeker" component={JobSeeker} />
+                    <Route path="/jobprovider" component={JobProvider} />
+                    <Route path="/profile/:uid" component={Profile} />
+                    <Route path="/job/:uid" component={Job} />
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            </div>
             <Footer />
           </>
         );
