@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import workImage from "assets/images/work.jpg";
 import companyAvatar from "assets/images/avatar/company.jpg";
 import { Link } from "react-router-dom";
-//component
+import axios from 'axios';
+
 const splitAndCapitalize = str =>
   str
     ? str
@@ -273,16 +274,7 @@ const JobCard = ({ job }) => {
   );
 };
 export default function JobSeekerHome() {
-  const {
-    root,
-    title,
-    titleLine,
-    titleText,
-    wrapper,
-    paper,
-    companyTitle,
-    logo
-  } = useStyles();
+  const { root, title, titleLine, titleText, wrapper } = useStyles();
 
   //dummy fetched data
   const companies = [
@@ -340,15 +332,10 @@ export default function JobSeekerHome() {
     }
   ];
 
-  const [search, setSearch] = React.useState({
-    word: "",
-    type: "default"
-  });
 
-  const handleChange = name => event => {
-    setSearch({ [name]: event.target.value });
-  };
-
+  const fetchJobs = () => {
+    return axios.get('/api/v1/job')
+  }
   return (
     <div>
       <SearchBar />
