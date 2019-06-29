@@ -4,7 +4,7 @@ import SearchBox from 'components/SearchBox';
 export default function index() {
   return (
     <div>
-      <SearchBox/>
+      <h1 style={{textAlign: 'center'}}> Welcome! Post a Job</h1>
     </div>
   )
 }

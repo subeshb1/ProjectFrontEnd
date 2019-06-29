@@ -244,7 +244,6 @@ function BasicInfoForm({ history }) {
             className={inputField}
             value={state.phone_numbers.personal || ""}
             onChange={handlePhoneNumberChange}
-            margin="normal"
             variant="outlined"
             name="personal"
             required

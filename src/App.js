@@ -14,6 +14,7 @@ import "./css/index.css";
 import Account from "./pages/Account";
 import Profile from "./pages/global/Profile";
 import Job from "./pages/global/Job";
+import Search from './pages/global/Search';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/how-it-works" component={HowItWorks} />
+                    <Route path="/search" component={Search} />
                     <Route
                       path="/(jobseeker|jobprovider)/account"
                       component={Account}
