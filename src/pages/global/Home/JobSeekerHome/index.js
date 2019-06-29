@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { InputBase, Button, Paper, Divider } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 import workImage from "assets/images/work.jpg";
 import companyAvatar from "assets/images/avatar/company.jpg";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
+import { CoverLoad } from "components/Loading";
 
 const splitAndCapitalize = str =>
   str
@@ -88,7 +89,9 @@ const searchBoxStyles = makeStyles(theme => ({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: 0
+    margin: 0,
+    position: "relative",
+    minHeight: 100
   },
   //title styling
   title: {
@@ -231,7 +234,10 @@ const JobCard = ({ job }) => {
   return (
     <Paper className={paper}>
       <Link to={`/job/${job.uid}`}>
-        <h4 className={companyTitle}>{job.company_name}</h4>
+        <div style={{display:'flex'}}>
+          <h4 className={companyTitle}>{job.company_name}</h4>
+          <div style={{margin:'0 0 0 auto'}}>Views: {job.views}</div>
+        </div>
         <Divider />
         <div className={jobWrapper}>
           <img
@@ -331,27 +337,50 @@ export default function JobSeekerHome() {
       company_uid: "uEgCYVXAIBDYyTYN"
     }
   ];
-
+  const [data, setData] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   const fetchJobs = () => {
-    return axios.get('/api/v1/job')
-  }
+    setFetching(true);
+    return axios
+      .get("/api/v1/jobs/recommend")
+      .then(res => setData(res.data))
+      .catch(() => {})
+      .finally(() => setFetching(false));
+  };
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+  console.log(data);
   return (
     <div>
       <SearchBar />
 
-      {/* Fetched Job Post */}
       <div className={root}>
-        <div className={title}>
-          <span className={titleLine}> </span>
-          SHOWING <span className={titleText}>RESULTS:</span>
-          <span className={titleLine}> </span>
-        </div>
-        <section className={wrapper}>
-          {companies.map(job => (
-            <JobCard job={job} />
-          ))}
-        </section>
+        {fetching ? (
+          <CoverLoad />
+        ) : (
+          data &&
+          Object.entries(data).map(([key, value]) => {
+            if (!value.length) return null;
+            return (
+              <React.Fragment key={key}>
+                <div className={title}>
+                  <span className={titleLine}> </span>
+                  <span className={titleText}>
+                    {splitAndCapitalize(key).toUpperCase()}:
+                  </span>
+                  <span className={titleLine}> </span>
+                </div>
+                <section className={wrapper}>
+                  {value.map(job => (
+                    <JobCard job={job} />
+                  ))}
+                </section>
+              </React.Fragment>
+            );
+          })
+        )}
       </div>
     </div>
   );
