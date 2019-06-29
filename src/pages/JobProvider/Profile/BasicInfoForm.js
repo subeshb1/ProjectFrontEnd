@@ -245,7 +245,6 @@ function BasicInfoForm({ history }) {
             value={state.phone_numbers.personal || ""}
             onChange={handlePhoneNumberChange}
             margin="normal"
-            type="number"
             variant="outlined"
             name="personal"
             required
@@ -259,7 +258,6 @@ function BasicInfoForm({ history }) {
             onChange={handlePhoneNumberChange}
             margin="normal"
             variant="outlined"
-            type="number"
             name="home"
           />
           <TextField

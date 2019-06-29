@@ -282,61 +282,7 @@ const JobCard = ({ job }) => {
 export default function JobSeekerHome() {
   const { root, title, titleLine, titleText, wrapper } = useStyles();
 
-  //dummy fetched data
-  const companies = [
-    {
-      job_title: "Software Engineer",
-      open_seats: 1,
-      level: "entry_level",
-      min_salary: 10000,
-      max_salary: 10000000,
-      job_type: "full_time",
-      uid: "39r9rk9NIoaKy3oa",
-      application_deadline: "2019-07-27T07:05:00.000Z",
-      company_name: "Cloud Tech",
-      company_avatar: null,
-      company_uid: "uEgCYVXAIBDYyTYN"
-    },
-    {
-      job_title: "Software Engineer",
-      open_seats: 1,
-      level: "entry_level",
-      min_salary: 10000,
-      max_salary: 10000000,
-      job_type: "full_time",
-      uid: "39r9rk9NIoaKy3oa",
-      application_deadline: "2019-07-27T07:05:00.000Z",
-      company_name: "Cloud Tech",
-      company_avatar: null,
-      company_uid: "uEgCYVXAIBDYyTYN"
-    },
-    {
-      job_title: "Software Engineer",
-      open_seats: 1,
-      level: "entry_level",
-      min_salary: 10000,
-      max_salary: 10000000,
-      job_type: "full_time",
-      uid: "39r9rk9NIoaKy3oa",
-      application_deadline: "2019-07-27T07:05:00.000Z",
-      company_name: "Cloud Tech",
-      company_avatar: null,
-      company_uid: "uEgCYVXAIBDYyTYN"
-    },
-    {
-      job_title: "Software Engineer",
-      open_seats: 1,
-      level: "entry_level",
-      min_salary: 10000,
-      max_salary: 10000000,
-      job_type: "full_time",
-      uid: "39r9rk9NIoaKy3oa",
-      application_deadline: "2019-07-27T07:05:00.000Z",
-      company_name: "Cloud Tech",
-      company_avatar: null,
-      company_uid: "uEgCYVXAIBDYyTYN"
-    }
-  ];
+  
   const [data, setData] = useState(null);
   const [fetching, setFetching] = useState(true);
 
