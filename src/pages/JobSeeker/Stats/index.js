@@ -30,12 +30,18 @@ const splitAndCapitalize = str =>
     : "";
 
 const headRows = [
-  { id: "name", numeric: false, disablePadding: true, label: "Applicant Name" },
+  { id: "job_title", numeric: false, disablePadding: true, label: "Job Title" },
   {
     id: "applied_date",
     numeric: false,
     disablePadding: false,
     label: "Applied Date"
+  },
+  {
+    id: "company_name",
+    numeric: false,
+    disablePadding: false,
+    label: "Company Name"
   },
   { id: "status", numeric: false, disablePadding: false, label: "Status" }
 ];
@@ -137,7 +143,7 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Applicants
+            Applications
           </Typography>
         )}
       </div>
@@ -187,7 +193,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function EnhancedTable({job_id}) {
+export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -206,7 +212,7 @@ export default function EnhancedTable({job_id}) {
   const fetchApplications = () => {
     setFetching(true);
     return axios
-      .get(`api/v1/applicant/${job_id}`, { params: { page, per_page } })
+      .get("api/v1/applicant/view_applied", { params: { page, per_page } })
       .then(res => res.data)
       .then(res => {
         console.log(res);
@@ -309,12 +315,17 @@ export default function EnhancedTable({job_id}) {
                       scope="row"
                       padding="none"
                     >
-                      <Link to={`/profile/${row.uid}`}>
-                        {row.name}
+                      <Link to={`/job/${row.job.uid}`}>
+                        {row.job.job_title}
                       </Link>
                     </TableCell>
                     <TableCell>
                       {new Date(row.applied_date).toDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <Link to={`/profile/${row.job.company_uid}`}>
+                        {splitAndCapitalize(row.job.company_name)}
+                      </Link>
                     </TableCell>
                     <TableCell>{splitAndCapitalize(row.status)}</TableCell>
                   </TableRow>

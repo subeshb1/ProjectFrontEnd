@@ -6,6 +6,7 @@ import ViewJob from "components/ViewJob";
 import { ContainerLoad } from "components/Loading";
 import UpdateJobInfo from "./UpdateJobInfo";
 import UpdateJobSpecification from "./UpdateJobSpecification";
+import Applicant from "./Applicant";
 
 export default function Job(props) {
   const {
@@ -69,6 +70,9 @@ export default function Job(props) {
 
         if (pathname.includes("job_specification"))
           return <UpdateJobSpecification job_info={job_specifications} saveJob={saveJob}/>;
+        if (pathname.includes("applicants"))
+          return <Applicant job_id={job_id} />
+
 
         return <ViewJob job={data}/>;
       })()}
