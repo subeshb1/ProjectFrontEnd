@@ -34,12 +34,17 @@ const useStyles = makeStyles(theme => ({
       maxWidth: 900,
       margin: "auto",
       "min-width": 400
+    },
+    "& a": {
+      textDecoration: 'underline',
+      color: '#2a9ade'
     }
   }
 }));
 
 const useNotificationStyle = makeStyles(theme => ({
   notification: {
+    overflow: 'hidden',
     padding: "10px",
     boxShadow: "0 0 2px",
     margin: "2px 10px",

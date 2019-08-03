@@ -25,7 +25,7 @@ export default function NotificationMenu() {
   };
 
   useEffect(() => {
-    let interval = setInterval(() => fetchUnReadNotification(), 2000);
+    let interval = setInterval(() => fetchUnReadNotification(), 5000);
     return () => clearInterval(interval);
   }, []);
 
