@@ -50,7 +50,7 @@ function ViewJob({ job, onApply = () => {} }) {
         <Divider />
 
         <section className={container} style={{ width: "100%" }}>
-          <section className={informationContainer} >
+          <section className={informationContainer}>
             <h2> Basic Information </h2>
             <Divider />
             <div className={blockGroup}>
@@ -82,14 +82,18 @@ function ViewJob({ job, onApply = () => {} }) {
                   <div className={title}> Job Category </div>
                   <div>
                     {job.categories.map((x, i) => (
-                      <Chip
+                      <Link
+                        to={`/search?categories=${x}`}
                         key={i}
-                        label={x}
-                        style={{ margin: 10 }}
-                        clickable
-                        color="primary"
-                        variant="outlined"
-                      />
+                        style={{ margin: "10px 10px 10px 0px" }}
+                      >
+                        <Chip
+                          label={x}
+                          clickable
+                          color="primary"
+                          variant="outlined"
+                        />
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -113,24 +117,61 @@ function ViewJob({ job, onApply = () => {} }) {
             <div className={blockGroup}>
               <div className={eachBlock}>
                 <div className={record}>
-                  <div className={title}>Education Degree {job.job_specifications.degree.require && "*"}</div>
-                  <div> {job.job_specifications.degree.value.map(splitAndCapitalize).join(', ')} </div>
+                  <div className={title}>
+                    Education Degree{" "}
+                    {job.job_specifications.degree.require && "*"}
+                  </div>
+                  <div>
+                    {" "}
+                    {job.job_specifications.degree.value
+                      .map(splitAndCapitalize)
+                      .join(", ")}{" "}
+                  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Educaiton Program  {job.job_specifications.program.require && "*"}</div>
-                  <div> {job.job_specifications.program.value.map(splitAndCapitalize).join(', ')}  </div>
+                  <div className={title}>
+                    Educaiton Program{" "}
+                    {job.job_specifications.program.require && "*"}
+                  </div>
+                  <div>
+                    {" "}
+                    {job.job_specifications.program.value
+                      .map(splitAndCapitalize)
+                      .join(", ")}{" "}
+                  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Experience Required  {job.job_specifications.experience.require && "*"}</div>
-                  <div> { job.job_specifications.experience.value.length > 0 && job.job_specifications.experience.value.join(', ') + " years"}  </div>
+                  <div className={title}>
+                    Experience Required{" "}
+                    {job.job_specifications.experience.require && "*"}
+                  </div>
+                  <div>
+                    {" "}
+                    {job.job_specifications.experience.value.length > 0 &&
+                      job.job_specifications.experience.value.join(", ") +
+                        " years"}{" "}
+                  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Gender  {job.job_specifications.gender.require && "*"}</div>
-                  <div> {job.job_specifications.gender.value.map(splitAndCapitalize).join(', ')}  </div>
+                  <div className={title}>
+                    Gender {job.job_specifications.gender.require && "*"}
+                  </div>
+                  <div>
+                    {" "}
+                    {job.job_specifications.gender.value
+                      .map(splitAndCapitalize)
+                      .join(", ")}{" "}
+                  </div>
                 </div>
                 <div className={record}>
-                  <div className={title}>Age  {job.job_specifications.age.require && "*"}</div>
-                  <div> {job.job_specifications.age.min} - {job.job_specifications.age.max} years</div>
+                  <div className={title}>
+                    Age {job.job_specifications.age.require && "*"}
+                  </div>
+                  <div>
+                    {" "}
+                    {job.job_specifications.age.min} -{" "}
+                    {job.job_specifications.age.max} years
+                  </div>
                 </div>
               </div>
             </div>
