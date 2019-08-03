@@ -40,6 +40,7 @@ export default function Job({
         });
       })
       .catch(e => {
+        try{
         if (e.response.data.errors[0].message.includes("Already applied!")) {
           enqueueSnackbar("Application already submitted!", {
             variant: "error",
@@ -60,6 +61,9 @@ export default function Job({
             autoHideDuration: 6000
           });
         }
+      } catch {
+        
+      }
       })
       .finally(() => setFetching(false));
   };
