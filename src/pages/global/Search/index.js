@@ -38,7 +38,7 @@ const pushFilters = filters => {
   queryString += filters.job_type
     .map(x => "job_type=" + encodeURI(x || ""))
     .join("&");
-  return queryString.replace(/&&/g, "&").replace(/[&]$/, "");
+  return queryString.replace(/&{2,}/g, "&").replace(/[&]$/, "");
 };
 
 const theme = createMuiTheme();
