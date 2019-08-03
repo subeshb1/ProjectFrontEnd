@@ -44,14 +44,14 @@ export default function JobSeekerNav() {
               </IconButton>
             </div>
             <h2>
-              <NavLink to="/jobseeker" style={{ color: "white" }}>
+              <NavLink to="/" style={{ color: "white" }}>
                 Hamro Job
               </NavLink>
             </h2>
             <NavLink
               className={classes.link}
               style={{ margin: "0 0 0 auto" }}
-              to="/find-jobs"
+              to="/search"
             >
               Find Jobs
             </NavLink>
@@ -83,7 +83,7 @@ export default function JobSeekerNav() {
             <ListItem
               onClick={mobileMenuClose}
               component={Link}
-              to="/find-jobs"
+              to="/search"
               button
             >
               <ListItemText primary="Find Jobs" />

@@ -38,7 +38,6 @@ const useStyles = makeStyles(theme => ({
         margin: '15px 30px',
         cursor: 'pointer',
         minWidth: 204,
-        width: '20vw',
         padding: 5
     },
     companyTitle: {

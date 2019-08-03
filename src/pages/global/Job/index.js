@@ -14,6 +14,7 @@ export default function Job({
   const { enqueueSnackbar } = useSnackbar();
   const [job, setJob] = useState(null);
   const fetchJob = () => {
+    setFetching(true);
     return axios
       .get("api/v1/jobs/" + uid)
       .then(res => {
@@ -29,6 +30,7 @@ export default function Job({
   };
 
   const applyJob = () => {
+    setFetching(true);
     return axios
       .post(`/api/v1/applicant/${uid}/apply`)
       .then(() => {
@@ -38,6 +40,7 @@ export default function Job({
         });
       })
       .catch(e => {
+        try{
         if (e.response.data.errors[0].message.includes("Already applied!")) {
           enqueueSnackbar("Application already submitted!", {
             variant: "error",
@@ -45,20 +48,28 @@ export default function Job({
           });
         } else {
           enqueueSnackbar("Yo are not qualified!", {
-            action:(
-              <Button onClick={() => alert(e.response.data.errors.map(x=>x.message).join("\n")) }>
-                  {'Show Details'}
+            action: (
+              <Button
+                onClick={() =>
+                  alert(e.response.data.errors.map(x => x.message).join("\n"))
+                }
+              >
+                {"Show Details"}
               </Button>
-          ),
+            ),
             variant: "error",
             autoHideDuration: 6000
           });
         }
+      } catch {
+        
+      }
       })
       .finally(() => setFetching(false));
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchJob();
   }, []);
 
