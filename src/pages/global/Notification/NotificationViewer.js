@@ -25,15 +25,15 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 12,
     padding: "10px",
     "& h1": {
-      marginBottom: '2rem'
+      marginBottom: "2rem"
     },
     "& p": {
-      fontSize: 18,
+      fontSize: 18
     },
     "& > div": {
       maxWidth: 900,
       margin: "auto",
-      'min-width': 400
+      "min-width": 400
     }
   }
 }));
@@ -99,7 +99,7 @@ export default function NotificationViewer({ match: { params } }) {
       </div>
       <div className={classes.right}>
         <div>
-          {params.id && (
+          {params.id ? (
             <div>
               <div>
                 <div>From: {notification.from}</div>
@@ -107,6 +107,10 @@ export default function NotificationViewer({ match: { params } }) {
               </div>
               <div dangerouslySetInnerHTML={{ __html: notification.message }} />
             </div>
+          ) : (
+            <h1>
+              {notifications.filter(x => !x.status).length} new notifications
+            </h1>
           )}
         </div>
       </div>
