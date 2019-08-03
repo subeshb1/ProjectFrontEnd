@@ -56,8 +56,8 @@ export default function JobSeekerNav() {
               Find Jobs
             </NavLink>
 
-            <NavLink className={classes.link} to="/jobseeker/skill">
-              Skill Test
+            <NavLink className={classes.link} to="/jobseeker/test">
+              Test
             </NavLink>
 
             <NavLink className={classes.link} to="/jobseeker/profile">
@@ -92,10 +92,10 @@ export default function JobSeekerNav() {
             <ListItem
               onClick={mobileMenuClose}
               component={Link}
-              to="/jobseeker/skill"
+              to="/jobseeker/test"
               button
             >
-              <ListItemText primary="Skill Test" />
+              <ListItemText primary="Test" />
             </ListItem>
 
             <ListItem
