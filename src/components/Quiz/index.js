@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Button } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //style
@@ -61,12 +61,17 @@ export default function Quiz({ name, questions }) {
                 ))
             }
 
-            <div>
-                <button onClick={() => console.log("Marks: " + marksCount)} >
+
+            <div style={{ display: 'flex', justifyContent: 'center', margin: "20px auto" }}>
+                <Button variant="contained" color="primary"
+                    style={{ width: 100 }}
+                    onClick={() => console.log("Marks: " + marksCount)}
+                >
                     SUBMIT
-                </button>
+                </Button>
             </div>
-        </div>
+
+        </div >
 
     );
 }
