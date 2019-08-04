@@ -1,94 +1,72 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import {
-    ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Divider,
-    List, ListItem, ListItemText,
-    FormControl, RadioGroup, FormControlLabel, Radio
-} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const useStyles = makeStyles( theme => ({
-    'heading':{
-        margin:" 0 auto",
-        minWidth:310,
-        maxWidth:" 35vw",
-        textAlign:"center",
-        border:" 1px solid #00000045"
-    },
-    'expansionPanelSummary':{
-        
+//style
+import { makeStyles } from '@material-ui/styles';
+import useStyles from 'components/styles';
+//component
+import Question from 'components/Quiz/Question';
+
+const useStyles2 = makeStyles(theme => ({
+    'root': {
+        margin: " 20px auto",
+        minWidth: 310,
+        width: " 80vw",
     }
 }));
 
-export default function Quiz() {
-    const { heading, expansionPanelSummary } = useStyles();
 
-    let [ans, setAns] = useState(null);
 
-    let handleChange = event => {
-        setAns(event.target.value);
+export default function Quiz({ name, questions }) {
+
+    const { title, titleLine, titleText } = useStyles();
+    const { root } = useStyles2();
+
+    let [marksCount, setMarksCount] = useState(0); //to count marks from correct ans
+
+    const handleCount = () => {
+        setMarksCount(marksCount + 1);
     }
 
+    /* useEffect( () =>{
+        console.log(marksCount);
+    }) */
+
     return (
-        <div>
-            <h3 className={heading}> Title Test</h3>
-            <ExpansionPanel>
-                <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    className={expansionPanelSummary}
-                >
-                    Question 1
-                </ExpansionPanelSummary>
 
-                <ExpansionPanelDetails>
-                    <FormControl component="fieldset" /* className={classes.formControl} */>
-                        <RadioGroup
-                            /* className={classes.group} */
-                            value={ans}
-                            onChange={handleChange}
+        <div className={root}>
+            <div className={title}>
+                <span className={titleLine}> </span>
+                <span className={titleText} > {name} </span>
+                <span className={titleLine}> </span>
+            </div>
+            {
+
+                questions.map((qItem, i) => (
+                    <ExpansionPanel key={`question` + i}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
                         >
-                            <List>
-                                <ListItem>
-                                    <ListItemText primary="option1" />
-                                    <FormControlLabel
-                                        value={0}
-                                        control={<Radio/>}
-                                    />
-                                </ListItem>
+                            {`${i + 1}. ${qItem.question}`}
+                        </ExpansionPanelSummary>
 
-                                <ListItem>
-                                    <ListItemText primary="option2" />
-                                    <FormControlLabel
-                                        value={1}
-                                        control={<Radio/>}
-                                    />
-                                </ListItem>
+                        <ExpansionPanelDetails>
+                            <Question questionProps={qItem} handleCount={handleCount} />
+                        </ExpansionPanelDetails>
 
-                                <ListItem>
-                                    <ListItemText primary="option3" />
-                                    <FormControlLabel
-                                        value={2}
-                                        control={<Radio/>}
-                                    />
-                                </ListItem>
+                    </ExpansionPanel>
+                ))
+            }
 
-                                <ListItem>
-                                    <ListItemText primary="option4" />
-                                    <FormControlLabel
-                                        value={3}
-                                        control={<Radio/>}
-                                    />
-                                </ListItem>
-                            </List>
-
-                        </RadioGroup>
-
-                    </FormControl>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-
+            <div>
+                <button onClick={() => console.log("Marks: " + marksCount)} >
+                    SUBMIT
+                </button>
+            </div>
         </div>
+
     );
 }
