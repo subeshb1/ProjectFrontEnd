@@ -142,6 +142,25 @@ function ViewJob({ job, onApply = () => {} }) {
                 </div>
                 <div className={record}>
                   <div className={title}>
+                    Skills
+                    {job.job_specifications.skills.require && "*"}
+                  </div>
+                  <div>
+                    {job.job_specifications.skills.value.map((x, i) => (
+                      <Chip
+                        key={i}
+                        style={{ margin: "10px 10px 10px 0px" }}
+                        label={x}
+                        clickable
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className={record}>
+                  <div className={title}>
                     Experience Required{" "}
                     {job.job_specifications.experience.require && "*"}
                   </div>
