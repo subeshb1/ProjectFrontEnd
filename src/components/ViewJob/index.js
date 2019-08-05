@@ -143,10 +143,10 @@ function ViewJob({ job, onApply = () => {} }) {
                 <div className={record}>
                   <div className={title}>
                     Skills
-                    {job.job_specifications.skills.require && "*"}
+                    {job.job_specifications.skills && job.job_specifications.skills.require && "*"}
                   </div>
                   <div>
-                    {job.job_specifications.skills.value.map((x, i) => (
+                    {job.job_specifications.skills && job.job_specifications.skills.value.map((x, i) => (
                       <Chip
                         key={i}
                         style={{ margin: "10px 10px 10px 0px" }}
