@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from 'react';
+import React, { useState, createRef } from 'react';
 import {
     List, ListItem, ListItemText,
     FormControl, RadioGroup, FormControlLabel, Radio
@@ -7,29 +7,23 @@ import {
 
 export default function Question(props) {
 
-    let { options, answer } = props.questionProps;
-    let { handleCount } = props;
+    let { options } = props.questionProps;
+    let { pushCheckedAns } = props;
+    let { questionNumber } = props;
 
     const [userAns, setUserAns] = useState("");
 
     const ref = createRef();    //for tracking element of Material UI i.e. DOM manipulation
 
     const handleChange = event => {
-        
+
         setUserAns(event.target.value);
 
         const formControlElement = ref.current;
         formControlElement.disabled = true;
         //console.log(formControlElement);
-        if (event.target.value === answer.toString()) {      
-            return handleCount();
-        }
+        return pushCheckedAns(questionNumber, event.target.value)
     }
-
-    //to show value of userAns in real time; shows value of userAns before & after being updated
-    /* useEffect(() => {
-        console.log(userAns);
-    }); */
 
     return (
 
@@ -50,7 +44,7 @@ export default function Question(props) {
                                     <FormControlLabel
                                         value={val}
                                         control={<Radio />}
-                                        
+
                                     />
                                 </ListItem>
                             )
