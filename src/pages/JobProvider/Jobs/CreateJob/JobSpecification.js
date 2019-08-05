@@ -6,7 +6,8 @@ import Switch from "@material-ui/core/Switch";
 import {
   ProgramSelect,
   GenderSelect,
-  DegreeSelect
+  DegreeSelect,
+  SkillsSelect
 } from "components/CustomSelect/index.js";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -45,6 +46,10 @@ function JobInfo({
       age: {
         min: 0,
         max: 100,
+        require: false
+      },
+      skills: {
+        value: [],
         require: false
       }
     }
@@ -128,6 +133,24 @@ function JobInfo({
               />
             }
             label="Require Program?"
+          />
+        </div>
+
+        <div style={{ zIndex: 999 }}>
+          <p>Skills</p>
+          <SkillsSelect
+            handleChange={handleCustomChange}
+            isMulti
+            skills={state.skills.value}
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={state.skills.require}
+                onChange={handelRequiredChange("skills")}
+              />
+            }
+            label="Require Skills?"
           />
         </div>
 

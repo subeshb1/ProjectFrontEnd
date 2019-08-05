@@ -17,7 +17,7 @@ import {
 const getFilters = () => {
   let params = new URLSearchParams(window.location.search.slice(1));
   return {
-    per_page: params.get("per_page") || 10,
+    per_page: 15,
     page: params.get("page") || 1,
     job_title: params.get("job_title") || "",
     categories: params.getAll("categories") || [],
@@ -29,7 +29,6 @@ const getFilters = () => {
 const pushFilters = filters => {
   let queryString = "";
   queryString += "job_title=" + encodeURI(filters.job_title || "") + "&";
-  queryString += "per_page=" + encodeURI(filters.per_page || 10) + "&";
   queryString += "page=" + encodeURI(filters.page || 1) + "&";
   queryString +=
     filters.categories.map(x => "categories=" + encodeURI(x || "")).join("&") +
@@ -39,7 +38,7 @@ const pushFilters = filters => {
   queryString += filters.job_type
     .map(x => "job_type=" + encodeURI(x || ""))
     .join("&");
-  return queryString;
+  return queryString.replace(/&{2,}/g, "&").replace(/[&]$/, "");
 };
 
 const theme = createMuiTheme();
@@ -126,7 +125,8 @@ const searchBoxStyles = makeStyles(theme => ({
     "& > *": {
       flexGrow: 1,
       margin: "10px",
-      maxWidth: 600
+      maxWidth: 600,
+      minWidth: "200px"
     }
   }
 }));
@@ -253,7 +253,7 @@ const SearchBar = ({ filters, handleChange, applyFilter }) => {
             }}
             inputProps={{ "aria-label": "Search" }}
             value={filters.job_title}
-            onChange={e => handleChange('job_title')(e.target.value)}
+            onChange={e => handleChange("job_title")(e.target.value)}
           />
 
           <Button variant="contained" color="primary" type="submit">
@@ -346,8 +346,8 @@ function Search({ history }) {
 
   const [data, setData] = useState(null);
   const [fetching, setFetching] = useState(true);
-  const [page, setPage] = React.useState(0);
-  const [per_page, setPerPage] = React.useState(30);
+  // const [page, setPage] = React.useState(0);
+  // const [per_page, setPerPage] = React.useState(15);
   const [meta, setMeta] = React.useState({
     total: 100,
     per_page: 10,
@@ -358,8 +358,9 @@ function Search({ history }) {
 
   const fetchJobs = () => {
     setFetching(true);
+    const params = getFilters();
     return axios
-      .get("/api/v1/jobs", { params: { ...filters, page, per_page } })
+      .get("/api/v1/jobs", { params: { ...params } })
       .then(res => {
         setData(res.data.data);
         setMeta(res.data.meta);
@@ -369,9 +370,10 @@ function Search({ history }) {
   };
 
   const applyFilter = () => {
-    if(!fetching){
-      history.push("/search?" + pushFilters(filters));
-      fetchJobs()
+    handleChange("page")(1);
+    if (!fetching) {
+      history.push("/search?" + pushFilters({ ...filters, page: 1 }));
+      fetchJobs();
     }
   };
 
@@ -384,7 +386,7 @@ function Search({ history }) {
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [filters.page]);
 
   return (
     <div>
@@ -397,8 +399,7 @@ function Search({ history }) {
       <div className={root}>
         {fetching ? (
           <CoverLoad />
-        ) : (
-          data && data.length?
+        ) : data && data.length ? (
           Object.entries({ Result: data }).map(([key, value]) => {
             if (!value.length) return null;
             return (
@@ -415,26 +416,30 @@ function Search({ history }) {
                     <JobCard job={job} />
                   ))}
                 </section>
-
-                <MuiThemeProvider theme={theme}>
-                  <Pagination
-                    style={{
-                      display: "flex",
-                      justifyContent: "center"
-                    }}
-                    size="large"
-                    limit={meta.per_page}
-                    offset={0}
-                    total={meta.total / meta.per_page}
-                    onClick={(e, offset) =>
-                      history.push(`/search?page=${offset}`)
-                    }
-                  />
-                </MuiThemeProvider>
               </React.Fragment>
             );
-          }):<h1 style={{textAlign:'center'}}>No Jobs found</h1>
+          })
+        ) : (
+          <h1 style={{ textAlign: "center" }}>No Jobs found</h1>
         )}
+        <MuiThemeProvider theme={theme}>
+          <Pagination
+            style={{
+              display: "flex",
+              justifyContent: "center"
+            }}
+            size="large"
+            limit={15}
+            offset={Math.min(15 * (filters.page - 1), meta.total)}
+            total={meta.total}
+            onClick={(e, offset) => {
+              handleChange("page")(offset / 15 + 1);
+              history.push(
+                "/search?" + pushFilters({ ...filters, page: offset / 15 + 1 })
+              );
+            }}
+          />
+        </MuiThemeProvider>
       </div>
     </div>
   );

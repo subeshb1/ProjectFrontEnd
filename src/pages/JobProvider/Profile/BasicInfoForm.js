@@ -86,6 +86,7 @@ function BasicInfoForm({ history }) {
           "avatar"
         ]);
         state.description = state.description || "";
+        state.website = state.website || "";
         setState(
           _.mapValues(state, function(o) {
             return o === undefined ? "" : o;
@@ -275,7 +276,7 @@ function BasicInfoForm({ history }) {
           id="website"
           label="Website"
           className={inputField}
-          value={state.website}
+          value={state.website||""}
           onChange={handleChange("website")}
           variant="outlined"
           margin="normal"

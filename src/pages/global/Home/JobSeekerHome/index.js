@@ -4,7 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 import workImage from "assets/images/work.jpg";
 import companyAvatar from "assets/images/avatar/company.jpg";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import { CoverLoad } from "components/Loading";
 
@@ -175,7 +175,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   }
 }));
-const SearchBar = () => {
+const SearchBar = withRouter(({ history }) => {
   const {
     form,
     searchBox,
@@ -186,18 +186,16 @@ const SearchBar = () => {
   } = searchBoxStyles();
   const { title, titleLine, titleText } = useStyles();
 
-  const [search, setSearch] = React.useState({
-    word: "",
-    type: "default"
-  });
+  const [search, setSearch] = React.useState("");
 
-  const handleChange = name => event => {
-    setSearch({ [name]: event.target.value });
+  const handleChange = event => {
+    setSearch(event.target.value);
   };
+
   return (
     <div className={imgContainer}>
       <img src={workImage} alt="Work" className={image} />
-      <form className={form}>
+      <form class={form} onSubmit={e => e.preventDefault()}>
         <div className={title} style={{ background: "#ffffff9e" }}>
           <span className={titleLine}> </span>
           START <span className={titleText}> SEARCHING JOBS? </span>
@@ -211,19 +209,23 @@ const SearchBar = () => {
               root: inputRoot,
               input: inputInput
             }}
-            inputProps={{ "aria-label": "Search" }}
-            value={search.word}
-            onChange={handleChange("word")}
+            inputProps={{ "aria-label": "Search", name: "job_title" }}
+            value={search}
+            onChange={handleChange}
           />
 
-          <Button variant="contained" color="primary">
+          <Button
+            onClick={() => history.push(`/search?job_title=${search}`)}
+            variant="contained"
+            color="primary"
+          >
             <SearchIcon />
           </Button>
         </div>
       </form>
     </div>
   );
-};
+});
 
 const JobCard = ({ job }) => {
   const {
@@ -236,9 +238,9 @@ const JobCard = ({ job }) => {
   return (
     <Paper className={paper}>
       <Link to={`/job/${job.uid}`}>
-        <div style={{display:'flex'}}>
+        <div style={{ display: "flex" }}>
           <h4 className={companyTitle}>{job.company_name}</h4>
-          <div style={{margin:'0 0 0 auto'}}>Views: {job.views}</div>
+          <div style={{ margin: "0 0 0 auto" }}>Views: {job.views}</div>
         </div>
         <Divider />
         <div className={jobWrapper}>
@@ -284,7 +286,6 @@ const JobCard = ({ job }) => {
 export default function JobSeekerHome() {
   const { root, title, titleLine, titleText, wrapper } = useStyles();
 
-  
   const [data, setData] = useState(null);
   const [fetching, setFetching] = useState(true);
 
