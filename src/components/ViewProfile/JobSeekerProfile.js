@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Divider } from "@material-ui/core";
 import useStyles from "./styles.js";
 import Chip from "@material-ui/core/Chip";
+import {Link} from 'react-router-dom';
 
 const splitAndCapitalize = str =>
   str?str.split("_")
@@ -98,14 +99,18 @@ function ViewProfile({
               <div className={record}>
                 <div>
                   {categories.map((x, i) => (
+                    <Link
+                    to={`/search?categories=${x}`}
+                    key={i}
+                    style={{ margin: "10px 10px 10px 0px" }}
+                  >
                     <Chip
-                      key={i}
                       label={x}
-                      style={{ margin: 10 }}
                       clickable
                       color="primary"
                       variant="outlined"
                     />
+                  </Link>
                   ))}
                 </div>
               </div>

@@ -14,7 +14,8 @@ import "./css/index.css";
 import Account from "./pages/Account";
 import Profile from "./pages/global/Profile";
 import Job from "./pages/global/Job";
-import Search from './pages/global/Search';
+import Notification from "./pages/global/Notification";
+import Search from "./pages/global/Search";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                     />
                     <Route path="/jobseeker" component={JobSeeker} />
                     <Route path="/jobprovider" component={JobProvider} />
+                    <Route path="/notification" component={Notification} />
                     <Route path="/profile/:uid" component={Profile} />
                     <Route path="/job/:uid" component={Job} />
                   </Switch>

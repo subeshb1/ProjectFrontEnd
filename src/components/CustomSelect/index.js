@@ -8,7 +8,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 const selectValue = (options, value) => _.find(options, { value });
-const selectMultiValue = (options, values) =>
+const selectMultiValue = (options, values) => console.log(options,values) || 
   _.filter(options, c =>
     values.map(x => x.toLowerCase()).includes(c.value.toLowerCase())
   );
@@ -57,6 +57,32 @@ export function DegreeSelect({ degree, ...rest }) {
       value={degree}
       valueName="degree"
       placeholder="Select Degree"
+      {...rest}
+    />
+  );
+}
+
+export function SkillsSelect({ skills, ...rest }) {
+  const skillsOptions = [
+    { value: "Agriculture", label: "Agriculture" },
+    { value: "Ayurved", label: "Ayurved" },
+    { value: "Education", label: "Education" },
+    { value: "Engineering", label: "Engineering" },
+    { value: "Healthcare", label: "Healthcare" },
+    { value: "Java", label: "Java" },
+    { value: "Javascript", label: "Javascript" },
+    { value: "Law", label: "Law" },
+    { value: "Management", label: "Management" },
+    { value: "Nursing", label: "Nursing" },
+    { value: "Pharmacy", label: "Pharmacy" },
+    { value: "Science", label: "Science" }
+  ];
+  return (
+    <CustomSelect
+      options={skillsOptions}
+      value={skills}
+      valueName="skills"
+      placeholder="Select Skills"
       {...rest}
     />
   );

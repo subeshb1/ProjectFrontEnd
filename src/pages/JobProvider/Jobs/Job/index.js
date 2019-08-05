@@ -38,7 +38,6 @@ export default function Job(props) {
 
   const saveJob = (params) => {
     setFetching(true);
-    debugger
     return axios
       .put(`api/v1/jobprovider/job/${job_id}`, params)
       .then(res => {
