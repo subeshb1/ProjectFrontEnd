@@ -22,7 +22,8 @@ const getFilters = () => {
     job_title: params.get("job_title") || "",
     categories: params.getAll("categories") || [],
     level: params.getAll("level") || [],
-    job_type: params.getAll("job_type") || []
+    job_type: params.getAll("job_type") || [],
+    job_provider_id: params.getAll("job_provider_id") || []
   };
 };
 

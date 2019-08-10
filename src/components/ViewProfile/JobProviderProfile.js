@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, Divider } from "@material-ui/core";
 import useStyles from "./styles.js";
+import { Link } from "react-router-dom";
+import JobCard from "components/JobCard";
+import axios from "axios";
 const splitAndCapitalize = str =>
   str
     ? str
@@ -8,36 +11,6 @@ const splitAndCapitalize = str =>
         .map(x => x[0].toUpperCase() + x.slice(1))
         .join(" ")
     : "";
-
-const jobVacancies = [
-  {
-    job_title: "Frontend Developer",
-    open_seats: "3",
-    level: "entry level",
-    min_salary: 6000,
-    max_salary: 10000,
-    job_type: "full time",
-    categories: ["Computer and IT"]
-  },
-  {
-    job_title: "Project Manager",
-    open_seats: "1",
-    level: "mid level",
-    min_salary: 16000,
-    max_salary: 25000,
-    job_type: "full time",
-    categories: ["Computer and IT", "Management"]
-  },
-  {
-    job_title: "Project Manager",
-    open_seats: "1",
-    level: "mid level",
-    min_salary: 16000,
-    max_salary: 25000,
-    job_type: "full time",
-    categories: ["Computer and IT", "Management"]
-  }
-];
 
 function ViewProfile({
   profileData: {
@@ -52,7 +25,7 @@ function ViewProfile({
       website,
       description: aboutMe
     },
-    user: { email }
+    user: { email, uid }
   }
 }) {
   const {
@@ -67,7 +40,17 @@ function ViewProfile({
     blockGroup,
     eachBlock
   } = useStyles();
-
+  const [jobVacancies, setJobVacancies] = React.useState([]);
+  useEffect(() => {
+    axios
+      .get("api/v1/jobs", {
+        params: { page: 1, per_page: 4, job_provider_id: [uid] }
+      })
+      .then(res => {
+        setJobVacancies(res.data.data);
+      });
+  }, []);
+  console.log(jobVacancies);
   return (
     <div>
       <div className={wrapper}>
@@ -75,7 +58,7 @@ function ViewProfile({
           <Avatar alt="Female" src={avatar_url} className={avatar} />
         </section>
         <section style={{ textAlign: "center" }}>
-          <h2>{name}</h2>
+          <h2>{name}</h2>{" "}
         </section>
         <Divider />
         <section className={container}>
@@ -127,29 +110,34 @@ function ViewProfile({
           <div dangerouslySetInnerHTML={{ __html: aboutMe }} />
         </div>
 
-        <section className={container}>
-          <section className={informationContainer}>
+        <section>
+          <section>
             <h2 style={{ textAlign: "center" }}> Job Vacancy </h2>
+            <Link
+              to={`/search?job_provider_id=${uid}`}
+              style={{
+                color: "#0d62bf",
+                margin: 15,
+                textDecoration: "underline",
+                fontSize: 18
+              }}
+            >
+              View All
+            </Link>
             <Divider />
-            <div className={blockGroup}>
-              {jobVacancies.map((vacancy, i) => (
-                <div className={eachBlock} key={vacancy.job_title + i}>
-                  <div className={record}>
-                    <div className={title}>
-                      <img
-                        src={require("assets/images/avatar/male.png")}
-                        alt="male.png"
-                      />
-                    </div>
-                    <div>
-                      <h3> {vacancy.job_title} </h3>
-                      <div> {vacancy.level} </div>
-                      <div> {vacancy.job_type} </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {jobVacancies.length && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap"
+                }}
+              >
+                {jobVacancies.map((vacancy, i) => (
+                  <JobCard job={vacancy} key={i} />
+                ))}
+              </div>
+            )}
           </section>
         </section>
       </div>
