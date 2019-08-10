@@ -37,13 +37,31 @@ export default function Home() {
         <JobProviderHome />
       );
     default:
+      const categoryItems ={ 
+       title1:"JOB",
+       title2:"CATEGORIES", 
+       jobs: [
+          { title: "Agriculture", imageName: "agriculture", link: "" },
+          { title: "Ayurved", imageName: "ayurved", link: "" },
+          { title: "Computer and IT", imageName: "computer and IT", link: "" },
+          { title: "Education", imageName: "education", link: "" },
+          { title: "Engineering", imageName: "engineering", link: "" },
+          { title: "Health", imageName: "health", link: "" },
+          { title: "Law", imageName: "law", link: "" },
+          { title: "Management", imageName: "management", link: "" },
+          { title: "Nursing", imageName: "nursing", link: "" },
+          { title: "Pharmacist", imageName: "pharmacist", link: "" },
+          { title: "Science", imageName: "science", link: "" }
+        ] 
+      };
+      
       return (
         <div>
           <div className={imgContainer}>
             <img src={workImage} alt="Work" className={image} />
           </div>
 
-          <CategoryContainer />
+          <CategoryContainer  {...categoryItems}  />
         </div>
       );
   }

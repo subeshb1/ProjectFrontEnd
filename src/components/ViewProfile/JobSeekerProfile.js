@@ -2,12 +2,15 @@ import React from "react";
 import { Avatar, Divider } from "@material-ui/core";
 import useStyles from "./styles.js";
 import Chip from "@material-ui/core/Chip";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const splitAndCapitalize = str =>
-  str?str.split("_")
-    .map(x => x[0].toUpperCase() + x.slice(1))
-    .join(" "):"";
+  str
+    ? str
+        .split("_")
+        .map(x => x[0].toUpperCase() + x.slice(1))
+        .join(" ")
+    : "";
 
 function ViewProfile({
   profileData: {
@@ -25,7 +28,8 @@ function ViewProfile({
     },
     user: { email },
     work_experiences,
-    educations
+    educations,
+    skills
   }
 }) {
   const {
@@ -92,6 +96,29 @@ function ViewProfile({
             </div>
           </section>
 
+          {skills && (
+            <section className={informationContainer}>
+              <h2> Skills </h2>
+              <Divider />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div className={record}>
+                  <div>
+                    {skills.map((x, i) => (
+                      <Chip
+                        key={i}
+                        style={{ margin: "10px 10px 10px 0px" }}
+                        label={x.name}
+                        clickable
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
           <section className={informationContainer}>
             <h2> Job Preference </h2>
             <Divider />
@@ -100,17 +127,17 @@ function ViewProfile({
                 <div>
                   {categories.map((x, i) => (
                     <Link
-                    to={`/search?categories=${x}`}
-                    key={i}
-                    style={{ margin: "10px 10px 10px 0px" }}
-                  >
-                    <Chip
-                      label={x}
-                      clickable
-                      color="primary"
-                      variant="outlined"
-                    />
-                  </Link>
+                      to={`/search?categories=${x}`}
+                      key={i}
+                      style={{ margin: "10px 10px 10px 0px" }}
+                    >
+                      <Chip
+                        label={x}
+                        clickable
+                        color="primary"
+                        variant="outlined"
+                      />
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -128,7 +155,7 @@ function ViewProfile({
             <h2 style={{ textAlign: "center" }}> Working Experience </h2>
             <Divider />
             <div className={blockGroup}>
-              {work_experiences.map((company,i) => (
+              {work_experiences.map((company, i) => (
                 <div className={eachBlock} key={i}>
                   <div className={record}>
                     <div className={title}>Job title </div>
@@ -165,7 +192,7 @@ function ViewProfile({
             <h2 style={{ textAlign: "center" }}>Educational Qualifications</h2>
             <Divider />
             <div className={blockGroup}>
-              {educations.map((education,i) => (
+              {educations.map((education, i) => (
                 <div className={eachBlock} key={i}>
                   <div className={record}>
                     <div className={title}> Program </div>
@@ -178,7 +205,8 @@ function ViewProfile({
                   <div className={record}>
                     <div className={title}> Time Period </div>
                     <div>
-                      {new Date(education.start_date).toDateString()} - {new Date(education.end_date).toDateString()}
+                      {new Date(education.start_date).toDateString()} -{" "}
+                      {new Date(education.end_date).toDateString()}
                     </div>
                   </div>
                 </div>

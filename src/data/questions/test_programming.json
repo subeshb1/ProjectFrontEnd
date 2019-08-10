@@ -1,0 +1,325 @@
+{
+    "name": "Programming Test",
+    "questions": [
+        {
+            "question": "A set of intructions that tells the computer how to behave, what to do and derive at a solution to a particular problem is:",
+            "options": [
+                "Algorithm",
+                "Pseudocode",
+                "Programming",
+                "Program"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "A set of logically sequenced instructions that allows to find the solution to a problem is:",
+            "options": [
+                "Algorithm",
+                "Pseudocode",
+                "Programming",
+                "Program"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "The six stages of program development in logical order are:",
+            "options": [
+                "Define, Analyze, Write, Test, Document, Debug",
+                "Define, Analyze, Develop, Write, Test and Debug, Document",
+                "Define, Write, Develop, Analyze, Test, Document",
+                "Define, Develop, Write, Test, Document, Debug"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "",
+            "options": [
+                "Basic",
+                "Cobol",
+                "Pascal",
+                "Java"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "Java is an example of which generation programming language",
+            "options": [
+                "4GLs",
+                "3rd",
+                "2nd",
+                "1st"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which of the following generations of programming language executed code faster:",
+            "options": [
+                "4GLs",
+                "3rd",
+                "2nd",
+                "1st"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "Algorithms must be all of the following except:",
+            "options": [
+                "Logical",
+                "Ambiguous",
+                "Concise",
+                "Precise"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which language had codes such as MOV, ADD, SUB",
+            "options": [
+                "Java",
+                "Binary",
+                "Pascal",
+                "Assembly"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "Which of the following had executes programming codes line by line, rather than the whole program:",
+            "options": [
+                "Compiler",
+                "Interpreter",
+                "Executer",
+                "Translator"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "All the following are examples of third programming language except:",
+            "options": [
+                "Pascal",
+                "C#",
+                "Basic",
+                "FORTRAN"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Translator which is used to convert codes of assembly language into machine language is termed as",
+            "options": [
+                "assembler",
+                "attempter",
+                "compiler",
+                "debugger"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Diagram which shows relationship between classes is termed as",
+            "options": [
+                "Class diagram",
+                "Sequential diagram",
+                "Use case diagram",
+                "Communication diagram"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Higher-order functions are not built into the",
+            "options": [
+                "Structural language",
+                "Object oriented programming",
+                "JAVA",
+                "C++"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Animations and interactivity with user on web pages can be done by",
+            "options": [
+                "PHP",
+                "Java script",
+                "Visual Basic",
+                "Visual C#"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Diagram which shows how objects communicate with each other regarding a sequence of messages is called",
+            "options": [
+                "Object diagram",
+                "Sequential diagram",
+                "Use case diagram",
+                "Communication diagram"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "Programming language which sometimes called 'write once, run any where is",
+            "options": [
+                "Java",
+                "Basic",
+                "Pascal",
+                "Ada"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Language in which single statements can be written to accomplish substantial tasks is termed as",
+            "options": [
+                "machine language",
+                "assembly language",
+                "high level language",
+                "medium language"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "At Ericson, UML was developed by",
+            "options": [
+                "Grady Booch",
+                "James Rumbaugh",
+                "Ivar Jacobson",
+                "Robert Lafore"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "Programming language which uses both object-oriented programming and functional programming paradigms is",
+            "options": [
+                "Scala",
+                "Ada",
+                "Pascal",
+                "Machine language"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Law which states that every year or two, capacities of computers have approximately doubled without any increase in price is",
+            "options": [
+                "Moral's Law",
+                "Moore's Law",
+                "Malid's Law",
+                "Module's Law"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "What is the difference between a variable and a constant?",
+            "options": [
+                "Constants can be declared only in Java",
+                "The value of a constant doesn't change, the value of a variable can change",
+                "No difference",
+                "Variables can be declared only in software languages"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "If you needed to execute some code repeatedly based on a certain condition, which of the following would you use?",
+            "options": [
+                "Loop",
+                "Variable",
+                "Conditional",
+                "Compiler"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Before source code can be compiled, it has to be _______________",
+            "options": [
+                "viewed in a command prompt",
+                "parsed",
+                "saved in a separate file",
+                "capitalized"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is object-oriented programming?",
+            "options": [
+                "A type of programming involving a structured method of creating programs",
+                "A type of programming not in use anymore",
+                "A type of programming involving data types representing data structures",
+                "A type of programming using only numbers"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "What is the software called that translates code into something meaningful the computer can understand?",
+            "options": [
+                "Converter",
+                "Translator",
+                "Compiler",
+                "Transliterator"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "What is computer programming?",
+            "options": [
+                "Setting the alarm on a computer",
+                "Telling the computer what to do through a special set of instructions",
+                "Convincing the computer to never freeze",
+                "Speeding up your computer"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which of the following is NOT a software language?",
+            "options": [
+                "HTML",
+                "Visual Basic",
+                "C++",
+                "C"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Ask user for a number, ask user for another number, multiply the two numbers, print result..What do you call this set of instructions?",
+            "options": [
+                "A compiler",
+                "PHP",
+                "An algorithm",
+                "A class"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "Which of the following is NOT a web language?",
+            "options": [
+                "Javascript",
+                "C++",
+                "PHP",
+                "HTML"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which generation of languages allows for the use of words and commands?",
+            "options": [
+                "1st generation",
+                "2nd generation",
+                "5th generation",
+                "3rd generation"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "Beginner programmers should start with a development environment",
+            "options": [
+                "True",
+                "False",
+                "",
+                ""
+            ],
+            "answer": 2
+        },
+        {
+            "question": "You need special software to write programs",
+            "options": [
+                "True",
+                "False",
+                "",
+                ""
+            ],
+            "answer": 2
+        }
+    ]
+}

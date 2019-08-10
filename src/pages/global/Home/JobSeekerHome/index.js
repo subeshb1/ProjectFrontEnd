@@ -20,12 +20,11 @@ const searchBoxStyles = makeStyles(theme => ({
     position: "absolute",
     top: 0,
     display: "flex",
-    height: "100%",
     flexDirection: "column",
     justifyContent: "center",
     width: "100%",
     alignItems: "center",
-    height: "60%",
+    height: "35%",
     [theme.breakpoints.down(700)]: {
       height: "100%"
     }
@@ -96,8 +95,11 @@ const useStyles = makeStyles(theme => ({
   //title styling
   title: {
     textAlign: "center",
-    padding: "30px 0",
+    padding: "15px 0",
     fontSize: 35,
+    [theme.breakpoints.down(700)]:{
+      padding:"30px 0"
+    },
     [theme.breakpoints.down(500)]: {
       fontSize: 20
     }
