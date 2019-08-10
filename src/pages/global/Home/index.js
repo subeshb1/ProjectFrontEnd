@@ -41,17 +41,17 @@ export default function Home() {
        title1:"JOB",
        title2:"CATEGORIES", 
        jobs: [
-          { title: "Agriculture", imageName: "agriculture", link: "" },
-          { title: "Ayurved", imageName: "ayurved", link: "" },
-          { title: "Computer and IT", imageName: "computer and IT", link: "" },
-          { title: "Education", imageName: "education", link: "" },
-          { title: "Engineering", imageName: "engineering", link: "" },
-          { title: "Health", imageName: "health", link: "" },
-          { title: "Law", imageName: "law", link: "" },
-          { title: "Management", imageName: "management", link: "" },
-          { title: "Nursing", imageName: "nursing", link: "" },
-          { title: "Pharmacist", imageName: "pharmacist", link: "" },
-          { title: "Science", imageName: "science", link: "" }
+          { title: "Agriculture", imageName: "agriculture", link: "/search?categories=Agriculture" },
+          { title: "Ayurved", imageName: "ayurved", link: "/search?categories=Ayurved" },
+          { title: "Computer and IT", imageName: "computer and IT", link: "/search?categories=Computer and IT" },
+          { title: "Education", imageName: "education", link: "/search?categories=Education" },
+          { title: "Engineering", imageName: "engineering", link: "/search?categories=Engineering" },
+          { title: "Health", imageName: "health", link: "/search?categories=Health" },
+          { title: "Law", imageName: "law", link: "/search?categories=Law" },
+          { title: "Management", imageName: "management", link: "/search?categories=Management" },
+          { title: "Nursing", imageName: "nursing", link: "/search?categories=Nursing" },
+          { title: "Pharmacist", imageName: "pharmacist", link: "/search?categories=Pharmacist" },
+          { title: "Science", imageName: "science", link: "/search?categories=Science" }
         ] 
       };
       

@@ -50,7 +50,6 @@ function ViewProfile({
         setJobVacancies(res.data.data);
       });
   }, []);
-  console.log(jobVacancies);
   return (
     <div>
       <div className={wrapper}>

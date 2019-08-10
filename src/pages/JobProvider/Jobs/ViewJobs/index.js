@@ -8,16 +8,22 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import {
+  CategorySelect,
+  JobTypeSelect,
+  JobLevelSelect
+} from "components/CustomSelect/index.js";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
+import { TextField } from "@material-ui/core";
+
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -29,6 +35,45 @@ const splitAndCapitalize = str =>
         .map(x => x[0].toUpperCase() + x.slice(1))
         .join(" ")
     : "";
+
+const SearchBar = ({ filters, handleChange, applyFilter }) => {
+  const { containerAll } = useStyles();
+  return (
+    <div>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          applyFilter();
+        }}
+        className={containerAll}
+      >
+        <TextField
+          placeholder="Search jobs..."
+          variant="outlined"
+          inputProps={{ "aria-label": "Search" }}
+          value={filters.job_title}
+          onChange={e => handleChange("job_title")(e.target.value)}
+        />
+
+        <CategorySelect
+          categories={filters.categories}
+          handleChange={handleChange}
+        />
+        <JobTypeSelect
+          isMulti
+          job_type={filters.job_type}
+          handleChange={handleChange}
+        />
+        <JobLevelSelect
+          isMulti
+          level={filters.level}
+          handleChange={handleChange}
+        />
+        <input type="submit" style={{display:'none'}}/>
+      </form>
+    </div>
+  );
+};
 
 const headRows = [
   { id: "job_title", numeric: false, disablePadding: true, label: "Job Title" },
@@ -56,11 +101,8 @@ const headRows = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort
   } = props;
   const createSortHandler = property => event => {
@@ -70,19 +112,10 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "Select all desserts" }}
-          />
-        </TableCell>
         {headRows.map(row => (
           <TableCell
             key={row.id}
             align={row.numeric ? "right" : "left"}
-            padding={row.disablePadding ? "none" : "default"}
             sortDirection={orderBy === row.id ? order : false}
           >
             <TableSortLabel
@@ -136,7 +169,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, toggleFilter } = props;
 
   return (
     <Toolbar
@@ -165,7 +198,7 @@ const EnhancedTableToolbar = props => {
           </Tooltip>
         ) : (
           <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
+            <IconButton aria-label="Filter list" onClick={toggleFilter}>
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -198,6 +231,18 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: "auto"
+  },
+  containerAll: {
+    display: "flex",
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    "& > *": {
+      flexGrow: 1,
+      margin: "10px",
+      maxWidth: 600,
+      minWidth: "200px"
+    }
   }
 }));
 
@@ -205,22 +250,22 @@ export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("created_at");
-  const [selected, setSelected] = React.useState([]);
+  const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [per_page, setPerPage] = React.useState(5);
+  const [showFilter, setShowFilter] = React.useState(false);
+  const [filters, setFilters] = React.useState({
+    job_title: "",
+    categories: [],
+    level: [],
+    job_type: []
+  });
+
+  const setSelected = () => {}
   const [meta, setMeta] = React.useState({
     total: 100,
     per_page: 10,
     page: 1
-  });
-  // fetching
-  const [filters] = useState({
-    job_title: "",
-    time_min: null,
-    time_max: null,
-    categories: [],
-    job_type: [],
-    level: []
   });
 
   const [fetching, setFetching] = useState(false);
@@ -242,7 +287,12 @@ export default function EnhancedTable() {
   useEffect(() => {
     fetchJobs();
   }, [page, per_page, order, orderBy]);
-
+  const handleChange = name => value => {
+    setFilters(filters => ({
+      ...filters,
+      [name]: value
+    }));
+  };
   function handleRequestSort(_, property) {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
@@ -300,9 +350,19 @@ export default function EnhancedTable() {
           Post Job
         </Button>
       </Link>
+      {showFilter && (
+        <SearchBar
+          filters={filters}
+          handleChange={handleChange}
+          applyFilter={() => fetchJobs()}
+        />
+      )}
       <Paper className={classes.paper}>
         {fetching && <CoverLoad />}
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          toggleFilter={() => setShowFilter(!showFilter)}
+        />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -328,17 +388,10 @@ export default function EnhancedTable() {
                     key={row.uid}
                     selected={isItemSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
-                      padding="none"
                     >
                       <Link to={`/jobprovider/jobs/${row.uid}`}>
                         {row.job_title}
