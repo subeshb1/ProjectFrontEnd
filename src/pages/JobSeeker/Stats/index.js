@@ -215,7 +215,6 @@ export default function EnhancedTable() {
       .get("api/v1/applicant/view_applied", { params: { page, per_page } })
       .then(res => res.data)
       .then(res => {
-        console.log(res);
         setData(res.data);
         setMeta(res.meta);
       })

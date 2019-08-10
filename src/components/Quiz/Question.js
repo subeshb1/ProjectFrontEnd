@@ -20,8 +20,6 @@ export default function Question(props) {
         setUserAns(event.target.value);
 
         const formControlElement = ref.current;
-        // formControlElement.disabled = true;
-        //console.log(formControlElement);
         return pushCheckedAns(questionNumber, event.target.value)
     }
 

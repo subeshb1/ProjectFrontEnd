@@ -69,7 +69,7 @@ const SearchBar = ({ filters, handleChange, applyFilter }) => {
           level={filters.level}
           handleChange={handleChange}
         />
-        <input type="submit" style={{display:'none'}}/>
+        <input type="submit" style={{ display: "none" }} />
       </form>
     </div>
   );
@@ -96,15 +96,17 @@ const headRows = [
     numeric: false,
     disablePadding: false,
     label: "Created At"
+  },
+  {
+    id: "views",
+    numeric: false,
+    disablePadding: false,
+    label: "Views"
   }
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -261,7 +263,7 @@ export default function EnhancedTable() {
     job_type: []
   });
 
-  const setSelected = () => {}
+  const setSelected = () => {};
   const [meta, setMeta] = React.useState({
     total: 100,
     per_page: 10,
@@ -388,11 +390,7 @@ export default function EnhancedTable() {
                     key={row.uid}
                     selected={isItemSelected}
                   >
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                    >
+                    <TableCell component="th" id={labelId} scope="row">
                       <Link to={`/jobprovider/jobs/${row.uid}`}>
                         {row.job_title}
                       </Link>
@@ -406,6 +404,7 @@ export default function EnhancedTable() {
                     <TableCell>
                       {new Date(row.created_at).toDateString()}
                     </TableCell>
+                    <TableCell>{row.views}</TableCell>
                   </TableRow>
                 );
               })}

@@ -6,9 +6,8 @@ import {
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-
 const selectValue = (options, value) => _.find(options, { value });
-const selectMultiValue = (options, values) => console.log(options,values) || 
+const selectMultiValue = (options, values) =>
   _.filter(options, c =>
     values.map(x => x.toLowerCase()).includes(c.value.toLowerCase())
   );

@@ -94,7 +94,6 @@ export default function WorkExperienceForm() {
       .put("api/v1/profile/work_experience", { work_experiences: state })
       .then(response => {
         if (response.status === 200) {
-          console.log(response);
           enqueueSnackbar("Work Experience Saved!", {
             variant: "success",
             autoHideDuration: 2500
@@ -102,7 +101,6 @@ export default function WorkExperienceForm() {
         }
       })
       .catch(error => {
-        console.log({ ...error });
         let message = error.message.includes(422)
           ? "Looks like there are some issues in the form!"
           : "Unable to connect to the server";

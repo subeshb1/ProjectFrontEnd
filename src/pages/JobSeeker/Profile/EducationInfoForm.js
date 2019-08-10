@@ -90,7 +90,6 @@ export default function EducationInfoForm() {
       .put("api/v1/profile/education", { educations: state })
       .then(response => {
         if (response.status === 200) {
-          console.log(response);
           enqueueSnackbar("Education Saved!", {
             variant: "success",
             autoHideDuration: 2500

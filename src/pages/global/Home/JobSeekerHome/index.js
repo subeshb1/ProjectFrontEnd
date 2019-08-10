@@ -300,7 +300,6 @@ export default function JobSeekerHome() {
   useEffect(() => {
     fetchJobs();
   }, []);
-  console.log(data);
   return (
     <div>
       <SearchBar />

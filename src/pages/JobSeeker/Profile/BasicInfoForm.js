@@ -176,7 +176,6 @@ function BasicInfoForm({ history }) {
       .put("api/v1/profile/basic_info", { ...state })
       .then(response => {
         if (response.status === 200) {
-          console.log(response);
           enqueueSnackbar("Basic Information Saved!", {
             variant: "success",
             autoHideDuration: 2500
@@ -184,7 +183,6 @@ function BasicInfoForm({ history }) {
         }
       })
       .catch(error => {
-        console.log({ ...error });
         let message = error.message.includes(422)
           ? "Looks like there are some issues in the form!"
           : "Unable to connect to the server";

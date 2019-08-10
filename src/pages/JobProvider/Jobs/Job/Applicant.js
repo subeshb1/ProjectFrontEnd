@@ -17,7 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import { TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
 import axios from "axios";
@@ -27,7 +27,9 @@ import {
   DegreeSelect,
   SkillsSelect,
   GenderSelect,
-  StatusSelect
+  ApproveSelect,
+  StatusSelect,
+  StartEndDateSelect
 } from "components/CustomSelect/index.js";
 
 const splitAndCapitalize = str =>
@@ -84,6 +86,11 @@ const SearchBar = ({ filters, handleChange, applyFilter }) => {
           style={{ width: "50%" }}
           type="number"
           inputProps={{ min: "0", max: "100" }}
+        />
+        <StartEndDateSelect
+          start_date={filters.start_date}
+          end_date={filters.end_date}
+          handleChange={handleChange}
         />
         <ProgramSelect
           isMulti
@@ -233,15 +240,20 @@ const EnhancedTableToolbar = props => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <div style={{ display: "flex" }}>
-            <Tooltip title="Approve">
-              <IconButton aria-label="Delete">
-                <CheckIcon />
-              </IconButton>
+            <Tooltip title="Call for Interview">
+             <Button>
+               Interview
+             </Button>
             </Tooltip>
-            <Tooltip title="Reject">
-              <IconButton aria-label="Delete">
-                <CloseIcon />
-              </IconButton>
+            <Tooltip title="Hire Applicant">
+             <Button>
+               Hire
+             </Button>
+            </Tooltip>
+            <Tooltip title="Reject the Applicant">
+             <Button>
+               Reject
+             </Button>
             </Tooltip>
           </div>
         ) : (
@@ -297,7 +309,7 @@ const useStyles = makeStyles(theme => ({
 export default function EnhancedTable({ job_id }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("applied_date");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [per_page, setPerPage] = React.useState(5);
@@ -319,29 +331,32 @@ export default function EnhancedTable({ job_id }) {
     experience: 0,
     min_age: 0,
     max_age: 100,
-    status: []
+    status: [],
+    start_date: null,
+    end_date: null
   });
 
   const fetchApplications = () => {
     setFetching(true);
+    setSelected([]);
     return axios
       .get(`api/v1/applicant/${job_id}`, {
-        params: { ...filters, page, per_page }
+        params: { ...filters, page, per_page, order, order_by: orderBy }
       })
       .then(res => res.data)
       .then(res => {
-        console.log(res);
         setData(res.data);
         setMeta(res.meta);
       })
       .finally(() => setFetching(false));
+
   };
 
   useEffect(() => {
     fetchApplications();
-  }, [page, per_page]);
+  }, [page, per_page, order, orderBy]);
 
-  function handleRequestSort(property) {
+  function handleRequestSort(_,property) {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
@@ -349,13 +364,13 @@ export default function EnhancedTable({ job_id }) {
 
   function handleSelectAllClick(event) {
     if (event.target.checked) {
-      const newSelecteds = data.map(n => n.uid);
+      const newSelecteds = data.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   }
-
+  console.log(selected);
   function handleClick(name) {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
