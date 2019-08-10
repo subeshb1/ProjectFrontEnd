@@ -39,8 +39,19 @@ const headRows = [
     label: "Deadline"
   },
   { id: "level", numeric: false, disablePadding: false, label: "Job Level" },
-  { id: "type", numeric: false, disablePadding: false, label: "Job Type" },
-  { id: "status", numeric: false, disablePadding: false, label: "Status" }
+  { id: "job_type", numeric: false, disablePadding: false, label: "Job Type" },
+  {
+    id: "application_deadline",
+    numeric: false,
+    disablePadding: false,
+    label: "Status"
+  },
+  {
+    id: "created_at",
+    numeric: false,
+    disablePadding: false,
+    label: "Created At"
+  }
 ];
 
 function EnhancedTableHead(props) {
@@ -193,7 +204,7 @@ const useStyles = makeStyles(theme => ({
 export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("created_at");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [per_page, setPerPage] = React.useState(5);
@@ -215,13 +226,12 @@ export default function EnhancedTable() {
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchJobs();
-  }, [page, per_page]);
   const fetchJobs = () => {
     setFetching(true);
     return axios
-      .get("api/v1/jobprovider/job", { params: { ...filters, page, per_page } })
+      .get("api/v1/jobprovider/job", {
+        params: { ...filters, page, per_page, order, order_by: orderBy }
+      })
       .then(res => res.data)
       .then(res => {
         setData(res.data);
@@ -231,9 +241,9 @@ export default function EnhancedTable() {
   };
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [page, per_page, order, orderBy]);
 
-  function handleRequestSort(property) {
+  function handleRequestSort(_, property) {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
@@ -340,6 +350,9 @@ export default function EnhancedTable() {
                     <TableCell>{splitAndCapitalize(row.level)}</TableCell>
                     <TableCell>{splitAndCapitalize(row.job_type)}</TableCell>
                     <TableCell>{splitAndCapitalize(row.status)}</TableCell>
+                    <TableCell>
+                      {new Date(row.created_at).toDateString()}
+                    </TableCell>
                   </TableRow>
                 );
               })}

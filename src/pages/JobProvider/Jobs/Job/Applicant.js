@@ -15,7 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
 import axios from "axios";
@@ -144,11 +145,18 @@ const EnhancedTableToolbar = props => {
       <div className={classes.spacer} />
       <div className={classes.actions}>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <div style={{ display: "flex" }}>
+            <Tooltip title="Approve">
+              <IconButton aria-label="Delete">
+                <CheckIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Reject">
+              <IconButton aria-label="Delete">
+                <CloseIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
         ) : (
           <Tooltip title="Filter list">
             <IconButton aria-label="Filter list">
@@ -187,7 +195,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function EnhancedTable({job_id}) {
+export default function EnhancedTable({ job_id }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -256,10 +264,12 @@ export default function EnhancedTable({job_id}) {
   }
 
   function handleChangePage(_, newPage) {
+    setSelected([]);
     setPage(newPage + 1);
   }
 
   function handleChangeRowsPerPage(event) {
+    setSelected([]);
     setPerPage(+event.target.value);
   }
 
@@ -309,9 +319,7 @@ export default function EnhancedTable({job_id}) {
                       scope="row"
                       padding="none"
                     >
-                      <Link to={`/profile/${row.uid}`}>
-                        {row.name}
-                      </Link>
+                      <Link to={`/profile/${row.uid}`}>{row.name}</Link>
                     </TableCell>
                     <TableCell>
                       {new Date(row.applied_date).toDateString()}
