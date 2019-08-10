@@ -175,6 +175,24 @@ export function JobTypeSelect({ job_type, ...rest }) {
   );
 }
 
+export function StatusSelect({ status, ...rest }) {
+  const statusOptions = [
+    { value: "pending", label: "Pending" },
+    { value: "interview", label: "Interview" },
+    { value: "hired", label: "Hired" },
+    { value: "rejected", label: "Rejected" }
+  ];
+  return (
+    <CustomSelect
+      options={statusOptions}
+      value={status}
+      valueName="status"
+      placeholder="Select Status"
+      {...rest}
+    />
+  );
+}
+
 export default function CustomSelect({
   options,
   value,

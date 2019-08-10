@@ -17,10 +17,18 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import { TextField } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { CoverLoad } from "components/Loading";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  ProgramSelect,
+  DegreeSelect,
+  SkillsSelect,
+  GenderSelect,
+  StatusSelect
+} from "components/CustomSelect/index.js";
 
 const splitAndCapitalize = str =>
   str
@@ -29,6 +37,85 @@ const splitAndCapitalize = str =>
         .map(x => x[0].toUpperCase() + x.slice(1))
         .join(" ")
     : "";
+
+const SearchBar = ({ filters, handleChange, applyFilter }) => {
+  const { containerAll } = useStyles();
+  return (
+    <div>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          applyFilter();
+        }}
+        className={containerAll}
+      >
+        <TextField
+          variant="outlined"
+          label="Name"
+          inputProps={{ "aria-label": "Search" }}
+          value={filters.job_title}
+          onChange={e => handleChange("name")(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          label="Experience"
+          inputProps={{ "aria-label": "Search" }}
+          value={filters.experience}
+          onChange={e => handleChange("experience")(e.target.value)}
+        />
+        <TextField
+          id="age-min"
+          label="Min Age"
+          value={filters.min_age}
+          onChange={({ target: { value } }) => handleChange("min_age")(value)}
+          variant="outlined"
+          margin="normal"
+          style={{ width: "50%" }}
+          type="number"
+          inputProps={{ min: "0", max: "100" }}
+        />
+        <TextField
+          id="age-max"
+          label="Max Age"
+          value={filters.max_age}
+          onChange={({ target: { value } }) => handleChange("max_age")(value)}
+          variant="outlined"
+          margin="normal"
+          style={{ width: "50%" }}
+          type="number"
+          inputProps={{ min: "0", max: "100" }}
+        />
+        <ProgramSelect
+          isMulti
+          program={filters.program}
+          handleChange={handleChange}
+        />
+        <DegreeSelect
+          isMulti
+          degree={filters.degree}
+          handleChange={handleChange}
+        />
+        <SkillsSelect
+          isMulti
+          skills={filters.skills}
+          handleChange={handleChange}
+        />
+
+        <GenderSelect
+          isMulti
+          gender={filters.gender}
+          handleChange={handleChange}
+        />
+        <StatusSelect
+          isMulti
+          status={filters.status}
+          handleChange={handleChange}
+        />
+        <input type="submit" style={{ display: "none" }} />
+      </form>
+    </div>
+  );
+};
 
 const headRows = [
   { id: "name", numeric: false, disablePadding: true, label: "Applicant Name" },
@@ -123,7 +210,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, toggleFilter } = props;
 
   return (
     <Toolbar
@@ -159,7 +246,7 @@ const EnhancedTableToolbar = props => {
           </div>
         ) : (
           <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
+            <IconButton aria-label="Filter list" onClick={toggleFilter}>
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -192,6 +279,18 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: "auto"
+  },
+  containerAll: {
+    display: "flex",
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    "& > *": {
+      flexGrow: 1,
+      margin: "10px",
+      maxWidth: 600,
+      minWidth: "200px"
+    }
   }
 }));
 
@@ -210,11 +309,25 @@ export default function EnhancedTable({ job_id }) {
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState([]);
+  const [showFilter, setShowFilter] = React.useState(false);
+  const [filters, setFilters] = React.useState({
+    name: "",
+    program: [],
+    degree: [],
+    skills: [],
+    gender: [],
+    experience: 0,
+    min_age: 0,
+    max_age: 100,
+    status: []
+  });
 
   const fetchApplications = () => {
     setFetching(true);
     return axios
-      .get(`api/v1/applicant/${job_id}`, { params: { page, per_page } })
+      .get(`api/v1/applicant/${job_id}`, {
+        params: { ...filters, page, per_page }
+      })
       .then(res => res.data)
       .then(res => {
         console.log(res);
@@ -276,12 +389,27 @@ export default function EnhancedTable({ job_id }) {
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = meta.per_page === 0;
-
+  const handleChange = name => value => {
+    setFilters(filters => ({
+      ...filters,
+      [name]: value
+    }));
+  };
   return (
     <div className={classes.root}>
+      {showFilter && (
+        <SearchBar
+          filters={filters}
+          handleChange={handleChange}
+          applyFilter={() => fetchApplications()}
+        />
+      )}
       <Paper className={classes.paper}>
         {fetching && <CoverLoad />}
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          toggleFilter={() => setShowFilter(!showFilter)}
+        />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
