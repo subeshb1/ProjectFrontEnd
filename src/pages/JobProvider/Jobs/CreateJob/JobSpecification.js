@@ -17,7 +17,7 @@ import { useStyles } from "./styles.js";
 function JobInfo({
   setPage = () => {},
   setJobSpecification,
-  saveJob=()=>{},
+  saveJob = () => {},
   jobSpecification,
   update = false
 }) {
@@ -25,35 +25,34 @@ function JobInfo({
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   //jobseeker information
-  const [state, setState] = useState(
-    jobSpecification || {
-      degree: {
-        value: [],
-        require: false
-      },
-      experience: {
-        value: [],
-        require: false
-      },
-      gender: {
-        value: [],
-        require: false
-      },
-      program: {
-        value: [],
-        require: false
-      },
-      age: {
-        min: 0,
-        max: 100,
-        require: false
-      },
-      skills: {
-        value: [],
-        require: false
-      }
-    }
-  );
+  const [state, setState] = useState({
+    degree: {
+      value: [],
+      require: false
+    },
+    experience: {
+      value: [],
+      require: false
+    },
+    gender: {
+      value: [],
+      require: false
+    },
+    program: {
+      value: [],
+      require: false
+    },
+    age: {
+      min: 0,
+      max: 100,
+      require: false
+    },
+    skills: {
+      value: [],
+      require: false
+    },
+    ...jobSpecification
+  });
 
   const handleAgeChange = name => value => {
     setState(state => ({
