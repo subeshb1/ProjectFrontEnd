@@ -59,13 +59,13 @@ const useNotificationStyle = makeStyles(theme => ({
   }
 }));
 
-function NotificationSide({ id, status, from, message }) {
+function NotificationSide({ id, status,current, from, message }) {
   const { notification, active } = useNotificationStyle();
   const div = document.createElement("div");
   div.innerHTML = message;
   return (
     <Link to={`/notification/${id}`}>
-      <div className={`${notification} ${status ? "" : active}`}>
+      <div className={`${notification} ${status && id!== current? "" : active}`}>
         <div className="from">From: {from}</div>
         <div className="message">
           {div.innerText.slice(0, 30).concat("...")}
@@ -99,7 +99,7 @@ export default function NotificationViewer({ match: { params } }) {
     <div className={classes.root}>
       <div className={classes.left}>
         {notifications.map(x => (
-          <NotificationSide {...x} />
+          <NotificationSide {...x} current={params.id}/>
         ))}
       </div>
       <div className={classes.right}>

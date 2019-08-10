@@ -31,6 +31,7 @@ import {
   StatusSelect,
   StartEndDateSelect
 } from "components/CustomSelect/index.js";
+import { useSnackbar } from "notistack";
 
 const splitAndCapitalize = str =>
   str
@@ -217,7 +218,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { numSelected, toggleFilter } = props;
+  const { numSelected, toggleFilter, handleAction } = props;
 
   return (
     <Toolbar
@@ -241,19 +242,43 @@ const EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <div style={{ display: "flex" }}>
             <Tooltip title="Call for Interview">
-             <Button>
-               Interview
-             </Button>
+              <Button
+                onClick={handleAction("interview")}
+                style={{
+                  color: "white",
+                  background: "#0f5286",
+                  fontWeight: "bold",
+                  marginLeft: 10
+                }}
+              >
+                Interview
+              </Button>
             </Tooltip>
             <Tooltip title="Hire Applicant">
-             <Button>
-               Hire
-             </Button>
+              <Button
+                onClick={handleAction("hired")}
+                style={{
+                  color: "white",
+                  background: "#007f88",
+                  fontWeight: "bold",
+                  marginLeft: 10
+                }}
+              >
+                Hire
+              </Button>
             </Tooltip>
             <Tooltip title="Reject the Applicant">
-             <Button>
-               Reject
-             </Button>
+              <Button
+                onClick={handleAction("rejected")}
+                style={{
+                  color: "white",
+                  background: "#a70000",
+                  fontWeight: "bold",
+                  marginLeft: 10
+                }}
+              >
+                Reject
+              </Button>
             </Tooltip>
           </div>
         ) : (
@@ -349,14 +374,44 @@ export default function EnhancedTable({ job_id }) {
         setMeta(res.meta);
       })
       .finally(() => setFetching(false));
+  };
+  const { enqueueSnackbar } = useSnackbar();
 
+  const performAction = action => {
+    setFetching(true);
+    setSelected([]);
+    return axios
+      .post(`api/v1/applicant/${job_id}/action`, {
+        applicant_id: selected,
+        action_performed: action
+      })
+      .then(res => {
+        enqueueSnackbar("Action Performed!", {
+          variant: "success",
+          autoHideDuration: 2500
+        });
+        return fetchApplications()
+      })
+      .catch(error => {
+        let message = error.message.includes(4)
+          ? "The action could not be performed!"
+          : "Unable to connect to the server";
+        enqueueSnackbar(message, {
+          variant: "error",
+          autoHideDuration: 4000
+        });
+      })
+      .finally(() => setFetching(false));
   };
 
+  const handleAction = action => () => {
+    performAction(action);
+  };
   useEffect(() => {
     fetchApplications();
   }, [page, per_page, order, orderBy]);
 
-  function handleRequestSort(_,property) {
+  function handleRequestSort(_, property) {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
@@ -424,6 +479,7 @@ export default function EnhancedTable({ job_id }) {
         <EnhancedTableToolbar
           numSelected={selected.length}
           toggleFilter={() => setShowFilter(!showFilter)}
+          handleAction={handleAction}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
