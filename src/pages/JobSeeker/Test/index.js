@@ -2,10 +2,9 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 //components
 import TestPage from './TestPage';
-import AgricultureTest from './Categories/AgricultureTest';
-import AyurvedTest from './Categories/AyurvedTest';
+import Test from './Test';
 
-export default function Test() {
+export default function QTest() {
     return (
         <React.Fragment>
             <Route
@@ -13,11 +12,7 @@ export default function Test() {
             />
 
             <Route
-                path='/jobseeker/test/agriculture' component={AgricultureTest}
-            />
-
-            <Route
-                path='/jobseeker/test/ayurved' component={AyurvedTest}
+                path='/jobseeker/test/:id' component={Test}
             />
         </React.Fragment>
     );

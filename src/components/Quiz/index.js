@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Button } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import axios from 'axios';
 //style
 import { makeStyles } from '@material-ui/styles';
 import useStyles from 'components/styles';
@@ -28,31 +28,30 @@ const useStyles2 = makeStyles(theme => ({
 }));
 
 
-export default function Quiz({ name, questions }) {
+export default function Quiz({ name, questions, id }) {
 
     const { title, titleLine, titleText } = useStyles();
     const { root, submitBtnContainer, result } = useStyles2();
 
-    let [checkedAnsArr, setCheckedAnsArr] = useState([]);    
     
     let userAnsArr= []; 
     const resultRef = createRef();
-
+    const [answers,setAnswers] = useState([]);
     const pushCheckedAns = (questionNumber, userAns) => {
         let questionIndex = questionNumber - 1;  //since Q no. starts with 1 but arr index starts with 0
         userAnsArr[questionIndex] = userAns;
+        setAnswers(answers => {
+            answers[questionIndex] = userAns;
+            return [...answers]
+        })
+    }
+    
+
+    const handleSubmit = () => {
+        axios.post(`/api/v1/exams/${id}/result`,{answers: answers}).
+        then(x => alert("Success"))
     }
 
-    const handleClick = () => {
-        setCheckedAnsArr(userAnsArr);
-        //console.log(checkedAnsArr);
-        let resultComponent = resultRef.current;
-        //console.log(resultComponent.className);
-    }
-
-    useEffect( () => {  //displays checkedAnsArr before and after being updated. (in Real time)
-        console.log(checkedAnsArr);
-    });
 
     return (
         <div style={{ background: 'whitesmoke' }}>
@@ -85,7 +84,7 @@ export default function Quiz({ name, questions }) {
 
                 <div className={submitBtnContainer}>
                     <Button variant="contained" color="primary"
-                        onClick={handleClick}
+                    onClick={handleSubmit}
                     >
                         SUBMIT ANSWERS
                 </Button>

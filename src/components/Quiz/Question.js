@@ -20,7 +20,7 @@ export default function Question(props) {
         setUserAns(event.target.value);
 
         const formControlElement = ref.current;
-        formControlElement.disabled = true;
+        // formControlElement.disabled = true;
         //console.log(formControlElement);
         return pushCheckedAns(questionNumber, event.target.value)
     }
@@ -35,14 +35,13 @@ export default function Question(props) {
             >
                 <List>
                     {
-                        options.map((option, i) => {
+                        options.filter(x=>x).map((option, i) => {
 
-                            let val = (i + 1).toString(); //since radio button value only takes string
                             return (
                                 <ListItem key={`option` + i} >
                                     <ListItemText primary={option} />
                                     <FormControlLabel
-                                        value={val}
+                                        value={option}
                                         control={<Radio />}
 
                                     />

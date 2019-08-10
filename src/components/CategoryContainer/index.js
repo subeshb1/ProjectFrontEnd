@@ -22,7 +22,7 @@ function Category( {title1, title2, jobs} ) {
                         <NavLink to={job.link} isActive={() => false}>
                             <Card className={card} key={job.title}>
                                 <CardMedia
-                                    image={require(`./jobImages/${job.imageName}.jpg`)}
+                                    image={job.imageName && require(`./jobImages/${job.imageName}.jpg`)}
                                     title={`${job.title}`} className={media}
                                 />
                                 <CardContent>
