@@ -107,7 +107,7 @@ function ViewProfile({
                       <Chip
                         key={i}
                         style={{ margin: "10px 10px 10px 0px" }}
-                        label={x.name}
+                        label={x}
                         clickable
                         color="primary"
                         variant="outlined"
