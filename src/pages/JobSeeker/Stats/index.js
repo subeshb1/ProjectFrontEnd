@@ -30,7 +30,7 @@ const splitAndCapitalize = str =>
     : "";
 
 const headRows = [
-  { id: "job_title", numeric: false, disablePadding: true, label: "Job Title" },
+  { id: "job_title", numeric: false, disablePadding: false, label: "Job Title" },
   {
     id: "applied_date",
     numeric: false,
@@ -62,19 +62,10 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "Select all desserts" }}
-          />
-        </TableCell>
         {headRows.map(row => (
           <TableCell
             key={row.id}
             align={row.numeric ? "right" : "left"}
-            padding={row.disablePadding ? "none" : "default"}
             sortDirection={orderBy === row.id ? order : false}
           >
             <TableSortLabel
@@ -197,7 +188,7 @@ export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
+  const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [per_page, setPerPage] = React.useState(5);
   const [meta, setMeta] = React.useState({
@@ -205,7 +196,7 @@ export default function EnhancedTable() {
     per_page: 10,
     page: 1
   });
-
+  const setSelected = () => {};
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState([]);
 
@@ -302,17 +293,10 @@ export default function EnhancedTable() {
                     key={row.id}
                     selected={isItemSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
-                      padding="none"
                     >
                       <Link to={`/job/${row.job.uid}`}>
                         {row.job.job_title}
