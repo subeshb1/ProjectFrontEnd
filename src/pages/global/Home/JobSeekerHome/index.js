@@ -288,6 +288,7 @@ export default function JobSeekerHome() {
 
   const [data, setData] = useState(null);
   const [fetching, setFetching] = useState(true);
+  const [more, setMore] = useState(1);
 
   const fetchJobs = () => {
     setFetching(true);
@@ -311,6 +312,7 @@ export default function JobSeekerHome() {
           data &&
           Object.entries(data).map(([key, value]) => {
             if (!value.length) return null;
+            const isRecommendation = key.toLowerCase() === 'recommended'
             return (
               <React.Fragment key={key}>
                 <div className={title}>
@@ -321,10 +323,11 @@ export default function JobSeekerHome() {
                   <span className={titleLine}> </span>
                 </div>
                 <section className={wrapper}>
-                  {value.map(job => (
+                  {value.slice(0,more * 9).map(job => (
                     <JobCard job={job} />
                   ))}
                 </section>
+                {isRecommendation && <Button onClick={_ => setMore(more+1)}>View More</Button>}
               </React.Fragment>
             );
           })
