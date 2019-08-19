@@ -11,10 +11,38 @@ import {
   Tooltip,
   Legend,
   PieChart,
-  Pie
+  Pie,
+  ResponsiveContainer
 } from "recharts";
 
 import { StartEndDateSelect } from "components/CustomSelect/index.js";
+
+let formatDate = currentDate =>
+  currentDate.getFullYear() +
+  "-" +
+  (currentDate.getMonth() + 1).toString().padStart(2, 0) +
+  "-" +
+  currentDate
+    .getDate()
+    .toString()
+    .padStart(2, 0);
+let extractGraphData = (data, startDate, endDate, name = "label") => {
+  const dates = Object.keys(data);
+  endDate = endDate || new Date();
+  let currentDate = startDate ? new Date(startDate) : new Date(dates[0]);
+  const dataSet = [];
+  while (
+    currentDate.toDateString() != endDate.toDateString() &&
+    currentDate.getTime() <= endDate.getTime()
+  ) {
+    dataSet.push({
+      date: formatDate(currentDate),
+      [name]: data[formatDate(currentDate)] || 0
+    });
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dataSet;
+};
 
 const TotalDiv = ({ label, value }) => {
   return (
@@ -32,32 +60,24 @@ const TotalDiv = ({ label, value }) => {
   );
 };
 
-const LineChartCustom = ({ data }) => {
+const LineChartCustom = ({ data, startDate, endDate, name }) => {
+  const formatData = extractGraphData(data, startDate, endDate, name);
   return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line
-        type="monotone"
-        dataKey="pv"
-        stroke="#8884d8"
-        activeDot={{ r: 8 }}
-      />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-    </LineChart>
+    <ResponsiveContainer width={"80%"} height={300}>
+      <LineChart data={formatData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey={name}
+          stroke="#8884d8"
+          activeDot={{ r: 8 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 
@@ -82,10 +102,14 @@ export default function index() {
   const [data, setData] = useState({});
   const [fetching, setFetching] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
+  const [{ start_date, end_date }, setDate] = useState({
+    start_date: null,
+    end_date: null
+  });
   const fetchData = () => {
     setFetching(true);
     axios
-      .get("/api/v1/profile/job_stats")
+      .get("/api/v1/profile/job_stats",{params: {time_min: start_date, time_max: end_date}})
       .then(res => {
         setData(res.data);
       })
@@ -105,15 +129,19 @@ export default function index() {
 
   return (
     <div>
-      <div
+      <form
+       onSubmit={e => {e.preventDefault();fetchData()}}
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
+
         <StartEndDateSelect
-          start_date={null}
-          end_date={null}
-          handleChange={() => {}}
+          start_date={start_date}
+          end_date={end_date}
+          handleChange={date => value =>
+            setDate(dates => ({ ...dates, [date]: value }))}
         />
-      </div>
+        <input type="submit" value="" hidden/>
+      </form>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -124,10 +152,25 @@ export default function index() {
       </div>
 
       <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          marginTop: 10
+        }}
       >
-        <LineChartCustom />
-        <LineChartCustom />
+        <LineChartCustom
+          data={data.daily_views}
+          startDate={start_date}
+          endDate={end_date}
+          name="Views"
+        />
+        <LineChartCustom
+          data={data.daily_applicants}
+          startDate={start_date}
+          endDate={end_date}
+          name="Applicants"
+        />
       </div>
 
       <div
