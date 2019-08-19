@@ -16,8 +16,14 @@ import {
 } from "recharts";
 
 import { StartEndDateSelect } from "components/CustomSelect/index.js";
-
-let formatDate = currentDate =>
+const splitAndCapitalize = str =>
+  str
+    ? str
+        .split("_")
+        .map(x => x[0].toUpperCase() + x.slice(1))
+        .join(" ")
+    : "";
+const formatDate = currentDate =>
   currentDate.getFullYear() +
   "-" +
   (currentDate.getMonth() + 1).toString().padStart(2, 0) +
@@ -26,8 +32,10 @@ let formatDate = currentDate =>
     .getDate()
     .toString()
     .padStart(2, 0);
-let extractGraphData = (data, startDate, endDate, name = "label") => {
-  const dates = Object.keys(data);
+const extractGraphData = (data, startDate, endDate, name = "label") => {
+  const dates = Object.keys(data).sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime()
+  );
   endDate = endDate || new Date();
   let currentDate = startDate ? new Date(startDate) : new Date(dates[0]);
   const dataSet = [];
@@ -42,6 +50,10 @@ let extractGraphData = (data, startDate, endDate, name = "label") => {
     currentDate.setDate(currentDate.getDate() + 1);
   }
   return dataSet;
+};
+
+const extractPieChart = data => {
+  return Object.entries(data).map(([name, value]) => ({ name:splitAndCapitalize(name||"Nil"), value }));
 };
 
 const TotalDiv = ({ label, value }) => {
@@ -81,21 +93,25 @@ const LineChartCustom = ({ data, startDate, endDate, name }) => {
   );
 };
 
-const PieChartCustom = ({ data }) => {
+const PieChartCustom = ({ data,name }) => {
+  const formatData = extractPieChart(data);
   return (
-    <PieChart width={400} height={400}>
-      <Pie
-        dataKey="value"
-        isAnimationActive={false}
-        data={data}
-        cx={200}
-        cy={200}
-        outerRadius={80}
-        fill="#8884d8"
-        label
-      />
-      <Tooltip />
-    </PieChart>
+    <div style={{overflow:'hidden'}}>
+      <PieChart width={400} height={400}>
+        <Pie
+          dataKey="value"
+          isAnimationActive={false}
+          data={formatData}
+          cx={200}
+          cy={200}
+          outerRadius={80}
+          fill="#8884d8"
+          label
+        />
+        <Tooltip />
+      </PieChart>
+      <h4 style={{textAlign:'center', marginTop: '-50px'}}>{name}</h4>
+    </div>
   );
 };
 export default function index() {
@@ -109,7 +125,9 @@ export default function index() {
   const fetchData = () => {
     setFetching(true);
     axios
-      .get("/api/v1/profile/job_stats",{params: {time_min: start_date, time_max: end_date}})
+      .get("/api/v1/profile/job_stats", {
+        params: { time_min: start_date, time_max: end_date }
+      })
       .then(res => {
         setData(res.data);
       })
@@ -130,17 +148,19 @@ export default function index() {
   return (
     <div>
       <form
-       onSubmit={e => {e.preventDefault();fetchData()}}
+        onSubmit={e => {
+          e.preventDefault();
+          fetchData();
+        }}
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
-
         <StartEndDateSelect
           start_date={start_date}
           end_date={end_date}
           handleChange={date => value =>
             setDate(dates => ({ ...dates, [date]: value }))}
         />
-        <input type="submit" value="" hidden/>
+        <input type="submit" value="" hidden />
       </form>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
@@ -176,8 +196,8 @@ export default function index() {
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
-        <PieChartCustom />
-        <PieChartCustom />
+        <PieChartCustom data={data.job_categories}name={"Job Categories"} />
+        <PieChartCustom data={data.applicant_status} name={"Applicant Status"}/>
       </div>
     </div>
   );
