@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Divider, Button } from "@material-ui/core";
 //styles
+import JobCard from "components/JobCard";
+
 import useStyles from "../ViewProfile/styles.js";
 import companyAvatar from "assets/images/avatar/company.jpg";
 import Chip from "@material-ui/core/Chip";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const splitAndCapitalize = str =>
   str
     ? str
@@ -27,7 +30,12 @@ function ViewJob({ job, onApply = () => {} }) {
     title,
     button
   } = useStyles();
-
+  const [jobVacancies, setJobVacancies] = React.useState([]);
+  useEffect(() => {
+    axios.get(`api/v1/jobs/${job.uid}/similar`).then(res => {
+      setJobVacancies(res.data);
+    });
+  }, []);
   return (
     <div>
       <div className={wrapper} style={{ paddingBottom: 10 }}>
@@ -143,19 +151,22 @@ function ViewJob({ job, onApply = () => {} }) {
                 <div className={record}>
                   <div className={title}>
                     Skills
-                    {job.job_specifications.skills && job.job_specifications.skills.require && "*"}
+                    {job.job_specifications.skills &&
+                      job.job_specifications.skills.require &&
+                      "*"}
                   </div>
                   <div>
-                    {job.job_specifications.skills && job.job_specifications.skills.value.map((x, i) => (
-                      <Chip
-                        key={i}
-                        style={{ margin: "10px 10px 10px 0px" }}
-                        label={x}
-                        clickable
-                        color="primary"
-                        variant="outlined"
-                      />
-                    ))}
+                    {job.job_specifications.skills &&
+                      job.job_specifications.skills.value.map((x, i) => (
+                        <Chip
+                          key={i}
+                          style={{ margin: "10px 10px 10px 0px" }}
+                          label={x}
+                          clickable
+                          color="primary"
+                          variant="outlined"
+                        />
+                      ))}
                   </div>
                 </div>
 
@@ -205,9 +216,28 @@ function ViewJob({ job, onApply = () => {} }) {
           color="primary"
           className={button}
           onClick={onApply}
+          style={{ marginBottom: 30 }}
         >
           Apply Now
         </Button>
+        <div>
+          <Divider />
+         <p style={{marginTop:50}}> People who have applied to this job have also applied to the following
+          jobs </p>
+          {jobVacancies.length && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap"
+              }}
+            >
+              {jobVacancies.map((vacancy, i) => (
+                <JobCard job={vacancy} key={i} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

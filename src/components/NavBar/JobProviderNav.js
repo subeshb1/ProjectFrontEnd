@@ -60,9 +60,6 @@ export default function jobproviderNav() {
             <NavLink className={classes.link} to="/jobprovider/profile">
               Profile
             </NavLink>
-            <NavLink className={classes.link} to="/jobprovider/stats">
-              Stats
-            </NavLink>
             <NotificationMenu />
             <AccountMenu />
           </Toolbar>
@@ -84,15 +81,6 @@ export default function jobproviderNav() {
               button
             >
               <ListItemText primary="Jobs" />
-            </ListItem>
-
-            <ListItem
-              onClick={mobileMenuClose}
-              component={Link}
-              to="/jobprovider/stats"
-              button
-            >
-              <ListItemText primary="Stats" />
             </ListItem>
 
             <ListItem

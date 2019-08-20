@@ -37,6 +37,7 @@ const extractGraphData = (data, startDate, endDate, name = "label") => {
     (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
   endDate = endDate || new Date();
+  endDate.setDate(endDate.getDate() + 1)
   let currentDate = startDate ? new Date(startDate) : new Date(dates[0]);
   const dataSet = [];
   while (
