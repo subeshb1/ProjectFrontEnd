@@ -8,8 +8,7 @@ import axios from "axios";
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
     ? "https://final-project-trinity.herokuapp.com/"
-    : "http://localhost:4000/";
-
+    : process.env.REACT_APP_BACKEND_URL || "http://localhost:4000/";
   
 axios.interceptors.request.use(function(config) {
   const token = localStorage.getItem('auth_token');
