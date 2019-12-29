@@ -119,7 +119,7 @@ function SignUp({ history }) {
         }
       })
       .catch(error => {
-        console.log({...error })
+        console.log({ ...error });
         let message = error.message.includes(422)
           ? "Looks like there are some issues in the form!"
           : "Unable to connect to the Server";
@@ -129,8 +129,10 @@ function SignUp({ history }) {
   }
 
   React.useEffect(() => {
-    if (redirect.status) history.push("/login"); //redirects to localhost:3000/login
-  });
+    if (redirect.status) {
+      history.push("/login"); //redirects to localhost:3000/login}
+    }
+  }, [redirect.status]);
 
   return (
     <div className={formContainer}>
@@ -138,7 +140,11 @@ function SignUp({ history }) {
         SIGN <span>UP</span>
       </h1>
 
-      <form className={form} validate="true" onSubmit={ (evt) => !loading && handleSubmit(evt)}>
+      <form
+        className={form}
+        validate="true"
+        onSubmit={evt => !loading && handleSubmit(evt)}
+      >
         <div className={userIcon}>
           <i className="fas fa-user-tie" />
         </div>
